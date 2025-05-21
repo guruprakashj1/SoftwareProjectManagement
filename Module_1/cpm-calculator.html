@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Critical Path Method (CPM) Calculator</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light-gray: #f5f5f5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--light);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3, h4 {
+            margin-top: 0;
+        }
+        
+        h1 {
+            color: white;
+        }
+        
+        h2, h3 {
+            color: var(--primary);
+        }
+        
+        .content-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .highlight-box {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary);
+            margin: 15px 0;
+        }
+        
+        .explanation-box {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .formula-box {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--warning);
+            margin: 15px 0;
+            font-family: "Courier New", monospace;
+        }
+        
+        .step-box {
+            background-color: var(--light-gray);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .step-box:before {
+            content: "Step " counter(step-counter);
+            position: absolute;
+            left: 10px;
+            top: 15px;
+            background-color: var(--secondary);
+            color: white;
+            font-weight: bold;
+            padding: 0 8px;
+            border-radius: 3px;
+        }
+        
+        .activity-input {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            align-items: center;
+        }
+        
+        .activity-header {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        input, select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        button.delete-btn {
+            background-color: var(--accent);
+            padding: 8px 12px;
+        }
+        
+        button.delete-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .results {
+            margin-top: 30px;
+        }
+        
+        .critical-path {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .critical-row {
+            background-color: #ffebe6 !important;
+        }
+        
+        .network-diagram {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        
+        .diagram-container {
+            min-height: 300px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            padding: 20px;
+            position: relative;
+            overflow: auto;
+        }
+        
+        .node {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            background-color: white;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .node.critical {
+            border-color: var(--accent);
+            background-color: #ffebe6;
+        }
+        
+        .node.highlight {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.7);
+            z-index: 20;
+        }
+        
+        .node.highlight-start {
+            border-color: var(--success);
+            background-color: #e8f7f0;
+        }
+        
+        .node.highlight-current {
+            border-color: var(--warning);
+            background-color: #fff5e6;
+        }
+        
+        .node.forward-pass {
+            border-color: var(--secondary);
+            background-color: #e8f4f8;
+        }
+        
+        .node.backward-pass {
+            border-color: var(--warning);
+            background-color: #fff5e6;
+        }
+        
+        .node.float-check {
+            border-color: var(--success);
+            background-color: #e8f7f0;
+        }
+        
+        .arrow {
+            position: absolute;
+            height: 2px;
+            background-color: #999;
+            transform-origin: 0 0;
+            z-index: 5;
+            transition: all 0.3s ease;
+        }
+        
+        .arrow.critical {
+            background-color: var(--accent);
+            height: 3px;
+        }
+        
+        .arrow.highlight {
+            height: 4px;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+            z-index: 15;
+        }
+        
+        .arrow.forward-pass {
+            background-color: var(--secondary);
+            height: 3px;
+        }
+        
+        .arrow.backward-pass {
+            background-color: var(--warning);
+            height: 3px;
+        }
+        
+        .arrow:after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #999;
+            transition: all 0.3s ease;
+        }
+        
+        .arrow.critical:after {
+            border-left-color: var(--accent);
+        }
+        
+        .arrow.forward-pass:after {
+            border-left-color: var(--secondary);
+        }
+        
+        .arrow.backward-pass:after {
+            border-left-color: var(--warning);
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+        
+        .tab-container {
+            margin-bottom: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 2px;
+            margin-bottom: -1px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: var(--light-gray);
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .tab.active {
+            background-color: white;
+            position: relative;
+        }
+        
+        .tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 5px 5px 5px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .steps {
+            counter-reset: step-counter;
+            padding-left: 0;
+        }
+        
+        .step {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 20px;
+            list-style-type: none;
+        }
+        
+        .step:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: var(--secondary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            flex-direction: column;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--secondary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            color: var(--accent);
+            background-color: #ffebee;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        /* Visualization controls */
+        .visualization-controls {
+            margin: 20px 0;
+            background-color: var(--light-gray);
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .viz-btn {
+            background-color: var(--light-gray);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .viz-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .viz-description {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        /* Accordion styles */
+        .accordion {
+            margin-top: 20px;
+        }
+        
+        .accordion-item {
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            background-color: var(--light-gray);
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .accordion-header:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .accordion-icon {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .accordion-content {
+            background-color: white;
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .calculation-steps {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .calculation-steps li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .calculation-detail {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .calculation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .calculation-table th,
+        .calculation-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .calculation-table th {
+            background-color: var(--light-gray);
+        }
+        
+        @media (max-width: 768px) {
+            .activity-input {
+                grid-template-columns: 1fr;
+            }
+            
+            .activity-header {
+                display: none;
+            }
+            
+            label {
+                margin-top: 10px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .tab {
+                border-radius: 0;
+            }
+            
+            .tab:first-child {
+                border-radius: 5px 5px 0 0;
+            }
+        }
+        
+        /* Responsive layout fixes */
+        @media (max-width: 992px) {
+            body {
+                padding: 10px;
+            }
+            
+            .content-card {
+                padding: 15px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Interactive Critical Path Method (CPM) Calculator</h1>
+        <p>A comprehensive tool for project scheduling and critical path analysis</p>
+    </header>
+
+    <div class="content-card">
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" onclick="openTab(event, 'calculator')">CPM Calculator</div>
+                <div class="tab" onclick="openTab(event, 'explanation')">CPM Explanation</div>
+                <div class="tab" onclick="openTab(event, 'instructions')">Instructions</div>
+                <div class="tab" onclick="openTab(event, 'example')">Example Project</div>
+            </div>
+            
+            <div id="calculator" class="tab-content active">
+                <h2>Activity Input</h2>
+                <p>Enter your project activities below. For each activity, specify its ID, duration, and predecessors.</p>
+                
+                <div class="activity-header">
+                    <div>Activity ID</div>
+                    <div>Duration (days)</div>
+                    <div>Predecessors</div>
+                    <div></div>
+                </div>
+                
+                <div id="activities-container">
+                    <!-- Activities will be added here -->
+                </div>
+                
+                <div class="button-group">
+                    <button onclick="addActivity()">Add Activity</button>
+                    <button onclick="calculateCPM()">Calculate Critical Path</button>
+                    <button onclick="resetCalculator()">Reset</button>
+                </div>
+                
+                <div id="results" class="results" style="display: none;">
+                    <h2>CPM Analysis Results</h2>
+                    
+                    <div class="highlight-box">
+                        <h3>Summary</h3>
+                        <p><strong>Project Duration:</strong> <span id="project-duration">0</span> days</p>
+                        <p><strong>Critical Path:</strong> <span id="critical-path" class="critical-path"></span></p>
+                    </div>
+                    
+                    <div class="visualization-controls">
+                        <h3>Visualization</h3>
+                        <div class="button-group">
+                            <button onclick="visualizeMode('normal')" class="viz-btn active" id="viz-normal">Normal View</button>
+                            <button onclick="visualizeMode('forward')" class="viz-btn" id="viz-forward">Forward Pass</button>
+                            <button onclick="visualizeMode('backward')" class="viz-btn" id="viz-backward">Backward Pass</button>
+                            <button onclick="visualizeMode('float')" class="viz-btn" id="viz-float">Float Calculation</button>
+                        </div>
+                        <div id="viz-description" class="viz-description">
+                            Normal view showing the complete project network with critical path highlighted.
+                        </div>
+                    </div>
+                    
+                    <div class="network-diagram">
+                        <h3>Network Diagram</h3>
+                        <div class="diagram-container" id="diagram-container">
+                            <!-- Diagram will be rendered here -->
+                        </div>
+                        <div class="legend" id="diagram-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #f2f2f2; border: 2px solid var(--primary);"></div>
+                                <span>Regular Activity</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #ffebe6; border: 2px solid var(--accent);"></div>
+                                <span>Critical Activity</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Detailed Activity Analysis</h3>
+                    <table id="results-table">
+                        <thead>
+                            <tr>
+                                <th>Activity</th>
+                                <th>Duration</th>
+                                <th>Early Start (ES)</th>
+                                <th>Early Finish (EF)</th>
+                                <th>Late Start (LS)</th>
+                                <th>Late Finish (LF)</th>
+                                <th>Float</th>
+                                <th>Critical</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-body">
+                            <!-- Results will be added here -->
+                        </tbody>
+                    </table>
+                    
+                    <div class="calculation-steps">
+                        <h3>Calculation Steps</h3>
+                        <div class="accordion">
+                            <div class="accordion-item">
+                                <div class="accordion-header" onclick="toggleAccordion('forward-pass-steps')">
+                                    <span>Forward Pass</span>
+                                    <span class="accordion-icon">+</span>
+                                </div>
+                                <div class="accordion-content" id="forward-pass-steps">
+                                    <p>The Forward Pass calculates the Early Start (ES) and Early Finish (EF) times for each activity by moving through the network from the project start to the end.</p>
+                                    <ol>
+                                        <li>Start with activities that have no predecessors. Set their ES = 0.</li>
+                                        <li>Calculate EF = ES + Duration.</li>
+                                        <li>For each subsequent activity, set ES = maximum EF of all its predecessors.</li>
+                                        <li>Calculate EF = ES + Duration.</li>
+                                        <li>Continue until all activities have ES and EF values.</li>
+                                    </ol>
+                                    <div class="formula-box">
+                                        ES = max(EF of all predecessors)<br>
+                                        EF = ES + Duration
+                                    </div>
+                                    <div class="calculation-detail" id="forward-pass-detail">
+                                        <!-- Forward Pass details will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <div class="accordion-header" onclick="toggleAccordion('backward-pass-steps')">
+                                    <span>Backward Pass</span>
+                                    <span class="accordion-icon">+</span>
+                                </div>
+                                <div class="accordion-content" id="backward-pass-steps">
+                                    <p>The Backward Pass calculates the Late Start (LS) and Late Finish (LF) times for each activity by moving backward through the network from the project end to the start.</p>
+                                    <ol>
+                                        <li>Start with activities that have no successors. Set their LF = project duration (maximum EF).</li>
+                                        <li>Calculate LS = LF - Duration.</li>
+                                        <li>For each preceding activity, set LF = minimum LS of all its successors.</li>
+                                        <li>Calculate LS = LF - Duration.</li>
+                                        <li>Continue until all activities have LS and LF values.</li>
+                                    </ol>
+                                    <div class="formula-box">
+                                        LF = min(LS of all successors)<br>
+                                        LS = LF - Duration
+                                    </div>
+                                    <div class="calculation-detail" id="backward-pass-detail">
+                                        <!-- Backward Pass details will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <div class="accordion-header" onclick="toggleAccordion('float-steps')">
+                                    <span>Float Calculation</span>
+                                    <span class="accordion-icon">+</span>
+                                </div>
+                                <div class="accordion-content" id="float-steps">
+                                    <p>Float (or slack) is the amount of time an activity can be delayed without delaying the project completion date.</p>
+                                    <div class="formula-box">
+                                        Float = LS - ES<br>
+                                        or<br>
+                                        Float = LF - EF
+                                    </div>
+                                    <p>Activities with zero float are on the critical path.</p>
+                                    <div class="calculation-detail" id="float-calculation-detail">
+                                        <!-- Float calculation details will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <div class="accordion-header" onclick="toggleAccordion('critical-path-steps')">
+                                    <span>Critical Path Determination</span>
+                                    <span class="accordion-icon">+</span>
+                                </div>
+                                <div class="accordion-content" id="critical-path-steps">
+                                    <p>The Critical Path is the sequence of activities with zero float that determines the project duration.</p>
+                                    <div class="calculation-detail" id="critical-path-detail">
+                                        <!-- Critical path details will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="explanation" class="tab-content">
+                <h2>Critical Path Method (CPM) Explained</h2>
+                
+                <div class="explanation-box">
+                    <h3>What is CPM?</h3>
+                    <p>The Critical Path Method (CPM) is a project management technique used to plan and schedule project tasks. It identifies critical and non-critical tasks to prevent time-frame problems and process bottlenecks.</p>
+                    
+                    <p>Key features of CPM include:</p>
+                    <ul>
+                        <li>Identifying the longest path of planned activities to the end of the project</li>
+                        <li>Determining which tasks are "critical" (cannot be delayed)</li>
+                        <li>Calculating "float" or "slack" time for non-critical activities</li>
+                        <li>Helping project managers focus on activities that affect the project completion date</li>
+                    </ul>
+                </div>
+                
+                <h3>CPM Calculation Process</h3>
+                
+                <ol class="steps">
+                    <li class="step">
+                        <h4>Define Activities and Their Relationships</h4>
+                        <p>Break down the project into specific tasks or activities and determine their dependencies.</p>
+                        <ul>
+                            <li>Each activity has a duration (time required to complete)</li>
+                            <li>Identify predecessor activities (tasks that must be completed before another can start)</li>
+                        </ul>
+                    </li>
+                    
+                    <li class="step">
+                        <h4>Forward Pass Calculation</h4>
+                        <p>Calculate the earliest times each activity can start and finish.</p>
+                        <div class="formula-box">
+                            Early Start (ES) of first activity = 0<br>
+                            Early Finish (EF) = Early Start (ES) + Duration<br>
+                            ES of successor activity = Maximum EF of all its predecessors
+                        </div>
+                    </li>
+                    
+                    <li class="step">
+                        <h4>Backward Pass Calculation</h4>
+                        <p>Calculate the latest times each activity can start and finish without delaying the project.</p>
+                        <div class="formula-box">
+                            Late Finish (LF) of last activity = its Early Finish (EF)<br>
+                            Late Start (LS) = Late Finish (LF) - Duration<br>
+                            LF of predecessor activity = Minimum LS of all its successors
+                        </div>
+                    </li>
+                    
+                    <li class="step">
+                        <h4>Calculate Float (Slack)</h4>
+                        <p>Determine how much delay can be tolerated for each activity.</p>
+                        <div class="formula-box">
+                            Float = Late Start (LS) - Early Start (ES)<br>
+                            or<br>
+                            Float = Late Finish (LF) - Early Finish (EF)
+                        </div>
+                        <p>Activities with zero float are on the critical path.</p>
+                    </li>
+                    
+                    <li class="step">
+                        <h4>Identify the Critical Path</h4>
+                        <p>The critical path is the sequence of activities with zero float that determines the minimum project duration.</p>
+                        <p>Any delay in a critical activity will delay the entire project.</p>
+                    </li>
+                </ol>
+                
+                <div class="highlight-box">
+                    <h3>CPM vs. PERT</h3>
+                    <p>While CPM uses a single deterministic time estimate for each activity, PERT (Program Evaluation and Review Technique) uses three time estimates (optimistic, most likely, pessimistic) to handle uncertainty in activity durations.</p>
+                </div>
+            </div>
+            
+            <div id="instructions" class="tab-content">
+                <h2>How to Use the CPM Calculator</h2>
+                
+                <div class="step-box">
+                    <h3>Enter Activity Details</h3>
+                    <p>For each activity in your project:</p>
+                    <ul>
+                        <li><strong>Activity ID:</strong> Enter a unique identifier (number, letter, or name)</li>
+                        <li><strong>Duration:</strong> Enter the time required to complete the activity (in days or other consistent time units)</li>
+                        <li><strong>Predecessors:</strong> Enter the IDs of activities that must be completed before this one can start
+                            <ul>
+                                <li>For the first activity, leave blank or enter "none"</li>
+                                <li>For activities with multiple predecessors, separate them with commas (e.g., "A,B,C")</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="step-box">
+                    <h3>Add More Activities</h3>
+                    <p>Click the "Add Activity" button to add more activities to your project.</p>
+                    <p>You can also remove activities by clicking the "X" button next to each activity.</p>
+                </div>
+                
+                <div class="step-box">
+                    <h3>Calculate the Critical Path</h3>
+                    <p>After entering all activities, click the "Calculate Critical Path" button.</p>
+                    <p>The calculator will perform the forward and backward passes to determine ES, EF, LS, LF, and float for each activity.</p>
+                </div>
+                
+                <div class="step-box">
+                    <h3>Interpret the Results</h3>
+                    <p>The results table shows:</p>
+                    <ul>
+                        <li><strong>Early Start (ES):</strong> The earliest time an activity can start</li>
+                        <li><strong>Early Finish (EF):</strong> The earliest time an activity can finish</li>
+                        <li><strong>Late Start (LS):</strong> The latest time an activity can start without delaying the project</li>
+                        <li><strong>Late Finish (LF):</strong> The latest time an activity can finish without delaying the project</li>
+                        <li><strong>Float:</strong> The amount of time an activity can be delayed without affecting the project end date</li>
+                        <li><strong>Critical:</strong> Indicates whether the activity is on the critical path</li>
+                    </ul>
+                    <p>Activities with zero float are highlighted as critical and form the critical path.</p>
+                </div>
+                
+                <div class="step-box">
+                    <h3>Visualization Options</h3>
+                    <p>Use the visualization controls to understand different aspects of CPM:</p>
+                    <ul>
+                        <li><strong>Normal View:</strong> Shows the complete project network with critical path highlighted</li>
+                        <li><strong>Forward Pass:</strong> Visualizes the calculation of ES and EF times</li>
+                        <li><strong>Backward Pass:</strong> Visualizes the calculation of LS and LF times</li>
+                        <li><strong>Float Calculation:</strong> Shows float values for all activities</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>Tips for Project Managers</h3>
+                    <ul>
+                        <li>Focus resources on critical path activities to ensure on-time project completion</li>
+                        <li>Regularly monitor activities with low float as they can become critical</li>
+                        <li>Use float on non-critical activities to optimize resource allocation</li>
+                        <li>Update your CPM analysis when changes occur to project scope, activities, or durations</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="example" class="tab-content">
+                <h2>Example Project: Website Development</h2>
+                
+                <p>Let's analyze a website development project using CPM.</p>
+                
+                <h3>Project Activities</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Activity ID</th>
+                            <th>Description</th>
+                            <th>Duration (days)</th>
+                            <th>Predecessors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>A</td>
+                            <td>Requirements Gathering</td>
+                            <td>5</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>Design</td>
+                            <td>10</td>
+                            <td>A</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>Frontend Development</td>
+                            <td>15</td>
+                            <td>B</td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td>Backend Development</td>
+                            <td>12</td>
+                            <td>B</td>
+                        </tr>
+                        <tr>
+                            <td>E</td>
+                            <td>Testing</td>
+                            <td>8</td>
+                            <td>C,D</td>
+                        </tr>
+                        <tr>
+                            <td>F</td>
+                            <td>Deployment</td>
+                            <td>3</td>
+                            <td>E</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="button-group">
+                    <button onclick="loadExample()">Load This Example</button>
+                </div>
+                
+                <h3>Step-by-Step CPM Analysis</h3>
+                
+                <div class="explanation-box">
+                    <h4>Forward Pass</h4>
+                    <ul>
+                        <li>Activity A: ES = 0, EF = 0 + 5 = 5</li>
+                        <li>Activity B: ES = 5, EF = 5 + 10 = 15</li>
+                        <li>Activity C: ES = 15, EF = 15 + 15 = 30</li>
+                        <li>Activity D: ES = 15, EF = 15 + 12 = 27</li>
+                        <li>Activity E: ES = max(30, 27) = 30, EF = 30 + 8 = 38</li>
+                        <li>Activity F: ES = 38, EF = 38 + 3 = 41</li>
+                    </ul>
+                </div>
+                
+                <div class="explanation-box">
+                    <h4>Backward Pass</h4>
+                    <ul>
+                        <li>Activity F: LF = 41, LS = 41 - 3 = 38</li>
+                        <li>Activity E: LF = 38, LS = 38 - 8 = 30</li>
+                        <li>Activity C: LF = 30, LS = 30 - 15 = 15</li>
+                        <li>Activity D: LF = 30, LS = 30 - 12 = 18</li>
+                        <li>Activity B: LF = min(15, 18) = 15, LS = 15 - 10 = 5</li>
+                        <li>Activity A: LF = 5, LS = 5 - 5 = 0</li>
+                    </ul>
+                </div>
+                
+                <div class="explanation-box">
+                    <h4>Float Calculation and Critical Path</h4>
+                    <ul>
+                        <li>Activity A: Float = 0 - 0 = 0 (Critical)</li>
+                        <li>Activity B: Float = 5 - 5 = 0 (Critical)</li>
+                        <li>Activity C: Float = 15 - 15 = 0 (Critical)</li>
+                        <li>Activity D: Float = 18 - 15 = 3 (Not Critical)</li>
+                        <li>Activity E: Float = 30 - 30 = 0 (Critical)</li>
+                        <li>Activity F: Float = 38 - 38 = 0 (Critical)</li>
+                    </ul>
+                    <p><strong>Critical Path:</strong> A → B → C → E → F</p>
+                    <p><strong>Project Duration:</strong> 41 days</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Activity class to store activity data
+        class Activity {
+            constructor(id, duration, predecessors) {
+                this.id = id;
+                this.duration = parseInt(duration) || 0;
+                this.predecessors = predecessors || '';
+                this.es = 0;
+                this.ef = 0;
+                this.ls = 0;
+                this.lf = 0;
+                this.float = 0;
+                this.isCritical = false;
+                this.successors = [];
+            }
+        }
+        
+        // Store activities
+        let activities = [];
+        let activityCount = 0;
+        let currentVisualizationMode = 'normal';
+        
+        // Initialize with two activities
+        document.addEventListener('DOMContentLoaded', function() {
+            addActivity();
+            addActivity();
+            
+            // Add window resize listener to update diagram on resize
+            window.addEventListener('resize', function() {
+                if (activities.length > 0 && document.getElementById('results').style.display !== 'none') {
+                    renderNetworkDiagram();
+                }
+            });
+        });
+        
+        // Function to open tabs
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+            
+            // Re-render diagram if switching to calculator tab with results showing
+            if (tabName === 'calculator' && activities.length > 0 && document.getElementById('results').style.display !== 'none') {
+                setTimeout(renderNetworkDiagram, 100);
+            }
+        }
+        
+        // Function to add a new activity
+        function addActivity() {
+            activityCount++;
+            const activityContainer = document.getElementById('activities-container');
+            
+            const activityDiv = document.createElement('div');
+            activityDiv.className = 'activity-input';
+            activityDiv.id = `activity-${activityCount}`;
+            
+            activityDiv.innerHTML = `
+                <div class="input-group">
+                    <label for="activity-id-${activityCount}">Activity ID</label>
+                    <input type="text" id="activity-id-${activityCount}" placeholder="e.g., A${activityCount}" value="${activityCount}">
+                </div>
+                <div class="input-group">
+                    <label for="duration-${activityCount}">Duration (days)</label>
+                    <input type="number" id="duration-${activityCount}" min="1" max="10000" value="5">
+                </div>
+                <div class="input-group">
+                    <label for="predecessors-${activityCount}">Predecessors</label>
+                    <input type="text" id="predecessors-${activityCount}" placeholder="e.g., 1,2" ${activityCount === 1 ? 'value=""' : 'value="' + (activityCount - 1) + '"'}>
+                </div>
+                <div>
+                    <button class="delete-btn" onclick="deleteActivity(${activityCount})">X</button>
+                </div>
+            `;
+            
+            activityContainer.appendChild(activityDiv);
+        }
+        
+        // Function to delete an activity
+        function deleteActivity(id) {
+            const activityDiv = document.getElementById(`activity-${id}`);
+            if (activityDiv) {
+                activityDiv.remove();
+            }
+        }
+        
+        // Function to reset the calculator
+        function resetCalculator() {
+            const activitiesContainer = document.getElementById('activities-container');
+            activitiesContainer.innerHTML = '';
+            
+            activities = [];
+            activityCount = 0;
+            
+            document.getElementById('results').style.display = 'none';
+            
+            addActivity();
+            addActivity();
+        }
+        
+        // Function to load the example project
+        function loadExample() {
+            resetCalculator();
+            
+            const exampleActivities = [
+                { id: 'A', duration: 5, predecessors: '' },
+                { id: 'B', duration: 10, predecessors: 'A' },
+                { id: 'C', duration: 15, predecessors: 'B' },
+                { id: 'D', duration: 12, predecessors: 'B' },
+                { id: 'E', duration: 8, predecessors: 'C,D' },
+                { id: 'F', duration: 3, predecessors: 'E' }
+            ];
+            
+            const activitiesContainer = document.getElementById('activities-container');
+            activitiesContainer.innerHTML = '';
+            
+            exampleActivities.forEach((activity, index) => {
+                activityCount = index + 1;
+                
+                const activityDiv = document.createElement('div');
+                activityDiv.className = 'activity-input';
+                activityDiv.id = `activity-${activityCount}`;
+                
+                activityDiv.innerHTML = `
+                    <div class="input-group">
+                        <label for="activity-id-${activityCount}">Activity ID</label>
+                        <input type="text" id="activity-id-${activityCount}" value="${activity.id}">
+                    </div>
+                    <div class="input-group">
+                        <label for="duration-${activityCount}">Duration (days)</label>
+                        <input type="number" id="duration-${activityCount}" min="1" max="10000" value="${activity.duration}">
+                    </div>
+                    <div class="input-group">
+                        <label for="predecessors-${activityCount}">Predecessors</label>
+                        <input type="text" id="predecessors-${activityCount}" value="${activity.predecessors}">
+                    </div>
+                    <div>
+                        <button class="delete-btn" onclick="deleteActivity(${activityCount})">X</button>
+                    </div>
+                `;
+                
+                activitiesContainer.appendChild(activityDiv);
+            });
+            
+            // Switch to calculator tab
+            const calculatorTab = document.querySelector('.tab[onclick*="calculator"]');
+            openTab({ currentTarget: calculatorTab }, 'calculator');
+            
+            // Calculate CPM
+            calculateCPM();
+        }
+        
+        // Function to calculate the Critical Path Method
+        function calculateCPM() {
+            // Show loading indicator
+            const results = document.getElementById('results');
+            results.innerHTML = '<div class="loading"><div class="spinner"></div><p>Calculating... Please wait.</p></div>';
+            results.style.display = 'block';
+            
+            // Use setTimeout to allow the UI to update before calculations begin
+            setTimeout(() => {
+                try {
+                    // Reset activities array
+                    activities = [];
+                    
+                    // Get all activity inputs
+                    const activityDivs = document.querySelectorAll('.activity-input');
+                    
+                    // Create Activity objects
+                    activityDivs.forEach((div) => {
+                        const id = div.querySelector('input[id^="activity-id-"]').value;
+                        let duration = parseInt(div.querySelector('input[id^="duration-"]').value) || 0;
+                        const predecessors = div.querySelector('input[id^="predecessors-"]').value;
+                        
+                        // Limit max duration to prevent browser hanging
+                        if (duration > 10000) {
+                            duration = 10000;
+                            alert('Duration values over 10,000 have been capped to prevent performance issues.');
+                        }
+                        
+                        if (id && duration > 0) {
+                            activities.push(new Activity(id, duration, predecessors));
+                        }
+                    });
+                    
+                    if (activities.length === 0) {
+                        showError('Please add at least one activity.');
+                        return;
+                    }
+                    
+                    // Check for duplicate IDs
+                    const ids = activities.map(a => a.id);
+                    const uniqueIds = [...new Set(ids)];
+                    if (ids.length !== uniqueIds.length) {
+                        showError('Duplicate activity IDs detected. Please ensure each activity has a unique ID.');
+                        return;
+                    }
+                    
+                    // Check for circular dependencies
+                    if (hasCircularDependencies()) {
+                        showError('Circular dependencies detected. Please check your predecessor relationships.');
+                        return;
+                    }
+                    
+                    // Check for invalid predecessors
+                    const validationResult = validatePredecessors();
+                    if (!validationResult.valid) {
+                        showError(`Invalid predecessor: ${validationResult.invalidPred} does not exist as an activity ID.`);
+                        return;
+                    }
+                    
+                    // Build the network (set up successors)
+                    buildNetwork();
+                    
+                    // Perform CPM calculations
+                    forwardPass();
+                    backwardPass();
+                    calculateFloat();
+                    identifyCriticalPath();
+                    
+                    // Display results
+                    displayResults();
+                    
+                    // Show results section
+                    document.getElementById('results').style.display = 'block';
+                } catch (error) {
+                    console.error('Error in CPM calculation:', error);
+                    showError('An error occurred during calculation. Please check your inputs and try again.');
+                }
+            }, 50);
+        }
+        
+        // Function to show error message
+        function showError(message) {
+            const results = document.getElementById('results');
+            results.innerHTML = `<div class="error-message">${message}</div>`;
+            results.style.display = 'block';
+        }
+        
+        // Function to validate predecessors
+        function validatePredecessors() {
+            const activityIds = activities.map(a => a.id);
+            
+            for (const activity of activities) {
+                if (activity.predecessors) {
+                    const predList = activity.predecessors.split(',').map(p => p.trim()).filter(p => p);
+                    for (const pred of predList) {
+                        if (!activityIds.includes(pred)) {
+                            return { valid: false, invalidPred: pred };
+                        }
+                    }
+                }
+            }
+            
+            return { valid: true };
+        }
+        
+        // Function to check for circular dependencies
+        function hasCircularDependencies() {
+            // Create a directed graph representation
+            const graph = {};
+            activities.forEach(activity => {
+                graph[activity.id] = [];
+            });
+            
+            activities.forEach(activity => {
+                if (activity.predecessors) {
+                    const predList = activity.predecessors.split(',').map(p => p.trim()).filter(p => p);
+                    predList.forEach(predId => {
+                        if (graph[predId]) {
+                            graph[predId].push(activity.id);
+                        }
+                    });
+                }
+            });
+            
+            // Function to detect cycle in directed graph using DFS
+            function hasCycle(node, visited, recStack) {
+                if (!visited[node]) {
+                    visited[node] = true;
+                    recStack[node] = true;
+                    
+                    if (graph[node]) {
+                        for (const neighbor of graph[node]) {
+                            if (!visited[neighbor] && hasCycle(neighbor, visited, recStack)) {
+                                return true;
+                            } else if (recStack[neighbor]) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                
+                recStack[node] = false;
+                return false;
+            }
+            
+            // Check for cycles from each node
+            const visited = {};
+            const recStack = {};
+            
+            for (const node in graph) {
+                if (!visited[node] && hasCycle(node, visited, recStack)) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        // Function to build the network (set up successors)
+        function buildNetwork() {
+            // Reset successors
+            activities.forEach(activity => {
+                activity.successors = [];
+            });
+            
+            // Set up successors based on predecessors
+            activities.forEach(activity => {
+                if (activity.predecessors) {
+                    const predList = activity.predecessors.split(',').map(p => p.trim()).filter(p => p);
+                    
+                    predList.forEach(predId => {
+                        const pred = activities.find(a => a.id === predId);
+                        if (pred) {
+                            pred.successors.push(activity.id);
+                        }
+                    });
+                }
+            });
+        }
+        
+        // Function to perform forward pass calculation
+        function forwardPass() {
+            // Reset ES and EF
+            activities.forEach(activity => {
+                activity.es = 0;
+                activity.ef = 0;
+            });
+            
+            // Find activities with no predecessors (start activities)
+            const startActivities = activities.filter(activity => !activity.predecessors || activity.predecessors === '');
+            
+            // Set ES of start activities to 0
+            startActivities.forEach(activity => {
+                activity.es = 0;
+                activity.ef = activity.duration;
+            });
+            
+            // Forward pass loop
+            let allProcessed = false;
+            let iterations = 0;
+            const maxIterations = activities.length * 2; // Safety to prevent infinite loops
+            
+            while (!allProcessed && iterations < maxIterations) {
+                allProcessed = true;
+                iterations++;
+                
+                activities.forEach(activity => {
+                    if (activity.predecessors && activity.predecessors !== '') {
+                        const predList = activity.predecessors.split(',').map(p => p.trim()).filter(p => p);
+                        const preds = predList.map(predId => activities.find(a => a.id === predId)).filter(p => p);
+                        
+                        // If all predecessors have been processed (have EF > 0)
+                        if (preds.every(p => p.ef > 0)) {
+                            // Set ES to max EF of all predecessors
+                            const maxEF = Math.max(...preds.map(p => p.ef));
+                            
+                            // Only update if ES has changed
+                            if (activity.es !== maxEF) {
+                                activity.es = maxEF;
+                                activity.ef = maxEF + activity.duration;
+                                allProcessed = false;
+                            }
+                        } else {
+                            allProcessed = false;
+                        }
+                    }
+                });
+            }
+            
+            if (iterations >= maxIterations) {
+                throw new Error('Forward pass calculation did not converge. Check for hidden circular dependencies.');
+            }
+        }
+        
+        // Function to perform backward pass calculation
+        function backwardPass() {
+            // Find activities with no successors (end activities)
+            const endActivities = activities.filter(activity => activity.successors.length === 0);
+            
+            if (endActivities.length === 0) {
+                throw new Error('No end activities found. Check for circular dependencies.');
+            }
+            
+            // Get the project duration (max EF of all activities)
+            const projectDuration = Math.max(...activities.map(a => a.ef));
+            
+            // Set LF of end activities to the project duration
+            endActivities.forEach(activity => {
+                activity.lf = projectDuration;
+                activity.ls = activity.lf - activity.duration;
+            });
+            
+            // Set LF and LS of all other activities to a very large number
+            activities.filter(a => !endActivities.includes(a)).forEach(activity => {
+                activity.lf = Infinity;
+                activity.ls = Infinity;
+            });
+            
+            // Backward pass loop
+            let allProcessed = false;
+            let iterations = 0;
+            const maxIterations = activities.length * 2; // Safety to prevent infinite loops
+            
+            while (!allProcessed && iterations < maxIterations) {
+                allProcessed = true;
+                iterations++;
+                
+                for (let i = activities.length - 1; i >= 0; i--) {
+                    const activity = activities[i];
+                    
+                    if (activity.successors.length > 0) {
+                        const succs = activity.successors.map(succId => activities.find(a => a.id === succId)).filter(s => s);
+                        
+                        // If all successors have been processed (have LS < Infinity)
+                        if (succs.every(s => s.ls < Infinity)) {
+                            // Set LF to min LS of all successors
+                            const minLS = Math.min(...succs.map(s => s.ls));
+                            
+                            // Only update if LF has changed
+                            if (activity.lf !== minLS) {
+                                activity.lf = minLS;
+                                activity.ls = activity.lf - activity.duration;
+                                allProcessed = false;
+                            }
+                        } else {
+                            allProcessed = false;
+                        }
+                    }
+                }
+            }
+            
+            if (iterations >= maxIterations) {
+                throw new Error('Backward pass calculation did not converge. Check for hidden circular dependencies.');
+            }
+        }
+        
+        // Function to calculate float
+        function calculateFloat() {
+            activities.forEach(activity => {
+                activity.float = activity.ls - activity.es;
+                
+                // Ensure float is not negative (can happen due to rounding errors)
+                if (Math.abs(activity.float) < 0.0001) {
+                    activity.float = 0;
+                }
+                
+                if (activity.float < 0) {
+                    throw new Error(`Negative float detected for activity ${activity.id}. Check for calculation errors.`);
+                }
+            });
+        }
+        
+        // Function to identify critical path
+        function identifyCriticalPath() {
+            activities.forEach(activity => {
+                activity.isCritical = activity.float === 0;
+            });
+        }
+        
+        // Function to display results
+        function displayResults() {
+            // Create results container if it doesn't exist
+            const resultsElement = document.getElementById('results');
+            resultsElement.innerHTML = `
+                <h2>CPM Analysis Results</h2>
+                
+                <div class="highlight-box">
+                    <h3>Summary</h3>
+                    <p><strong>Project Duration:</strong> <span id="project-duration">0</span> days</p>
+                    <p><strong>Critical Path:</strong> <span id="critical-path" class="critical-path"></span></p>
+                </div>
+                
+                <div class="visualization-controls">
+                    <h3>Visualization</h3>
+                    <div class="button-group">
+                        <button onclick="visualizeMode('normal')" class="viz-btn active" id="viz-normal">Normal View</button>
+                        <button onclick="visualizeMode('forward')" class="viz-btn" id="viz-forward">Forward Pass</button>
+                        <button onclick="visualizeMode('backward')" class="viz-btn" id="viz-backward">Backward Pass</button>
+                        <button onclick="visualizeMode('float')" class="viz-btn" id="viz-float">Float Calculation</button>
+                    </div>
+                    <div id="viz-description" class="viz-description">
+                        Normal view showing the complete project network with critical path highlighted.
+                    </div>
+                </div>
+                
+                <div class="network-diagram">
+                    <h3>Network Diagram</h3>
+                    <div class="diagram-container" id="diagram-container">
+                        <!-- Diagram will be rendered here -->
+                    </div>
+                    <div class="legend" id="diagram-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #f2f2f2; border: 2px solid var(--primary);"></div>
+                            <span>Regular Activity</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #ffebe6; border: 2px solid var(--accent);"></div>
+                            <span>Critical Activity</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Detailed Activity Analysis</h3>
+                <table id="results-table">
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Duration</th>
+                            <th>Early Start (ES)</th>
+                            <th>Early Finish (EF)</th>
+                            <th>Late Start (LS)</th>
+                            <th>Late Finish (LF)</th>
+                            <th>Float</th>
+                            <th>Critical</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-body">
+                        <!-- Results will be added here -->
+                    </tbody>
+                </table>
+                
+                <div class="calculation-steps">
+                    <h3>Calculation Steps</h3>
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion('forward-pass-steps')">
+                                <span>Forward Pass</span>
+                                <span class="accordion-icon">+</span>
+                            </div>
+                            <div class="accordion-content" id="forward-pass-steps">
+                                <p>The Forward Pass calculates the Early Start (ES) and Early Finish (EF) times for each activity by moving through the network from the project start to the end.</p>
+                                <ol>
+                                    <li>Start with activities that have no predecessors. Set their ES = 0.</li>
+                                    <li>Calculate EF = ES + Duration.</li>
+                                    <li>For each subsequent activity, set ES = maximum EF of all its predecessors.</li>
+                                    <li>Calculate EF = ES + Duration.</li>
+                                    <li>Continue until all activities have ES and EF values.</li>
+                                </ol>
+                                <div class="formula-box">
+                                    ES = max(EF of all predecessors)<br>
+                                    EF = ES + Duration
+                                </div>
+                                <div class="calculation-detail" id="forward-pass-detail">
+                                    <!-- Forward Pass details will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion('backward-pass-steps')">
+                                <span>Backward Pass</span>
+                                <span class="accordion-icon">+</span>
+                            </div>
+                            <div class="accordion-content" id="backward-pass-steps">
+                                <p>The Backward Pass calculates the Late Start (LS) and Late Finish (LF) times for each activity by moving backward through the network from the project end to the start.</p>
+                                <ol>
+                                    <li>Start with activities that have no successors. Set their LF = project duration (maximum EF).</li>
+                                    <li>Calculate LS = LF - Duration.</li>
+                                    <li>For each preceding activity, set LF = minimum LS of all its successors.</li>
+                                    <li>Calculate LS = LF - Duration.</li>
+                                    <li>Continue until all activities have LS and LF values.</li>
+                                </ol>
+                                <div class="formula-box">
+                                    LF = min(LS of all successors)<br>
+                                    LS = LF - Duration
+                                </div>
+                                <div class="calculation-detail" id="backward-pass-detail">
+                                    <!-- Backward Pass details will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion('float-steps')">
+                                <span>Float Calculation</span>
+                                <span class="accordion-icon">+</span>
+                            </div>
+                            <div class="accordion-content" id="float-steps">
+                                <p>Float (or slack) is the amount of time an activity can be delayed without delaying the project completion date.</p>
+                                <div class="formula-box">
+                                    Float = LS - ES<br>
+                                    or<br>
+                                    Float = LF - EF
+                                </div>
+                                <p>Activities with zero float are on the critical path.</p>
+                                <div class="calculation-detail" id="float-calculation-detail">
+                                    <!-- Float calculation details will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion('critical-path-steps')">
+                                <span>Critical Path Determination</span>
+                                <span class="accordion-icon">+</span>
+                            </div>
+                            <div class="accordion-content" id="critical-path-steps">
+                                <p>The Critical Path is the sequence of activities with zero float that determines the project duration.</p>
+                                <div class="calculation-detail" id="critical-path-detail">
+                                    <!-- Critical path details will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Populate the calculation details sections
+            document.getElementById('forward-pass-detail').innerHTML = generateForwardPassDetails();
+            document.getElementById('backward-pass-detail').innerHTML = generateBackwardPassDetails();
+            document.getElementById('float-calculation-detail').innerHTML = generateFloatCalculationDetails();
+            document.getElementById('critical-path-detail').innerHTML = generateCriticalPathDetails();
+            
+            // Populate the results table
+            const resultsBody = document.getElementById('results-body');
+            resultsBody.innerHTML = '';
+            
+            activities.forEach(activity => {
+                const row = document.createElement('tr');
+                if (activity.isCritical) {
+                    row.classList.add('critical-row');
+                }
+                
+                row.innerHTML = `
+                    <td>${activity.id}</td>
+                    <td>${activity.duration}</td>
+                    <td>${activity.es}</td>
+                    <td>${activity.ef}</td>
+                    <td>${activity.ls}</td>
+                    <td>${activity.lf}</td>
+                    <td>${activity.float}</td>
+                    <td>${activity.isCritical ? 'Yes' : 'No'}</td>
+                `;
+                
+                resultsBody.appendChild(row);
+            });
+            
+            // Project duration
+            const projectDuration = Math.max(...activities.map(a => a.ef));
+            document.getElementById('project-duration').textContent = projectDuration;
+            
+            // Critical path
+            let criticalPath = findCriticalPath();
+            document.getElementById('critical-path').textContent = criticalPath;
+            
+            // Set default visualization mode and render diagram
+            currentVisualizationMode = 'normal';
+            renderNetworkDiagram();
+        }
+        
+        // Function to find the critical path as a sequence
+        function findCriticalPath() {
+            const criticalActivities = activities.filter(a => a.isCritical);
+            if (criticalActivities.length === 0) return "None";
+            
+            // Find start activities on critical path (critical activities with no critical predecessors)
+            const criticalStartActivities = criticalActivities.filter(activity => {
+                if (!activity.predecessors || activity.predecessors === '') return true;
+                
+                const predList = activity.predecessors.split(',').map(p => p.trim()).filter(p => p);
+                const criticalPreds = predList.filter(predId => {
+                    const pred = activities.find(a => a.id === predId);
+                    return pred && pred.isCritical;
+                });
+                
+                return criticalPreds.length === 0;
+            });
+            
+            if (criticalStartActivities.length === 0) return "Unable to determine (possible circular reference)";
+            
+            // Build critical path from each start activity
+            let paths = [];
+            
+            criticalStartActivities.forEach(startActivity => {
+                let path = [startActivity.id];
+                let currentActivity = startActivity;
+                
+                while (currentActivity.successors.length > 0) {
+                    const criticalSuccs = currentActivity.successors
+                        .map(succId => activities.find(a => a.id === succId))
+                        .filter(s => s && s.isCritical);
+                    
+                    if (criticalSuccs.length === 0) break;
+                    
+                    // If multiple critical successors, we have parallel critical paths
+                    if (criticalSuccs.length > 1) {
+                        // Branch for each critical successor
+                        criticalSuccs.slice(1).forEach(succ => {
+                            const branchPath = [...path, succ.id];
+                            paths.push(branchPath);
+                        });
+                    }
+                    
+                    currentActivity = criticalSuccs[0];
+                    path.push(currentActivity.id);
+                }
+                
+                paths.push(path);
+            });
+            
+            // Format each path
+            const formattedPaths = paths.map(path => path.join(' → '));
+            
+            // Return the critical path(s)
+            if (formattedPaths.length === 1) {
+                return formattedPaths[0];
+            } else {
+                return formattedPaths.join(' and ');
+            }
+        }
+        
+        // Function to toggle accordion sections
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const header = content.previousElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+            
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                icon.textContent = '+';
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.textContent = '-';
+            }
+        }
+        
+        // Function to switch visualization mode
+        function visualizeMode(mode) {
+            // Update active button
+            document.querySelectorAll('.viz-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`viz-${mode}`).classList.add('active');
+            
+            // Update description
+            const descElement = document.getElementById('viz-description');
+            
+            // Update mode and redraw diagram
+            currentVisualizationMode = mode;
+            
+            // Update description based on mode
+            switch(mode) {
+                case 'normal':
+                    descElement.textContent = 'Normal view showing the complete project network with critical path highlighted.';
+                    break;
+                case 'forward':
+                    descElement.textContent = 'Forward Pass: Calculates Early Start (ES) and Early Finish (EF) times by moving from project start to end. ES = max(EF of predecessors), EF = ES + Duration.';
+                    break;
+                case 'backward':
+                    descElement.textContent = 'Backward Pass: Calculates Late Start (LS) and Late Finish (LF) times by moving from project end to start. LS = LF - Duration, LF = min(LS of successors).';
+                    break;
+                case 'float':
+                    descElement.textContent = 'Float Calculation: Shows the slack time for each activity (Float = LS - ES). Activities with zero float form the critical path.';
+                    break;
+            }
+            
+            // Update legend
+            updateLegend(mode);
+            
+            // Redraw diagram
+            renderNetworkDiagram();
+        }
+        
+        // Function to update legend based on visualization mode
+        function updateLegend(mode) {
+            const legendElement = document.getElementById('diagram-legend');
+            
+            // Clear existing legend items
+            legendElement.innerHTML = '';
+            
+            // Add appropriate legend items based on mode
+            switch(mode) {
+                case 'normal':
+                    legendElement.innerHTML = `
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #f2f2f2; border: 2px solid var(--primary);"></div>
+                            <span>Regular Activity</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #ffebe6; border: 2px solid var(--accent);"></div>
+                            <span>Critical Activity</span>
+                        </div>
+                    `;
+                    break;
+                case 'forward':
+                    legendElement.innerHTML = `
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: white; border: 2px solid var(--primary);"></div>
+                            <span>Not Processed</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #e8f4f8; border: 2px solid var(--secondary);"></div>
+                            <span>ES/EF Calculated</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #e8f7f0; border: 2px solid var(--success);"></div>
+                            <span>Start Activities</span>
+                        </div>
+                    `;
+                    break;
+                case 'backward':
+                    legendElement.innerHTML = `
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: white; border: 2px solid var(--primary);"></div>
+                            <span>Not Processed</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #fff5e6; border: 2px solid var(--warning);"></div>
+                            <span>LS/LF Calculated</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #e8f7f0; border: 2px solid var(--success);"></div>
+                            <span>End Activities</span>
+                        </div>
+                    `;
+                    break;
+                case 'float':
+                    legendElement.innerHTML = `
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #e8f7f0; border: 2px solid var(--success);"></div>
+                            <span>Float > 0 (Non-Critical)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #ffebe6; border: 2px solid var(--accent);"></div>
+                            <span>Float = 0 (Critical)</span>
+                        </div>
+                    `;
+                    break;
+            }
+        }
+        
+        // Function to determine logical levels based on dependencies
+        function determineActivityLevels() {
+            // First, create a copy of activities for our algorithm
+            const nodes = activities.map(a => ({ 
+                id: a.id, 
+                predecessors: a.predecessors ? a.predecessors.split(',').map(p => p.trim()).filter(p => p) : [],
+                level: 0,
+                processed: false
+            }));
+            
+            // Find start nodes (no predecessors)
+            const startNodes = nodes.filter(n => n.predecessors.length === 0);
+            startNodes.forEach(n => {
+                n.level = 0;
+                n.processed = true;
+            });
+            
+            // Assign levels to all nodes
+            let allProcessed = false;
+            let maxIterations = 100; // Safety to prevent infinite loops
+            
+            while (!allProcessed && maxIterations > 0) {
+                allProcessed = true;
+                maxIterations--;
+                
+                nodes.forEach(node => {
+                    if (node.processed) return;
+                    
+                    // Check if all predecessors have been processed
+                    const preds = node.predecessors
+                        .map(pid => nodes.find(n => n.id === pid))
+                        .filter(p => p);
+                    
+                    if (preds.every(p => p.processed)) {
+                        // Assign level as max level of predecessors + 1
+                        node.level = Math.max(...preds.map(p => p.level)) + 1;
+                        node.processed = true;
+                    } else {
+                        allProcessed = false;
+                    }
+                });
+            }
+            
+            // Group nodes by level
+            const levels = {};
+            nodes.forEach(node => {
+                if (!levels[node.level]) {
+                    levels[node.level] = [];
+                }
+                levels[node.level].push(node.id);
+            });
+            
+            return levels;
+        }
+        
+        // Calculate grid-based positions for activities
+        function calculateGridPositions(levels, width, height) {
+            const positions = {};
+            const levelKeys = Object.keys(levels).sort((a, b) => parseInt(a) - parseInt(b));
+            const levelCount = levelKeys.length;
+            const horizontalSpacing = width / (levelCount + 1);
+            
+            // Position each level
+            levelKeys.forEach((level, levelIndex) => {
+                const xPos = horizontalSpacing * (levelIndex + 1);
+                const activityIds = levels[level];
+                const activityCount = activityIds.length;
+                const verticalSpacing = height / (activityCount + 1);
+                
+                // Position activities in this level
+                activityIds.forEach((id, actIndex) => {
+                    const yPos = verticalSpacing * (actIndex + 1);
+                    positions[id] = { x: xPos, y: yPos };
+                });
+            });
+            
+            return positions;
+        }
+        
+        // Function to render network diagram
+        function renderNetworkDiagram() {
+            const container = document.getElementById('diagram-container');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            // Set min height for the diagram
+            container.style.minHeight = '400px';
+            
+            // Calculate diagram width and height
+            const diagramWidth = container.clientWidth;
+            const diagramHeight = Math.min(600, Math.max(400, activities.length * 80));
+            container.style.height = `${diagramHeight}px`;
+            
+            // Create a logical layout based on dependency structure
+            const activityLevels = determineActivityLevels();
+            
+            // Use a grid layout for positioning
+            const gridPositions = calculateGridPositions(activityLevels, diagramWidth, diagramHeight);
+            
+            // Create nodes
+            activities.forEach(activity => {
+                const pos = gridPositions[activity.id];
+                if (!pos) return;
+                
+                const node = document.createElement('div');
+                
+                // Apply appropriate classes based on visualization mode
+                let nodeClasses = 'node';
+                let nodeContent = '';
+                
+                switch(currentVisualizationMode) {
+                    case 'normal':
+                        if (activity.isCritical) {
+                            nodeClasses += ' critical';
+                        }
+                        nodeContent = `
+                            <div>${activity.id}</div>
+                            <div style="font-size: 0.8em;">Dur: ${activity.duration}</div>
+                            <div style="font-size: 0.7em;">${activity.es}-${activity.ef}</div>
+                        `;
+                        break;
+                    case 'forward':
+                        // Highlight start activities and those with ES/EF calculated
+                        if (!activity.predecessors || activity.predecessors === '') {
+                            nodeClasses += ' highlight-start';
+                        } else if (activity.ef > 0) {
+                            nodeClasses += ' forward-pass';
+                        }
+                        nodeContent = `
+                            <div>${activity.id}</div>
+                            <div style="font-size: 0.8em;">Dur: ${activity.duration}</div>
+                            <div style="font-size: 0.7em; color: var(--secondary);">ES: ${activity.es}</div>
+                            <div style="font-size: 0.7em; color: var(--secondary);">EF: ${activity.ef}</div>
+                        `;
+                        break;
+                    case 'backward':
+                        // Highlight end activities and those with LS/LF calculated
+                        if (activity.successors.length === 0) {
+                            nodeClasses += ' highlight-start';
+                        } else if (activity.lf < Infinity) {
+                            nodeClasses += ' backward-pass';
+                        }
+                        nodeContent = `
+                            <div>${activity.id}</div>
+                            <div style="font-size: 0.8em;">Dur: ${activity.duration}</div>
+                            <div style="font-size: 0.7em; color: var(--warning);">LS: ${activity.ls}</div>
+                            <div style="font-size: 0.7em; color: var(--warning);">LF: ${activity.lf}</div>
+                        `;
+                        break;
+                    case 'float':
+                        // Highlight critical and non-critical activities
+                        if (activity.isCritical) {
+                            nodeClasses += ' critical';
+                        } else {
+                            nodeClasses += ' float-check';
+                        }
+                        nodeContent = `
+                            <div>${activity.id}</div>
+                            <div style="font-size: 0.8em;">Dur: ${activity.duration}</div>
+                            <div style="font-size: 0.7em;">ES: ${activity.es} LS: ${activity.ls}</div>
+                            <div style="font-size: 0.7em; font-weight: bold; color: ${activity.float === 0 ? 'var(--accent)' : 'var(--success)'}">Float: ${activity.float}</div>
+                        `;
+                        break;
+                }
+                
+                node.className = nodeClasses;
+                node.style.left = `${pos.x}px`;
+                node.style.top = `${pos.y}px`;
+                node.innerHTML = nodeContent;
+                
+                container.appendChild(node);
+            });
+            
+            // Create arrows
+            activities.forEach(activity => {
+                if (activity.predecessors) {
+                    const predList = activity.predecessors.split(',').map(p => p.trim()).filter(p => p);
+                    
+                    predList.forEach(predId => {
+                        const pred = activities.find(a => a.id === predId);
+                        if (pred) {
+                            const startPos = gridPositions[pred.id];
+                            const endPos = gridPositions[activity.id];
+                            
+                            if (startPos && endPos) {
+                                // Determine arrow class based on visualization mode
+                                let isCritical = false;
+                                let additionalClass = '';
+                                
+                                switch(currentVisualizationMode) {
+                                    case 'normal':
+                                        isCritical = pred.isCritical && activity.isCritical;
+                                        break;
+                                    case 'forward':
+                                        if (activity.ef > 0 && pred.ef > 0) {
+                                            additionalClass = 'forward-pass';
+                                        }
+                                        break;
+                                    case 'backward':
+                                        if (activity.lf < Infinity && pred.lf < Infinity) {
+                                            additionalClass = 'backward-pass';
+                                        }
+                                        break;
+                                    case 'float':
+                                        isCritical = pred.isCritical && activity.isCritical;
+                                        break;
+                                }
+                                
+                                drawArrow(container, startPos, endPos, isCritical, additionalClass);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        
+        // Function to draw an arrow between two nodes
+        function drawArrow(container, start, end, isCritical, additionalClass = '') {
+            const arrow = document.createElement('div');
+            arrow.className = `arrow ${isCritical ? 'critical' : ''} ${additionalClass}`;
+            
+            // Constants for better arrow positioning
+            const nodeRadius = 45;
+            const startOffset = nodeRadius;
+            const endOffset = nodeRadius;
+            
+            // Calculate direction vector
+            const dx = end.x - start.x;
+            const dy = end.y - start.y;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            
+            // Calculate the unit vector
+            const ux = dx / length;
+            const uy = dy / length;
+            
+            // Calculate start and end points with offset
+            const startX = start.x + ux * startOffset;
+            const startY = start.y + uy * startOffset;
+            const endX = end.x - ux * endOffset;
+            const endY = end.y - uy * endOffset;
+            
+            // Calculate adjusted length
+            const adjustedDx = endX - startX;
+            const adjustedDy = endY - startY;
+            const adjustedLength = Math.sqrt(adjustedDx * adjustedDx + adjustedDy * adjustedDy);
+            
+            // Calculate angle
+            const angle = Math.atan2(adjustedDy, adjustedDx) * (180 / Math.PI);
+            
+            // Set arrow position and dimensions
+            arrow.style.width = `${adjustedLength}px`;
+            arrow.style.left = `${startX}px`;
+            arrow.style.top = `${startY}px`;
+            arrow.style.transform = `rotate(${angle}deg)`;
+            
+            container.appendChild(arrow);
+        }
+        
+        // Function to generate forward pass calculation details
+        function generateForwardPassDetails() {
+            let html = '<ul class="calculation-steps">';
+            
+            // Find start activities
+            const startActivities = activities.filter(activity => !activity.predecessors || activity.predecessors === '');
+            
+            html += '<li><strong>Step 1:</strong> Start activities with no predecessors:<br>';
+            startActivities.forEach(activity => {
+                html += `Activity ${activity.id}: ES = 0, EF = ES + Duration = 0 + ${activity.duration} = ${activity.ef}<br>`;
+            });
+            html += '</li>';
+            
+            // Process remaining activities in topological order
+            const processed = new Set(startActivities.map(a => a.id));
+            let iteration = 2;
+            
+            while (processed.size < activities.length) {
+                let anyProcessed = false;
+                
+                activities.forEach(activity => {
+                    if (processed.has(activity.id)) return;
+                    
+                    const predList = activity.predecessors ? activity.predecessors.split(',').map(p => p.trim()).filter(p => p) : [];
+                    const allPredsProcessed = predList.every(predId => processed.has(predId));
+                    
+                    if (allPredsProcessed) {
+                        const preds = predList.map(predId => activities.find(a => a.id === predId));
+                        const maxEF = Math.max(...preds.map(p => p.ef));
+                        
+                        html += `<li><strong>Step ${iteration}:</strong> Activity ${activity.id}:<br>`;
+                        
+                        if (preds.length > 0) {
+                            html += `Predecessors: ${preds.map(p => p.id).join(', ')}<br>`;
+                            html += `Maximum EF of predecessors: ${preds.map(p => `${p.id}(${p.ef})`).join(', ')} = ${maxEF}<br>`;
+                        }
+                        
+                        html += `ES = ${maxEF}, EF = ES + Duration = ${maxEF} + ${activity.duration} = ${activity.ef}<br>`;
+                        html += '</li>';
+                        
+                        processed.add(activity.id);
+                        anyProcessed = true;
+                        iteration++;
+                    }
+                });
+                
+                if (!anyProcessed) break; // Avoid infinite loop
+            }
+            
+            html += '</ul>';
+            return html;
+        }
+        
+        // Function to generate backward pass calculation details
+        function generateBackwardPassDetails() {
+            let html = '<ul class="calculation-steps">';
+            
+            // Project duration (max EF)
+            const projectDuration = Math.max(...activities.map(a => a.ef));
+            
+            // Find end activities
+            const endActivities = activities.filter(activity => activity.successors.length === 0);
+            
+            html += '<li><strong>Step 1:</strong> End activities with no successors:<br>';
+            endActivities.forEach(activity => {
+                html += `Activity ${activity.id}: LF = Project Duration = ${projectDuration}, LS = LF - Duration = ${projectDuration} - ${activity.duration} = ${activity.ls}<br>`;
+            });
+            html += '</li>';
+            
+            // Process remaining activities in reverse topological order
+            const processed = new Set(endActivities.map(a => a.id));
+            let iteration = 2;
+            
+            while (processed.size < activities.length) {
+                let anyProcessed = false;
+                
+                for (let i = activities.length - 1; i >= 0; i--) {
+                    const activity = activities[i];
+                    if (processed.has(activity.id)) continue;
+                    
+                    const succs = activity.successors.map(succId => activities.find(a => a.id === succId)).filter(s => s);
+                    const allSuccsProcessed = succs.every(succ => processed.has(succ.id));
+                    
+                    if (allSuccsProcessed && succs.length > 0) {
+                        const minLS = Math.min(...succs.map(s => s.ls));
+                        
+                        html += `<li><strong>Step ${iteration}:</strong> Activity ${activity.id}:<br>`;
+                        html += `Successors: ${succs.map(s => s.id).join(', ')}<br>`;
+                        html += `Minimum LS of successors: ${succs.map(s => `${s.id}(${s.ls})`).join(', ')} = ${minLS}<br>`;
+                        html += `LF = ${minLS}, LS = LF - Duration = ${minLS} - ${activity.duration} = ${activity.ls}<br>`;
+                        html += '</li>';
+                        
+                        processed.add(activity.id);
+                        anyProcessed = true;
+                        iteration++;
+                    }
+                }
+                
+                if (!anyProcessed) break; // Avoid infinite loop
+            }
+            
+            html += '</ul>';
+            return html;
+        }
+        
+        // Function to generate float calculation details
+        function generateFloatCalculationDetails() {
+            let html = '<table class="calculation-table">';
+            html += `
+                <tr>
+                    <th>Activity</th>
+                    <th>ES</th>
+                    <th>LS</th>
+                    <th>Float (LS - ES)</th>
+                    <th>Critical?</th>
+                </tr>
+            `;
+            
+            activities.forEach(activity => {
+                html += `
+                    <tr class="${activity.isCritical ? 'critical-row' : ''}">
+                        <td>${activity.id}</td>
+                        <td>${activity.es}</td>
+                        <td>${activity.ls}</td>
+                        <td>${activity.float}</td>
+                        <td>${activity.float === 0 ? 'Yes' : 'No'}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            return html;
+        }
+        
+        // Function to generate critical path details
+        function generateCriticalPathDetails() {
+            const criticalActivities = activities.filter(a => a.isCritical);
+            
+            let html = '<p>Activities with zero float form the critical path:</p>';
+            html += '<table class="calculation-table">';
+            html += `
+                <tr>
+                    <th>Activity</th>
+                    <th>Duration</th>
+                    <th>ES</th>
+                    <th>EF</th>
+                    <th>LS</th>
+                    <th>LF</th>
+                    <th>Float</th>
+                </tr>
+            `;
+            
+            criticalActivities.forEach(activity => {
+                html += `
+                    <tr>
+                        <td>${activity.id}</td>
+                        <td>${activity.duration}</td>
+                        <td>${activity.es}</td>
+                        <td>${activity.ef}</td>
+                        <td>${activity.ls}</td>
+                        <td>${activity.lf}</td>
+                        <td>${activity.float}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            
+            const criticalPath = findCriticalPath();
+            html += `<p>The critical path is: <span class="critical-path">${criticalPath}</span></p>`;
+            html += `<p>Project Duration: ${Math.max(...activities.map(a => a.ef))} days</p>`;
+            
+            return html;
+        }
+    </script>
+</body>
+</html>

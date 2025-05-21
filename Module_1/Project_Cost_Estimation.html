@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Cost Estimation</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --info-color: #2980b9;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: white;
+        }
+        
+        h2, h3, h4 {
+            color: var(--primary-color);
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+        }
+        
+        .module-code {
+            background-color: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            color: #bdc3c7;
+            font-size: 1.1em;
+        }
+        
+        .content-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .learning-outcomes {
+            background-color: #e8f4fc;
+            border-left: 5px solid var(--secondary-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .outcome-item {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .outcome-item:before {
+            content: "✓";
+            color: var(--success-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .process-step {
+            background-color: white;
+            border-left: 4px solid var(--info-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 5px 5px 0;
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            background-color: var(--info-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+        }
+        
+        .method-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .method-title {
+            color: var(--secondary-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+        }
+        
+        .method-icon {
+            font-size: 1.8em;
+            color: var(--secondary-color);
+            margin-right: 15px;
+            float: left;
+        }
+        
+        .key-concept {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .concept-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .formula {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+            border-left: 3px solid var(--secondary-color);
+        }
+        
+        .cost-breakdown {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .cost-category {
+            margin-bottom: 15px;
+        }
+        
+        .cost-bar {
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .cost-bar-fill {
+            height: 100%;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+        }
+        
+        .case-study {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px dashed var(--warning-color);
+            margin: 25px 0;
+        }
+        
+        .case-title {
+            font-weight: bold;
+            color: var(--warning-color);
+            margin-bottom: 10px;
+        }
+        
+        .resources {
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        .key-terms {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        
+        .term {
+            font-weight: bold;
+            color: var(--primary-color);
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .estimation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .estimation-table th, .estimation-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .estimation-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .estimation-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .quiz {
+            background-color: #fffde7;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px dashed var(--warning-color);
+            margin: 25px 0;
+        }
+        
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .nav-button {
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        
+        .nav-button:hover {
+            background-color: #2980b9;
+        }
+        
+        /* New styles for enhanced features */
+        .calculator-form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .calculate-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .calculate-btn:hover {
+            background-color: #219652;
+        }
+        
+        .result-box {
+            background-color: #e8f7f0;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            border-left: 4px solid var(--success-color);
+            display: none;
+        }
+        
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .input-row input {
+            flex-grow: 1;
+        }
+        
+        .input-row button {
+            background-color: var(--warning-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0 10px;
+            cursor: pointer;
+        }
+        
+        .highlighted-example {
+            background-color: #e8f7f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .progress-indicator {
+            height: 10px;
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--success-color);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .quiz-feedback {
+            display: none;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .quiz-feedback.correct {
+            background-color: #e8f7f0;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .quiz-feedback.incorrect {
+            background-color: #fde9e8;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .submit-quiz {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-quiz:hover {
+            background-color: #2980b9;
+        }
+        
+        .quiz-score {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .interactive-section {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .flashcard {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+            height: 200px;
+            perspective: 1000px;
+        }
+        
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .flashcard-back {
+            transform: rotateY(180deg);
+            background-color: #f0f7ff;
+        }
+        
+        @media (max-width: 768px) {
+            .key-terms {
+                columns: 1;
+            }
+            
+            .input-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="module-code">FEASIBILITY STUDIES</div>
+        <h1>Project Cost Estimation</h1>
+        <p class="subtitle">Accurately Forecasting Project Expenses</p>
+    </header>
+
+    <div class="content-section">
+        <h2>Introduction to Project Cost Estimation</h2>
+        <p>Project cost estimation is the process of forecasting the financial resources required to complete project activities. Accurate cost estimation is crucial for budgeting, funding requests, and project viability assessment.</p>
+        
+        <div class="highlighted-example">
+            <h4>Why Cost Estimation Matters:</h4>
+            <p>A 2023 study by the Project Management Institute (PMI) found that projects with accurate initial cost estimates were 3.5 times more likely to meet their financial objectives. Conversely, projects with poor estimates often suffered from scope creep, funding shortfalls, and stakeholder dissatisfaction.</p>
+        </div>
+        
+        <div class="learning-outcomes">
+            <h3>Learning Outcomes</h3>
+            <div class="outcome-item">
+                <strong>LO1:</strong> Understand the importance and objectives of project cost estimation
+            </div>
+            <div class="outcome-item">
+                <strong>LO2:</strong> Identify different types of project costs
+            </div>
+            <div class="outcome-item">
+                <strong>LO3:</strong> Apply various cost estimation techniques
+            </div>
+            <div class="outcome-item">
+                <strong>LO4:</strong> Develop comprehensive project cost breakdowns
+            </div>
+            <div class="outcome-item">
+                <strong>LO5:</strong> Incorporate contingency planning into cost estimates
+            </div>
+        </div>
+        
+        <div class="interactive-section">
+            <h3>Test Your Understanding</h3>
+            <p>Drag and drop the following cost estimation benefits to their correct descriptions:</p>
+            <div id="drag-drop-game">
+                <!-- This would be implemented with JavaScript in a real scenario -->
+                <p>Interactive drag-and-drop exercise would appear here in a live implementation.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>The Cost Estimation Process</h2>
+        
+        <div class="process-step">
+            <div class="step-number">1</div>
+            <h3>Define Project Scope</h3>
+            <p>Clearly outline project deliverables, requirements, and constraints that will impact costs. Create a detailed Work Breakdown Structure (WBS) to identify all project components that need cost estimates.</p>
+            
+            <div class="key-concept">
+                <div class="concept-title">Scope Definition Checklist</div>
+                <ul>
+                    <li>Project deliverables defined</li>
+                    <li>Project boundaries established</li>
+                    <li>Exclusions explicitly stated</li>
+                    <li>Assumptions documented</li>
+                    <li>Constraints identified</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="process-step">
+            <div class="step-number">2</div>
+            <h3>Identify Cost Categories</h3>
+            <p>Break down costs into logical categories (labor, materials, equipment, etc.). Ensure all project phases and activities are captured in your cost categories.</p>
+            
+            <div class="key-concept">
+                <div class="concept-title">Common Cost Categories</div>
+                <ul>
+                    <li>Labor costs (internal team, contractors)</li>
+                    <li>Materials and supplies</li>
+                    <li>Equipment and tools</li>
+                    <li>Facilities and infrastructure</li>
+                    <li>Administrative overhead</li>
+                    <li>Travel and logistics</li>
+                    <li>Licenses and permits</li>
+                    <li>External services</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="process-step">
+            <div class="step-number">3</div>
+            <h3>Select Estimation Methods</h3>
+            <p>Choose appropriate estimation techniques based on available data and project phase. Different methods may be used for different cost categories or project stages.</p>
+        </div>
+        
+        <div class="process-step">
+            <div class="step-number">4</div>
+            <h3>Gather Data</h3>
+            <p>Collect historical data, vendor quotes, and other relevant cost information. Consult subject matter experts and review industry benchmarks to validate your assumptions.</p>
+            
+            <div class="key-concept">
+                <div class="concept-title">Data Sources</div>
+                <ul>
+                    <li>Previous similar projects</li>
+                    <li>Industry standards and benchmarks</li>
+                    <li>Vendor quotes and catalogs</li>
+                    <li>Published cost databases</li>
+                    <li>Expert judgment</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="process-step">
+            <div class="step-number">5</div>
+            <h3>Calculate Estimates</h3>
+            <p>Apply selected methods to calculate cost estimates for each category. Document your calculations and assumptions for future reference.</p>
+        </div>
+        
+        <div class="process-step">
+            <div class="step-number">6</div>
+            <h3>Review and Adjust</h3>
+            <p>Validate estimates with stakeholders and adjust as needed. Conduct peer reviews to identify potential errors or omissions in your estimates.</p>
+        </div>
+        
+        <div class="process-step">
+            <div class="step-number">7</div>
+            <h3>Document Estimates</h3>
+            <p>Prepare formal cost estimate documentation with assumptions and constraints. Include the basis of estimates (BOE) to explain your methodology and rationale.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Types of Project Costs</h2>
+        
+        <div class="cost-breakdown">
+            <div class="cost-category">
+                <h4>Direct Costs <span style="float: right;">60%</span></h4>
+                <p>Expenses directly tied to project deliverables</p>
+                <div class="cost-bar">
+                    <div class="cost-bar-fill" style="width: 60%;"></div>
+                </div>
+                <ul>
+                    <li>Labor (project team)</li>
+                    <li>Materials and supplies</li>
+                    <li>Equipment and tools</li>
+                    <li>External contractors and consultants</li>
+                    <li>Training specific to the project</li>
+                </ul>
+            </div>
+            
+            <div class="cost-category">
+                <h4>Indirect Costs <span style="float: right;">25%</span></h4>
+                <p>Expenses not directly tied to specific deliverables</p>
+                <div class="cost-bar">
+                    <div class="cost-bar-fill" style="width: 25%;"></div>
+                </div>
+                <ul>
+                    <li>Administrative overhead</li>
+                    <li>Utilities and facilities</li>
+                    <li>General office supplies</li>
+                    <li>Management salaries</li>
+                    <li>Legal and compliance costs</li>
+                </ul>
+            </div>
+            
+            <div class="cost-category">
+                <h4>Contingency Reserve <span style="float: right;">10%</span></h4>
+                <p>Buffer for identified risks</p>
+                <div class="cost-bar">
+                    <div class="cost-bar-fill" style="width: 10%;"></div>
+                </div>
+                <p>Typically 5-15% of project base costs, depending on project complexity and risk profile.</p>
+            </div>
+            
+            <div class="cost-category">
+                <h4>Management Reserve <span style="float: right;">5%</span></h4>
+                <p>Buffer for unknown risks</p>
+                <div class="cost-bar">
+                    <div class="cost-bar-fill" style="width: 5%;"></div>
+                </div>
+                <p>Typically 3-8% of project base costs, managed at management level for unknown unknowns.</p>
+            </div>
+        </div>
+        
+        <div class="interactive-section">
+            <h3>Cost Classification Exercise</h3>
+            <p>For each expense below, select whether it is a Direct Cost or Indirect Cost:</p>
+            
+            <div class="form-group">
+                <label>Project manager salary:</label>
+                <select id="cost-type-1">
+                    <option value="">Select...</option>
+                    <option value="direct">Direct Cost</option>
+                    <option value="indirect">Indirect Cost</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Software licenses for the project deliverable:</label>
+                <select id="cost-type-2">
+                    <option value="">Select...</option>
+                    <option value="direct">Direct Cost</option>
+                    <option value="indirect">Indirect Cost</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Office rent during project execution:</label>
+                <select id="cost-type-3">
+                    <option value="">Select...</option>
+                    <option value="direct">Direct Cost</option>
+                    <option value="indirect">Indirect Cost</option>
+                </select>
+            </div>
+            
+            <button class="submit-quiz" id="classification-submit-btn">Check Answers</button>
+            
+            <div class="quiz-feedback" id="cost-classification-feedback"></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Cost Estimation Techniques</h2>
+        
+        <div class="method-card">
+            <div class="method-icon">📐</div>
+            <h3 class="method-title">Analogous Estimation</h3>
+            <p>Using actual costs from similar previous projects as the basis for estimating current project costs. This top-down approach is quick but less accurate than other methods.</p>
+            
+            <div class="key-concept">
+                <div class="concept-title">When to Use</div>
+                <p>Early phases when detailed information isn't available. Less accurate but quick and inexpensive.</p>
+            </div>
+            
+            <div class="calculator-form" id="analogous-calculator">
+                <h4>Analogous Estimation Calculator</h4>
+                <p>Calculate project cost based on a similar previous project with adjustments.</p>
+                
+                <div class="form-group">
+                    <label>Previous Project Cost ($):</label>
+                    <input type="number" id="previous-cost" min="0" placeholder="e.g., 100000">
+                </div>
+                
+                <div class="form-group">
+                    <label>Similarity Factor (0.5-1.5):</label>
+                    <input type="number" id="similarity-factor" min="0.5" max="1.5" step="0.1" placeholder="e.g., 1.2">
+                    <small>Use values below 1 if current project is simpler, above 1 if more complex</small>
+                </div>
+                
+                <button class="calculate-btn" onclick="calculateAnalogousEstimate()">Calculate Estimate</button>
+                
+                <div class="result-box" id="analogous-result">
+                    <h4>Estimated Cost: $<span id="analogous-cost-result"></span></h4>
+                    <p><strong>Formula:</strong> Previous Project Cost × Similarity Factor</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="method-card">
+            <div class="method-icon">🧮</div>
+            <h3 class="method-title">Parametric Estimation</h3>
+            <p>Using statistical relationships between historical data and other variables to calculate estimates. This method relies on measurable parameters and unit costs.</p>
+            <p class="formula">Cost = Parameter × Cost per Unit</p>
+            
+            <div class="key-concept">
+                <div class="concept-title">Example</div>
+                <p>Construction cost per square foot × total square footage = total construction cost</p>
+            </div>
+            
+            <div class="calculator-form" id="parametric-calculator">
+                <h4>Parametric Estimation Calculator</h4>
+                <p>Calculate cost based on parameter units and unit cost.</p>
+                
+                <div class="form-group">
+                    <label>Parameter Quantity:</label>
+                    <input type="number" id="parameter-quantity" min="0" placeholder="e.g., 5000">
+                </div>
+                
+                <div class="form-group">
+                    <label>Unit of Measurement:</label>
+                    <input type="text" id="parameter-unit" placeholder="e.g., square feet, hours, pages">
+                </div>
+                
+                <div class="form-group">
+                    <label>Cost per Unit ($):</label>
+                    <input type="number" id="cost-per-unit" min="0" step="0.01" placeholder="e.g., 150">
+                </div>
+                
+                <button class="calculate-btn" onclick="calculateParametricEstimate()">Calculate Estimate</button>
+                
+                <div class="result-box" id="parametric-result">
+                    <h4>Estimated Cost: $<span id="parametric-cost-result"></span></h4>
+                    <p><strong>Formula:</strong> Parameter Quantity × Cost per Unit</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="method-card">
+            <div class="method-icon">🔍</div>
+            <h3 class="method-title">Bottom-Up Estimation</h3>
+            <p>Estimating individual work items and summing them to get a total project estimate. This is the most accurate but time-consuming approach.</p>
+            
+            <div class="key-concept">
+                <div class="concept-title">When to Use</div>
+                <p>When detailed project information is available. Most accurate but time-consuming.</p>
+            </div>
+            
+            <div class="calculator-form" id="bottom-up-calculator">
+                <h4>Bottom-Up Estimation Calculator</h4>
+                <p>Calculate total project cost by summing individual work packages.</p>
+                
+                <div id="work-packages">
+                    <div class="form-group">
+                        <label>Work Package 1:</label>
+                        <div class="input-row">
+                            <input type="text" placeholder="Description" class="work-description">
+                            <input type="number" placeholder="Cost ($)" class="work-cost" min="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" id="add-work-package-btn" style="background-color: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 4px; margin-bottom: 15px; cursor: pointer;">+ Add Work Package</button>
+                
+                <button class="calculate-btn" onclick="calculateBottomUpEstimate()">Calculate Total Estimate</button>
+                
+                <div class="result-box" id="bottom-up-result">
+                    <h4>Total Estimated Cost: $<span id="bottom-up-cost-result"></span></h4>
+                    <p><strong>Formula:</strong> Sum of all work package costs</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="method-card">
+            <div class="method-icon">🎲</div>
+            <h3 class="method-title">Three-Point Estimation</h3>
+            <p>Using optimistic, pessimistic, and most likely cost scenarios to account for uncertainty. This PERT-based technique provides a weighted average that accounts for risk and uncertainty.</p>
+            <p class="formula">Expected Cost = (Optimistic + 4×Most Likely + Pessimistic) / 6</p>
+            <p class="formula">Standard Deviation = (Pessimistic - Optimistic) / 6</p>
+            
+            <div class="calculator-form" id="three-point-calculator">
+                <h4>Three-Point Estimation Calculator</h4>
+                <p>Calculate expected cost based on optimistic, most likely, and pessimistic estimates.</p>
+                
+                <div class="form-group">
+                    <label>Optimistic Estimate (O) ($):</label>
+                    <input type="number" id="optimistic-cost" min="0" placeholder="Best case scenario">
+                </div>
+                
+                <div class="form-group">
+                    <label>Most Likely Estimate (M) ($):</label>
+                    <input type="number" id="likely-cost" min="0" placeholder="Most probable scenario">
+                </div>
+                
+                <div class="form-group">
+                    <label>Pessimistic Estimate (P) ($):</label>
+                    <input type="number" id="pessimistic-cost" min="0" placeholder="Worst case scenario">
+                </div>
+                
+                <button class="calculate-btn" onclick="calculateThreePointEstimate()">Calculate Estimate</button>
+                
+                <div class="result-box" id="three-point-result">
+                    <h4>Expected Cost: $<span id="three-point-cost-result"></span></h4>
+                    <p><strong>Formula:</strong> (O + 4×M + P) / 6</p>
+                    <p><strong>Standard Deviation:</strong> $<span id="standard-deviation"></span></p>
+                    <p><strong>Confidence Range (68%):</strong> $<span id="confidence-range-low"></span> to $<span id="confidence-range-high"></span></p>
+                </div>
+            </div>
+        </div>
+        
+        <table class="estimation-table">
+            <tr>
+                <th>Technique</th>
+                <th>Accuracy</th>
+                <th>Effort Required</th>
+                <th>Best Project Phase</th>
+            </tr>
+            <tr>
+                <td>Analogous</td>
+                <td>Low (-25% to +75%)</td>
+                <td>Low</td>
+                <td>Initiation</td>
+            </tr>
+            <tr>
+                <td>Parametric</td>
+                <td>Medium (-10% to +25%)</td>
+                <td>Medium</td>
+                <td>Planning</td>
+            </tr>
+            <tr>
+                <td>Bottom-Up</td>
+                <td>High (-5% to +10%)</td>
+                <td>High</td>
+                <td>Planning/Execution</td>
+            </tr>
+            <tr>
+                <td>Three-Point</td>
+                <td>Medium to High</td>
+                <td>Medium</td>
+                <td>Any phase</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="content-section">
+        <h2>Case Study: Software Development Project</h2>
+        <div class="case-study">
+            <div class="case-title">Project: Enterprise CRM System</div>
+            <p><strong>Cost Estimation Approach:</strong> Combined bottom-up and parametric methods</p>
+            
+            <h4>Cost Breakdown:</h4>
+            <ul>
+                <li><strong>Development Team:</strong> 5 developers × 6 months × $8,000/month = $240,000</li>
+                <li><strong>Project Management:</strong> 1 PM × 6 months × $10,000/month = $60,000</li>
+                <li><strong>Software Licenses:</strong> $50,000 (based on vendor quotes)</li>
+                <li><strong>Hardware:</strong> $30,000 (servers and workstations)</li>
+                <li><strong>Training:</strong> $20,000 (100 users × $200/user)</li>
+                <li><strong>Contingency (10%):</strong> $40,000</li>
+            </ul>
+            
+            <h4>Total Estimated Cost: $440,000</h4>
+            <p><strong>Outcome:</strong> Actual project cost came in at $458,000 (4% over estimate due to additional testing requirements).</p>
+            
+            <div class="key-concept">
+                <div class="concept-title">Lessons Learned</div>
+                <ul>
+                    <li>Initial testing requirements were underestimated</li>
+                    <li>Contingency reserve proved adequate for covering the overage</li>
+                    <li>Parametric estimation for training costs was highly accurate</li>
+                    <li>Bottom-up estimation for development costs was within 2% of actual</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="calculator-form">
+            <h4>Case Study Cost Variance Calculator</h4>
+            <p>Calculate the variance between estimated and actual costs for your project.</p>
+            
+            <div class="form-group">
+                <label>Estimated Project Cost ($):</label>
+                <input type="number" id="estimated-cost" min="0" placeholder="e.g., 440000">
+            </div>
+            
+            <div class="form-group">
+                <label>Actual Project Cost ($):</label>
+                <input type="number" id="actual-cost" min="0" placeholder="e.g., 458000">
+            </div>
+            
+            <button class="calculate-btn" onclick="calculateCostVariance()">Calculate Variance</button>
+            
+            <div class="result-box" id="variance-result">
+                <h4>Cost Variance: $<span id="cost-variance"></span></h4>
+                <p>Percentage Variance: <span id="percent-variance"></span>%</p>
+                <p>Status: <span id="variance-status"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Key Concepts and Terminology</h2>
+        
+        <div class="interactive-section">
+            <h3>Key Terms Flashcards</h3>
+            <p>Click on each card to flip and reveal the definition.</p>
+            
+            <div class="flashcard">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Direct Costs</h3>
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Expenses directly attributable to specific project deliverables or activities (e.g., project team salaries, materials, equipment).</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flashcard">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Indirect Costs</h3>
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Overhead expenses that support the project but aren't directly tied to specific deliverables (e.g., administrative support, utilities, office space).</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flashcard">
+                <div class="flashcard-inner">
+                    <div class="flashcard-front">
+                        <h3>Contingency Reserve</h3>
+                    </div>
+                    <div class="flashcard-back">
+                        <p>Budget allocated for identified risks and uncertainties. Typically 5-15% of the base project cost, depending on risk profile.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="key-terms">
+            <p><span class="term">Direct Costs:</span> Expenses directly attributable to project work</p>
+            <p><span class="term">Indirect Costs:</span> Overhead expenses not tied to specific deliverables</p>
+            <p><span class="term">Fixed Costs:</span> Expenses that don't change with project scope (e.g., salaries)</p>
+            <p><span class="term">Variable Costs:</span> Expenses that fluctuate with project activity (e.g., materials)</p>
+            <p><span class="term">Contingency Reserve:</span> Budget for identified risks</p>
+            <p><span class="term">Management Reserve:</span> Budget for unknown risks</p>
+            <p><span class="term">Sunk Costs:</span> Irrecoverable past expenditures</p>
+            <p><span class="term">Opportunity Cost:</span> Potential benefits lost by choosing one alternative over another</p>
+            <p><span class="term">Life Cycle Costing:</span> Considering all costs over the entire project life cycle</p>
+            <p><span class="term">Cost Baseline:</span> Approved time-phased project budget</p>
+            <p><span class="term">Cost Variance:</span> Difference between planned and actual costs</p>
+            <p><span class="term">Earned Value:</span> Measure of work performed expressed in budget terms</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Interactive Learning</h2>
+        
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/9L2jpN7xSuY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        
+        <div class="quiz" id="knowledge-check">
+            <h3>Knowledge Check</h3>
+            <div class="quiz-question">1. Which cost estimation technique would be most appropriate during the initial project phase when detailed information isn't available?</div>
+            <p>
+                <input type="radio" name="q1" id="q1a" value="a"> Bottom-up estimation<br>
+                <input type="radio" name="q1" id="q1b" value="b"> Analogous estimation<br>
+                <input type="radio" name="q1" id="q1c" value="c"> Parametric estimation<br>
+                <input type="radio" name="q1" id="q1d" value="d"> Three-point estimation
+            </p>
+            <div class="quiz-feedback" id="feedback-q1"></div>
+            
+            <div class="quiz-question">2. What is the purpose of a contingency reserve in project cost estimation?</div>
+            <p>
+                <input type="radio" name="q2" id="q2a" value="a"> To cover unexpected parties and celebrations<br>
+                <input type="radio" name="q2" id="q2b" value="b"> To account for identified risks and uncertainties<br>
+                <input type="radio" name="q2" id="q2c" value="c"> To increase project manager salaries<br>
+                <input type="radio" name="q2" id="q2d" value="d"> To fund future unrelated projects
+            </p>
+            <div class="quiz-feedback" id="feedback-q2"></div>
+            
+            <div class="quiz-question">3. Which of these would typically be considered a direct project cost?</div>
+            <p>
+                <input type="radio" name="q3" id="q3a" value="a"> Office rent<br>
+                <input type="radio" name="q3" id="q3b" value="b"> Project team salaries<br>
+                <input type="radio" name="q3" id="q3c" value="c"> Company-wide utilities<br>
+                <input type="radio" name="q3" id="q3d" value="d"> CEO's salary
+            </p>
+            <div class="quiz-feedback" id="feedback-q3"></div>
+            
+            <div class="quiz-question">4. In the three-point estimation technique, what is the formula for calculating the expected cost?</div>
+            <p>
+                <input type="radio" name="q4" id="q4a" value="a"> (Optimistic + Most Likely + Pessimistic) / 3<br>
+                <input type="radio" name="q4" id="q4b" value="b"> (Optimistic + 4×Most Likely + Pessimistic) / 6<br>
+                <input type="radio" name="q4" id="q4c" value="c"> (Optimistic + Pessimistic) / 2<br>
+                <input type="radio" name="q4" id="q4d" value="d"> Most Likely × 1.5
+            </p>
+            <div class="quiz-feedback" id="feedback-q4"></div>
+            
+            <div class="quiz-question">5. What is the typical accuracy range for bottom-up estimation?</div>
+            <p>
+                <input type="radio" name="q5" id="q5a" value="a"> -25% to +75%<br>
+                <input type="radio" name="q5" id="q5b" value="b"> -10% to +25%<br>
+                <input type="radio" name="q5" id="q5c" value="c"> -5% to +10%<br>
+                <input type="radio" name="q5" id="q5d" value="d"> -50% to +100%
+            </p>
+            <div class="quiz-feedback" id="feedback-q5"></div>
+            
+            <button class="submit-quiz" id="quiz-submit-btn">Submit Answers</button>
+            
+            <div class="quiz-score" id="quiz-score">
+                <p>Your Score: <span id="score-value">0</span>/5</p>
+                <div class="progress-indicator">
+                    <div class="progress-bar" id="score-progress"></div>
+                </div>
+                <p id="score-message"></p>
+            </div>
+        </div>
+        
+        <div class="resources">
+            <h3>Additional Resources</h3>
+            <ul>
+                <li><a href="https://www.pmi.org/learning/library/project-cost-estimation-tools-techniques-7091" target="_blank">PMI Cost Estimation Guide</a></li>
+                <li><a href="https://www.projectmanager.com/guides/cost-estimation" target="_blank">Project Cost Estimation Guide</a></li>
+                <li><a href="https://www.workamajig.com/blog/project-cost-estimation" target="_blank">Cost Estimation Techniques</a></li>
+                <li><a href="https://www.costengineering.eu/estimating-methods" target="_blank">International Cost Engineering Council</a></li>
+                <li><a href="https://www.apm.org.uk/resources/find-a-resource/cost-estimating/" target="_blank">Association for Project Management Resources</a></li>
+                <li><a href="https://www.constructor.university/project-cost-estimation" target="_blank">Advanced Project Cost Estimation Course</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="./Market_Demand_Analysis.html" class="nav-button">← Back to Market & Demand Analysis</a>
+        <a href="./Financial_Appraisal.html" class="nav-button">Next: Financial Appraisal →</a>
+    </div>
+
+    <script>
+        // Global variable for tracking work packages
+        window.workPackageCount = 1;
+        
+        // Analogous Estimation Calculator
+        function calculateAnalogousEstimate() {
+            const previousCost = parseFloat(document.getElementById('previous-cost').value);
+            const similarityFactor = parseFloat(document.getElementById('similarity-factor').value);
+            
+            if (isNaN(previousCost) || isNaN(similarityFactor)) {
+                alert('Please enter valid numbers.');
+                return;
+            }
+            
+            const estimatedCost = previousCost * similarityFactor;
+            document.getElementById('analogous-cost-result').textContent = estimatedCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('analogous-result').style.display = 'block';
+        }
+
+        // Parametric Estimation Calculator
+        function calculateParametricEstimate() {
+            const parameterQuantity = parseFloat(document.getElementById('parameter-quantity').value);
+            const costPerUnit = parseFloat(document.getElementById('cost-per-unit').value);
+            
+            if (isNaN(parameterQuantity) || isNaN(costPerUnit)) {
+                alert('Please enter valid numbers.');
+                return;
+            }
+            
+            const estimatedCost = parameterQuantity * costPerUnit;
+            document.getElementById('parametric-cost-result').textContent = estimatedCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('parametric-result').style.display = 'block';
+        }
+
+        // Bottom-Up Estimation Calculator
+        function addWorkPackage() {
+            window.workPackageCount++;
+            const workPackagesDiv = document.getElementById('work-packages');
+            
+            const newPackage = document.createElement('div');
+            newPackage.className = 'form-group';
+            
+            const label = document.createElement('label');
+            label.textContent = `Work Package ${window.workPackageCount}:`;
+            newPackage.appendChild(label);
+            
+            const inputRow = document.createElement('div');
+            inputRow.className = 'input-row';
+            
+            const descInput = document.createElement('input');
+            descInput.type = 'text';
+            descInput.placeholder = 'Description';
+            descInput.className = 'work-description';
+            inputRow.appendChild(descInput);
+            
+            const costInput = document.createElement('input');
+            costInput.type = 'number';
+            costInput.placeholder = 'Cost ($)';
+            costInput.className = 'work-cost';
+            costInput.min = '0';
+            inputRow.appendChild(costInput);
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.textContent = '×';
+            removeBtn.style.backgroundColor = '#f39c12';
+            removeBtn.style.color = 'white';
+            removeBtn.style.border = 'none';
+            removeBtn.style.borderRadius = '4px';
+            removeBtn.style.padding = '0 10px';
+            removeBtn.style.cursor = 'pointer';
+            removeBtn.addEventListener('click', function() {
+                newPackage.remove();
+            });
+            inputRow.appendChild(removeBtn);
+            
+            newPackage.appendChild(inputRow);
+            workPackagesDiv.appendChild(newPackage);
+        }
+
+        function calculateBottomUpEstimate() {
+            const costInputs = document.querySelectorAll('.work-cost');
+            let totalCost = 0;
+            
+            costInputs.forEach(input => {
+                const cost = parseFloat(input.value) || 0;
+                totalCost += cost;
+            });
+            
+            document.getElementById('bottom-up-cost-result').textContent = totalCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('bottom-up-result').style.display = 'block';
+        }
+
+        // Three-Point Estimation Calculator
+        function calculateThreePointEstimate() {
+            const optimisticCost = parseFloat(document.getElementById('optimistic-cost').value);
+            const likelyCost = parseFloat(document.getElementById('likely-cost').value);
+            const pessimisticCost = parseFloat(document.getElementById('pessimistic-cost').value);
+            
+            if (isNaN(optimisticCost) || isNaN(likelyCost) || isNaN(pessimisticCost)) {
+                alert('Please enter valid numbers for all three estimates.');
+                return;
+            }
+            
+            const expectedCost = (optimisticCost + (4 * likelyCost) + pessimisticCost) / 6;
+            const standardDeviation = (pessimisticCost - optimisticCost) / 6;
+            
+            const lowerRange = expectedCost - standardDeviation;
+            const upperRange = expectedCost + standardDeviation;
+            
+            document.getElementById('three-point-cost-result').textContent = expectedCost.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('standard-deviation').textContent = standardDeviation.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('confidence-range-low').textContent = lowerRange.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('confidence-range-high').textContent = upperRange.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
+            document.getElementById('three-point-result').style.display = 'block';
+        }
+
+        // Cost Variance Calculator
+        function calculateCostVariance() {
+            const estimatedCost = parseFloat(document.getElementById('estimated-cost').value);
+            const actualCost = parseFloat(document.getElementById('actual-cost').value);
+            
+            if (isNaN(estimatedCost) || isNaN(actualCost)) {
+                alert('Please enter valid numbers.');
+                return;
+            }
+            
+            const costVariance = estimatedCost - actualCost;
+            const percentVariance = (costVariance / estimatedCost) * 100;
+            
+            let status = '';
+            if (costVariance > 0) {
+                status = 'Under Budget';
+            } else if (costVariance < 0) {
+                status = 'Over Budget';
+            } else {
+                status = 'On Budget';
+            }
+            
+            document.getElementById('cost-variance').textContent = Math.abs(costVariance).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('percent-variance').textContent = Math.abs(percentVariance).toFixed(2);
+            document.getElementById('variance-status').textContent = status;
+            
+            document.getElementById('variance-result').style.display = 'block';
+        }
+
+        // Cost Classification Exercise
+        function checkCostClassification() {
+            const answers = {
+                'cost-type-1': 'direct',
+                'cost-type-2': 'direct',
+                'cost-type-3': 'indirect'
+            };
+            
+            let correct = 0;
+            let feedback = '';
+            
+            for (const id in answers) {
+                const selected = document.getElementById(id).value;
+                if (selected === answers[id]) {
+                    correct++;
+                }
+            }
+            
+            const feedbackElement = document.getElementById('cost-classification-feedback');
+            
+            if (correct === 3) {
+                feedback = 'Excellent! You correctly classified all cost types.';
+                feedbackElement.className = 'quiz-feedback correct';
+            } else {
+                feedback = `You got ${correct} out of 3 correct. Remember that direct costs are directly attributable to project deliverables, while indirect costs are overhead expenses.`;
+                feedbackElement.className = 'quiz-feedback incorrect';
+            }
+            
+            feedbackElement.textContent = feedback;
+            feedbackElement.style.display = 'block';
+        }
+
+        // Knowledge Check Quiz
+        function submitQuiz() {
+            const correctAnswers = {
+                q1: 'b',
+                q2: 'b',
+                q3: 'b',
+                q4: 'b',
+                q5: 'c'
+            };
+            
+            const feedbacks = {
+                q1: {
+                    correct: 'Correct! Analogous estimation is most appropriate in early phases when detailed information isnt available.',
+                    incorrect: 'Incorrect. Analogous estimation is most appropriate in early phases when detailed information isnt available.'
+                },
+                q2: {
+                    correct: 'Correct! Contingency reserve is specifically for identified risks and uncertainties.',
+                    incorrect: 'Incorrect. Contingency reserve is specifically for identified risks and uncertainties.'
+                },
+                q3: {
+                    correct: 'Correct! Project team salaries are directly attributable to project work.',
+                    incorrect: 'Incorrect. Project team salaries are directly attributable to project work, making them a direct cost.'
+                },
+                q4: {
+                    correct: 'Correct! The PERT-based formula is (O + 4M + P) / 6.',
+                    incorrect: 'Incorrect. The PERT-based formula for three-point estimation is (O + 4M + P) / 6.'
+                },
+                q5: {
+                    correct: 'Correct! Bottom-up estimation typically has an accuracy range of -5% to +10%.',
+                    incorrect: 'Incorrect. Bottom-up estimation typically has an accuracy range of -5% to +10%.'
+                }
+            };
+            
+            let score = 0;
+            
+            for (const question in correctAnswers) {
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const feedbackElement = document.getElementById(`feedback-${question}`);
+                
+                if (!selectedOption) {
+                    feedbackElement.textContent = 'Please select an answer.';
+                    feedbackElement.className = 'quiz-feedback incorrect';
+                    feedbackElement.style.display = 'block';
+                    continue;
+                }
+                
+                if (selectedOption.value === correctAnswers[question]) {
+                    score++;
+                    feedbackElement.textContent = feedbacks[question].correct;
+                    feedbackElement.className = 'quiz-feedback correct';
+                } else {
+                    feedbackElement.textContent = feedbacks[question].incorrect;
+                    feedbackElement.className = 'quiz-feedback incorrect';
+                }
+                
+                feedbackElement.style.display = 'block';
+            }
+            
+            document.getElementById('score-value').textContent = score;
+            document.getElementById('score-progress').style.width = `${(score / 5) * 100}%`;
+            
+            let message = '';
+            if (score === 5) {
+                message = 'Excellent! You have a thorough understanding of project cost estimation.';
+            } else if (score >= 3) {
+                message = 'Good job! You have a solid grasp of the key concepts, but there\'s room for improvement.';
+            } else {
+                message = 'You may want to review the material again to strengthen your understanding of project cost estimation.';
+            }
+            
+            document.getElementById('score-message').textContent = message;
+            document.getElementById('quiz-score').style.display = 'block';
+        }
+        
+        // Initialize all event listeners when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Attach event listeners for all calculators
+            const analogousBtn = document.querySelector('#analogous-calculator .calculate-btn');
+            if (analogousBtn) {
+                analogousBtn.addEventListener('click', calculateAnalogousEstimate);
+            }
+            
+            const parametricBtn = document.querySelector('#parametric-calculator .calculate-btn');
+            if (parametricBtn) {
+                parametricBtn.addEventListener('click', calculateParametricEstimate);
+            }
+            
+            const bottomUpBtn = document.querySelector('#bottom-up-calculator .calculate-btn');
+            if (bottomUpBtn) {
+                bottomUpBtn.addEventListener('click', calculateBottomUpEstimate);
+            }
+            
+            const threePointBtn = document.querySelector('#three-point-calculator .calculate-btn');
+            if (threePointBtn) {
+                threePointBtn.addEventListener('click', calculateThreePointEstimate);
+            }
+            
+            // Cost variance calculator
+            const varianceBtn = document.querySelector('.calculator-form:not([id]) .calculate-btn');
+            if (varianceBtn) {
+                varianceBtn.addEventListener('click', calculateCostVariance);
+            }
+            
+            // Add work package button
+            const addWorkPackageBtn = document.getElementById('add-work-package-btn');
+            if (addWorkPackageBtn) {
+                addWorkPackageBtn.addEventListener('click', addWorkPackage);
+            }
+            
+            // Cost classification quiz
+            const classificationBtn = document.getElementById('classification-submit-btn');
+            if (classificationBtn) {
+                classificationBtn.addEventListener('click', checkCostClassification);
+            }
+            
+            // Main knowledge check quiz
+            const quizBtn = document.getElementById('quiz-submit-btn');
+            if (quizBtn) {
+                quizBtn.addEventListener('click', submitQuiz);
+            }
+            
+            // Flashcards
+            document.querySelectorAll('.flashcard').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('flipped');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
