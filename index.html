@@ -1,1 +1,396 @@
-Software Project Management
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSE4033 - IT Project Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #eceff0;
+        }
+        h2, h3 {
+            color: #353536;
+        }
+        .course-info {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .module {
+            background-color: white;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .module-header {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .module-header:hover {
+            background-color: #2980b9;
+        }
+        .module-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .module-content-inner {
+            padding: 15px 0;
+        }
+        .hours {
+            background-color: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .outcomes {
+            margin-top: 20px;
+        }
+        .outcome {
+            margin-bottom: 10px;
+            padding-left: 15px;
+            border-left: 3px solid #3498db;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .nav a {
+            text-decoration: none;
+            color: #2c3e50;
+            padding: 8px 15px;
+            border: 1px solid #2c3e50;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .nav a:hover {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .active {
+            background-color: #2c3e50;
+            color: white;
+        }
+        /* Add table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CSE4033 - IT Project Management</h1>
+        <p>Version 1.0 | Embedded Theory and Lab (ETL)</p>
+    </header>
+
+    <div class="course-info">
+        <h2>Course Overview</h2>
+        <p><strong>Pre-requisite:</strong> CSE2016 - Software Engineering</p>
+        <p><strong>Anti-requisites:</strong> None</p>
+        <p><strong>Total Hours of Instruction:</strong> 30</p>
+        
+        <h3>Course Objectives:</h3>
+        <ol>
+            <li>To study effective techniques to plan, manage, execute, and control projects within time and cost targets with a focus on Information Technology and Service Sector.</li>
+            <li>To understand the agile project management techniques such as Scrum and DevOps.</li>
+        </ol>
+        
+        <div class="outcomes">
+            <h3>Course Outcomes:</h3>
+            <div class="outcome">
+                <strong>CO1:</strong> Understand the basic concepts and issues of IT project management.
+            </div>
+            <div class="outcome">
+                <strong>CO2:</strong> Analyse various life cycle models for IT project management.
+            </div>
+            <div class="outcome">
+                <strong>CO3:</strong> Estimate and effectively plan for software projects.
+            </div>
+            <div class="outcome">
+                <strong>CO4:</strong> Identify and create frameworks for project monitoring using agile.
+            </div>
+            <div class="outcome">
+                <strong>CO5:</strong> Gain knowledge on scrum and DevOps.
+            </div>
+        </div>
+
+        <section>
+            <h2>Course Outcomes Mapping with PO's and PEO's</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Course Outcomes</th>
+                        <th>Course Outcome Statement</th>
+                        <th>PO's / PEO's</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CO1</td>
+                        <td>Understand the basic concepts and issues of IT project management</td>
+                        <td>PO1, PO8, PO11/PEO1</td>
+                    </tr>
+                    <tr>
+                        <td>CO2</td>
+                        <td>Analyse various life cycle models for IT project management.</td>
+                        <td>PO3, PO11/PE04, PEO2</td>
+                    </tr>
+                    <tr>
+                        <td>CO3</td>
+                        <td>Estimate and effectively plan for software projects.</td>
+                        <td>PO1, PO4, PO11/PEO2</td>
+                    </tr>
+                    <tr>
+                        <td>CO4</td>
+                        <td>Identify and create frameworks for project monitoring using agile.</td>
+                        <td>PO2, PO5, PO6, PO7, PO11/PEO3, PEO4</td>
+                    </tr>
+                    <tr>
+                        <td>CO5</td>
+                        <td>Gain knowledge on scrum and Devops</td>
+                        <td>PO2, PO3, PO11/PE04</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+    </div>
+
+    <h2>Course Modules</h2>
+    
+    <div class="module">
+        <div class="module-header" onclick="toggleModule(1)">
+            <span>Module 1: Project Overview and Scheduling</span>
+            <span class="hours">5 Hours</span>
+        </div>
+        <div class="module-content" id="module1">
+            <div class="module-content-inner">
+                <h3>Topics Covered:</h3>
+                <ul>
+                    <li><a href="./Module_1/Project_Overview_Scheduling.html"> Project Overview and Feasibility Studies</a> </li>
+                    <li><a href="./Module_1/Project_Identification.html">Identification</a>, <a href="./Module_1/Market_Demand_Analysis.html"> Market and Demand Analysis </a></li>
+                    <li><a href="./Module_1/Project_Cost_Estimation.html">Cost Estimate </a>, <a href="./Module_1/Financial_Appraisal.html"> Appraisal</a></li>
+                    <li><a href="./Module_1/Project_Scheduling_Basic.html">Project Scheduling </a> : Introduction to <a href="./Module_1/Introduction_to_PERT.html">PERT</a> and <a href="./Module_1/Critical_Path_Method.html">CPM</a></li>
+                    <li><a href="./Module_1/cpm-calculator.html">Critical Path Calculation</a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="module">
+        <div class="module-header" onclick="toggleModule(2)">
+            <span>Module 2: Project Scheduling and Cost Control</span>
+            <span class="hours">6 Hours</span>
+        </div>
+        <div class="module-content" id="module2">
+            <div class="module-content-inner">
+                <h3>Topics Covered:</h3>
+                <ul>
+                    <li><a href="./Module_2/Project_Scheduling_Precedence_Relationships.html">Project Scheduling: Precedence Relationship</a></li>
+                    <li><a href="./Module_2/Difference_Between_PERT_and_CPM.html">Difference between PERT and CPM </a></li>
+                    <li><a href="./Module_2/Float_Calculation_and_Its_Importance.html">Float Calculation and its importance </a></li>
+                    <li><a href="./Module_2/Cost_Reduction_by_Crashing_of_Activity.html">Cost reduction by Crashing of activity </a></li>
+                    <li><a href="./Module_2/Project_Cost_Control_ PERT_Cost.html">Cost Control and Scheduling: Project Cost Control (PERT/Cost)</a> </li>
+                    <li><a href="./Module_2/Resource_Scheduling_Resource_Leveling.html">Resource Scheduling & Resource Leveling</a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="module">
+        <div class="module-header" onclick="toggleModule(3)">
+            <span>Module 3: Project Management Features</span>
+            <span class="hours">4 Hours</span>
+        </div>
+        <div class="module-content" id="module3">
+            <div class="module-content-inner">
+                <h3>Topics Covered:</h3>
+                <ul>
+                    <li><a href="./Module_3/Project_Management_Features.html">Project Management Features</a> </li>
+                    <li><a href="./Module_3/Project_Management_Features_Risk_Analysis.html">Risk Analysis</a> </li>
+                    <li><a href="./Module_3/Project_Management_Features_Project_Control.html">Project Control</a> </li>
+                    <li><a href="./Module_3/Project_Management_Features_Project_Audit.html">Audit</a> </li>
+                    <li><a href="./Module_3/Project_Management_Features_Project_Termination.html">Project Termination</a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="module">
+        <div class="module-header" onclick="toggleModule(4)">
+            <span>Module 4: Agile Project Management</span>
+            <span class="hours">6 Hours</span>
+        </div>
+        <div class="module-content" id="module4">
+            <div class="module-content-inner">
+                <h3>Topics Covered:</h3>
+                <ul>
+                    <li> <a href="./Module_4/Agile_Project_Management_Introduction.html"> Agile Project Management</a></li>
+                    <li><a href="./Module_4/Agile_Principles.html">Introduction to Agile Principles</a> </li>
+                    <li><a href="./Module_4/Agile_Methodologies.html">Agile methodologies</a> </li>
+                    <li><a href="./Module_4/Agile_Methodologies_Comparison_and_Methodology_Decision_Tool.html">Relationship</a>  between <a href="./Module_4/Agile_Scrum_Framework.html">Agile Scrum</a> ,<a href="./Module_4/Lean_Software_Development.html"> Lean</a>,<a href="./Module_4/DevOps_Bridging_Development_and_Operations.html"> DevOps</a> and<a href="./Module_4/IT_Service_Management_ITIL.html">IT Service Management (ITIL)</a> </li>
+                    <li> Other Agile Methodologies: Introduction to<a href="./Module_4/Extreme_Programming_XP.html"> XP</a>, <a href="./Module_4/Feature_Driven_Development_FDD.html"> FDD</a>, <a href="./Module_4/Dynamic_Systems_Development_Method_DSDM_.html"> DSDM </a>,<a href="./Module_4/Crystal_Methodology.html"> Crystal</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="module">
+        <div class="module-header" onclick="toggleModule(5)">
+            <span>Module 5: Scrum</span>
+            <span class="hours">4 Hours</span>
+        </div>
+        <div class="module-content" id="module5">
+            <div class="module-content-inner">
+                <h3>Topics Covered:</h3>
+                <ul>
+                    <li>Various terminologies used in Scrum (Sprint, product backlog, sprint backlog, sprint review, retrospective) - <a href="./Module_5/Understanding_Scrum_Terminologies_Roles_and_Best_Practices.html"> here </a> </li>
+                    <li>Various roles in Scrum - <a href="./Module_5/Understanding_Scrum_Terminologies_Roles_and_Best_Practices.html"> here </a> </li>
+                    <li>Best practices of Scrum - <a href="./Module_5/Understanding_Scrum_Terminologies_Roles_and_Best_Practices.html"> here </a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="module">
+        <div class="module-header" onclick="toggleModule(6)">
+            <span>Module 6: DevOps</span>
+            <span class="hours">5 Hours</span>
+        </div>
+        <div class="module-content" id="module6">
+            <div class="module-content-inner">
+                <h3>Topics Covered:</h3>
+                <ul>
+                    <li>Overview and its Components  - <a href="./Module_6/Master_DevOps.html"> here </a></li>
+                    <li>Containerization Using Docker - <a href="./Module_6/Master_DevOps.html"> here </a></li>
+                    <li>Managing Source Code and Automating Builds - <a href="./Module_6/Master_DevOps.html"> here </a></li>
+                    <li>Automated Testing and Test Driven Development - <a href="./Module_6/Master_DevOps.html"> here </a></li>
+                    <li>Continuous Integration - <a href="./Module_6/Master_DevOps.html"> here </a></li>
+                    <li>Configuration Management - <a href="./Module_6/Master_DevOps.html"> here </a></li>
+                    <li>Continuous Deployment - <a href="./Module_6/Master_DevOps.html"> here </a></li>
+                    <li>Automated Monitoring - <a href="./Module_6/Master_DevOps.html"> here </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="course-info">
+        <h2>Lab Exercise</h2>
+        <p>Case studies will be distributed to students beforehand and students should prepare and try to solve these cases before coming to class. Students will be asked to submit and present their understanding of the cases and solutions before the class.</p>
+        
+        <h2>Text Books</h2>
+        <ol>
+            <li>Mike Cohn, Succeeding with Agile: Software Development Using Scrum, 1st Edition, 2015.</li>
+        </ol>
+        
+        <h2>References</h2>
+        <ol>
+            <li>Roman Pichler, Agile Product Management with Scrum, 2010.</li>
+            <li>Ken Schwaber, Agile Project Management with Scrum (Microsoft Professional), 2004.</li>
+        </ol>
+        
+        <h2>Evaluation</h2>
+        <h3>Theory (75%)</h3>
+        <ul>
+            <li>Continuous Assessment Test-1: 15%</li>
+            <li>Continuous Assessment Test-2: 15%</li>
+            <li>Digital Assignments/Quizzes (Min): 30%</li>
+            <li>Final Assessment Test: 40%</li>
+        </ul>
+        <h3>Laboratory (25%)</h3>
+    </div>
+
+    <section>
+        <h2>Approval Information</h2>
+        <table>
+            <tr>
+                <th>Recommended by the Board of Studies on</th>
+                <td>9<sup>th</sup> BoS Meeting, 23.04.2022</td>
+            </tr>
+            <tr>
+                <th>Date of Approval by the Academic Council</th>
+                <td>8<sup>th</sup> Academic Council, 26.04.2022</td>
+            </tr>
+        </table>
+    </section>
+
+
+    <section>
+        <h2>Course Offered and Instructor Information</h2>
+        <table>
+            <tr>
+                <th>Offered</th>
+                <td>2025 - Long Summer</td>
+            </tr>
+            <tr>
+                <th>Instructor</th>
+                <td>Guruprakash J</td>
+            </tr>
+        </table>
+    </section>
+
+
+    <script>
+        function toggleModule(moduleNum) {
+            const module = document.getElementById(`module${moduleNum}`);
+            if (module.style.maxHeight) {
+                module.style.maxHeight = null;
+            } else {
+                module.style.maxHeight = module.scrollHeight + "px";
+            }
+        }
+
+        // Open the first module by default
+        //window.onload = function() {
+        //    toggleModule(1);
+        //};
+    </script>
+</body>
+</html>
