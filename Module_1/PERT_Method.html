@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERT Method Explained</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary);
+        }
+        
+        .content-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .formula-box {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary);
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .example {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid var(--warning);
+            margin: 20px 0;
+        }
+        
+        .interactive-tool {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 25px 0;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input {
+            padding: 8px;
+            width: 100px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e8f8f0;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .network-diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .network-diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PERT Method Explained</h1>
+        <p>Program Evaluation and Review Technique</p>
+    </header>
+
+    <div class="content-card">
+        <h2>What is PERT?</h2>
+        <p>PERT (Program Evaluation and Review Technique) is a statistical tool used in project management to analyze and represent the tasks involved in completing a project. It was developed in the 1950s by the U.S. Navy for the Polaris submarine missile program.</p>
+        
+        <p>Key characteristics of PERT:</p>
+        <ul>
+            <li>Uses probabilistic time estimates (optimistic, most likely, pessimistic)</li>
+            <li>Focuses on event-oriented planning</li>
+            <li>Identifies the critical path (longest sequence of dependent tasks)</li>
+            <li>Helps manage uncertainty in project scheduling</li>
+        </ul>
+    </div>
+
+    <div class="content-card">
+        <h2>PERT Time Estimation</h2>
+        <p>PERT uses three time estimates for each activity:</p>
+        
+        <div class="formula-box">
+            <strong>Optimistic Time (O):</strong> Minimum possible time required under ideal conditions<br>
+            <strong>Most Likely Time (M):</strong> Best estimate of time required under normal conditions<br>
+            <strong>Pessimistic Time (P):</strong> Maximum possible time required under worst-case conditions
+        </div>
+        
+        <p>The expected time (TE) is calculated using the formula:</p>
+        <div class="formula-box">
+            TE = (O + 4M + P) / 6
+        </div>
+        
+        <p>The standard deviation (σ) for the estimate is calculated as:</p>
+        <div class="formula-box">
+            σ = (P - O) / 6
+        </div>
+        
+        <div class="example">
+            <h3>Example Calculation</h3>
+            <p>For an activity with:<br>
+            Optimistic time (O) = 5 days<br>
+            Most likely time (M) = 7 days<br>
+            Pessimistic time (P) = 12 days</p>
+            
+            <p>Expected time (TE) = (5 + 4×7 + 12) / 6 = (5 + 28 + 12)/6 = 45/6 = <strong>7.5 days</strong></p>
+            <p>Standard deviation (σ) = (12 - 5)/6 = 7/6 = <strong>1.17 days</strong></p>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h2>Interactive PERT Calculator</h2>
+        
+        <div class="interactive-tool">
+            <div class="input-group">
+                <label for="optimistic">Optimistic Time (O):</label>
+                <input type="number" id="optimistic" min="1" value="5">
+            </div>
+            
+            <div class="input-group">
+                <label for="likely">Most Likely Time (M):</label>
+                <input type="number" id="likely" min="1" value="7">
+            </div>
+            
+            <div class="input-group">
+                <label for="pessimistic">Pessimistic Time (P):</label>
+                <input type="number" id="pessimistic" min="1" value="12">
+            </div>
+            
+            <button onclick="calculatePERT()">Calculate</button>
+            
+            <div class="result" id="pertResult">
+                <p><strong>Expected Time (TE):</strong> <span id="expectedTime"></span> days</p>
+                <p><strong>Standard Deviation (σ):</strong> <span id="stdDeviation"></span> days</p>
+            </div>
+        </div>
+        
+        <div class="network-diagram">
+            <h3>Sample PERT Network Diagram</h3>
+            <img src="https://www.projectmanager.com/wp-content/uploads/2021/01/PERT-Chart-Example.png" alt="PERT Network Diagram">
+            <p><em>PERT chart showing activities as arrows between nodes (events)</em></p>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h2>PERT vs. CPM Comparison</h2>
+        
+        <table class="comparison-table">
+            <tr>
+                <th>Feature</th>
+                <th>PERT</th>
+                <th>CPM</th>
+            </tr>
+            <tr>
+                <td>Time Estimation</td>
+                <td>Probabilistic (3 estimates)</td>
+                <td>Deterministic (1 estimate)</td>
+            </tr>
+            <tr>
+                <td>Focus</td>
+                <td>Time (uncertainty management)</td>
+                <td>Time-cost tradeoff</td>
+            </tr>
+            <tr>
+                <td>Best For</td>
+                <td>R&D projects, uncertain durations</td>
+                <td>Projects with known durations</td>
+            </tr>
+            <tr>
+                <td>Critical Path</td>
+                <td>Identifies longest path</td>
+                <td>Identifies longest path</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="content-card">
+        <h2>PERT Analysis Steps</h2>
+        <ol>
+            <li><strong>Identify activities:</strong> List all tasks required to complete the project</li>
+            <li><strong>Determine sequence:</strong> Establish dependencies between activities</li>
+            <li><strong>Estimate times:</strong> Get O, M, P estimates for each activity</li>
+            <li><strong>Calculate expected times:</strong> Use PERT formula for each activity</li>
+            <li><strong>Construct network diagram:</strong> Draw activities and dependencies</li>
+            <li><strong>Identify critical path:</strong> Find the longest path through the network</li>
+            <li><strong>Update as project progresses:</strong> Revise estimates with actual data</li>
+        </ol>
+        
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/i160aaBX7mE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        function calculatePERT() {
+            // Get input values
+            const O = parseFloat(document.getElementById('optimistic').value);
+            const M = parseFloat(document.getElementById('likely').value);
+            const P = parseFloat(document.getElementById('pessimistic').value);
+            
+            // Calculate PERT estimates
+            const TE = (O + 4*M + P) / 6;
+            const sigma = (P - O) / 6;
+            
+            // Display results
+            document.getElementById('expectedTime').textContent = TE.toFixed(2);
+            document.getElementById('stdDeviation').textContent = sigma.toFixed(2);
+            document.getElementById('pertResult').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

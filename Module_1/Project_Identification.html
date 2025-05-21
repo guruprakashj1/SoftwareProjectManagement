@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feasibility Studies - Project Identification</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --info-color: #2980b9;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1{
+            color: white;
+        }
+
+         h2, h3, h4 {
+            color: var(--primary-color);
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+        }
+        
+        .module-code {
+            background-color: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            color: #bdc3c7;
+            font-size: 1.1em;
+        }
+        
+        .content-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .learning-outcomes {
+            background-color: #e8f4fc;
+            border-left: 5px solid var(--secondary-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .outcome-item {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .outcome-item:before {
+            content: "✓";
+            color: var(--success-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .process-step {
+            background-color: white;
+            border-left: 4px solid var(--info-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 5px 5px 0;
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            background-color: var(--info-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+        }
+        
+        .method-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .method-title {
+            color: var(--secondary-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+        }
+        
+        .method-icon {
+            font-size: 1.8em;
+            color: var(--secondary-color);
+            margin-right: 15px;
+            float: left;
+        }
+        
+        .key-concept {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .concept-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .case-study {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px dashed var(--warning-color);
+            margin: 25px 0;
+        }
+        
+        .case-title {
+            font-weight: bold;
+            color: var(--warning-color);
+            margin-bottom: 10px;
+        }
+        
+        .resources {
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        .key-terms {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        
+        .term {
+            font-weight: bold;
+            color: var(--primary-color);
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .criteria-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .criteria-table th, .criteria-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .criteria-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .criteria-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .quiz {
+            background-color: #fffde7;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px dashed var(--warning-color);
+            margin: 25px 0;
+        }
+        
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .nav-button {
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        
+        .nav-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .example-box {
+            background-color: #e1f5fe;
+            border-left: 4px solid #03a9f4;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .example-title {
+            font-weight: bold;
+            color: #0277bd;
+            margin-bottom: 10px;
+        }
+        
+        .evaluation-method {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f1f8e9;
+            border-radius: 5px;
+        }
+        
+        .study-tip {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .study-tip:before {
+            content: "💡";
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            font-size: 1.5em;
+        }
+        
+        .important-note {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .flashcard {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .flashcard-question {
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .flashcard-answer {
+            padding: 15px;
+            background-color: white;
+            display: none;
+        }
+        
+        .flowchart-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .key-terms {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="module-code">FEASIBILITY STUDIES</div>
+        <h1>Project Identification</h1>
+        <p class="subtitle">The First Step in Feasibility Analysis</p>
+    </header>
+
+    <div class="content-section">
+        <h2>Introduction to Project Identification</h2>
+        <p>Project identification is the initial phase of the feasibility study process where potential project ideas are conceived, defined, and screened to determine their viability before significant resources are committed.</p>
+        
+        <div class="study-tip">
+            <strong>Why This Matters:</strong> Project identification is crucial because it helps organizations avoid wasting resources on projects that have little chance of success. A thorough identification phase can save time, money, and effort by focusing only on viable project options.
+        </div>
+        
+        <div class="learning-outcomes">
+            <h3>Learning Outcomes</h3>
+            <div class="outcome-item">
+                <strong>LO1:</strong> Understand the importance and objectives of project identification
+            </div>
+            <div class="outcome-item">
+                <strong>LO2:</strong> Identify various sources of project ideas
+            </div>
+            <div class="outcome-item">
+                <strong>LO3:</strong> Apply screening criteria to evaluate project ideas
+            </div>
+            <div class="outcome-item">
+                <strong>LO4:</strong> Conduct preliminary project scoping
+            </div>
+            <div class="outcome-item">
+                <strong>LO5:</strong> Document project identification findings
+            </div>
+        </div>
+        
+        <div class="important-note">
+            <strong>Exam Hint:</strong> When studying for exams, remember that project identification is about finding and evaluating potential project ideas, not detailed planning. Focus on understanding the screening process and evaluation criteria rather than project execution techniques.
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>The Project Identification Process</h2>
+        
+        <div class="process-step">
+            <div class="step-number">1</div>
+            <h3>Idea Generation</h3>
+            <p>Collect potential project ideas from various sources including market needs, technological developments, resource availability, and government policies.</p>
+            <div class="key-concept">
+                <div class="concept-title">Techniques</div>
+                <p>Brainstorming sessions, SWOT analysis, stakeholder interviews, trend analysis, and competitive intelligence.</p>
+            </div>
+        </div>
+        
+        <div class="process-step">
+            <div class="step-number">2</div>
+            <h3>Preliminary Screening</h3>
+            <p>Apply basic criteria to filter out obviously unviable ideas based on alignment with organizational goals, resource requirements, and legal constraints.</p>
+            <div class="key-concept">
+                <div class="concept-title">Key Questions</div>
+                <p>Does it align with our mission? Do we have the basic capabilities? Are there any obvious legal barriers?</p>
+            </div>
+        </div>
+        
+        <div class="process-step">
+            <div class="step-number">3</div>
+            <h3>Initial Scoping</h3>
+            <p>Define the broad parameters of the project including objectives, potential stakeholders, and high-level requirements.</p>
+            <div class="key-concept">
+                <div class="concept-title">Deliverables</div>
+                <p>Project concept statement, preliminary stakeholder map, and high-level scope document.</p>
+            </div>
+        </div>
+        
+        <div class="process-step">
+            <div class="step-number">4</div>
+            <h3>Feasibility Assessment</h3>
+            <p>Conduct preliminary evaluation of technical, economic, legal, and operational feasibility.</p>
+            <div class="key-concept">
+                <div class="concept-title">Components</div>
+                <p>Basic ROI calculation, technology availability assessment, regulatory review, and operational capability check.</p>
+            </div>
+        </div>
+        
+        <div class="process-step">
+            <div class="step-number">5</div>
+            <h3>Project Definition</h3>
+            <p>Document the project concept, rationale, and preliminary specifications for further analysis.</p>
+            <div class="key-concept">
+                <div class="concept-title">Outcomes</div>
+                <p>Project identification report, preliminary project charter, and recommendations for detailed feasibility study.</p>
+            </div>
+        </div>
+        
+        <div class="diagram">
+            <div class="flowchart-container">
+                <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Boxes -->
+                    <rect x="50" y="100" width="120" height="80" rx="10" fill="#3498db" />
+                    <rect x="190" y="100" width="120" height="80" rx="10" fill="#3498db" />
+                    <rect x="330" y="100" width="120" height="80" rx="10" fill="#3498db" />
+                    <rect x="470" y="100" width="120" height="80" rx="10" fill="#3498db" />
+                    <rect x="610" y="100" width="120" height="80" rx="10" fill="#3498db" />
+                    
+                    <!-- Arrows -->
+                    <line x1="170" y1="140" x2="190" y2="140" stroke="#2c3e50" stroke-width="3" />
+                    <polygon points="190,140 180,135 180,145" fill="#2c3e50" />
+                    
+                    <line x1="310" y1="140" x2="330" y2="140" stroke="#2c3e50" stroke-width="3" />
+                    <polygon points="330,140 320,135 320,145" fill="#2c3e50" />
+                    
+                    <line x1="450" y1="140" x2="470" y2="140" stroke="#2c3e50" stroke-width="3" />
+                    <polygon points="470,140 460,135 460,145" fill="#2c3e50" />
+                    
+                    <line x1="590" y1="140" x2="610" y2="140" stroke="#2c3e50" stroke-width="3" />
+                    <polygon points="610,140 600,135 600,145" fill="#2c3e50" />
+                    
+                    <!-- Decision diamond -->
+                    <polygon points="250,230 290,260 250,290 210,260" fill="#f39c12" />
+                    <line x1="250" y1="180" x2="250" y2="230" stroke="#2c3e50" stroke-width="3" />
+                    <polygon points="250,230 245,220 255,220" fill="#2c3e50" />
+                    
+                    <line x1="210" y1="260" x2="120" y2="260" stroke="#2c3e50" stroke-width="3" />
+                    <line x1="120" y1="260" x2="120" y2="180" stroke="#2c3e50" stroke-width="3" />
+                    <polygon points="120,180 115,190 125,190" fill="#2c3e50" />
+                    <text x="150" y="250" fill="#2c3e50" font-size="14">No</text>
+                    
+                    <line x1="290" y1="260" x2="390" y2="260" stroke="#2c3e50" stroke-width="3" />
+                    <line x1="390" y1="260" x2="390" y2="230" stroke="#2c3e50" stroke-width="3" />
+                    <polygon points="390,230 385,240 395,240" fill="#2c3e50" />
+                    <text x="330" y="250" fill="#2c3e50" font-size="14">Yes</text>
+                    
+                    <!-- Text labels -->
+                    <text x="110" y="130" fill="white" font-size="14" text-anchor="middle">Idea</text>
+                    <text x="110" y="150" fill="white" font-size="14" text-anchor="middle">Generation</text>
+                    
+                    <text x="250" y="130" fill="white" font-size="14" text-anchor="middle">Preliminary</text>
+                    <text x="250" y="150" fill="white" font-size="14" text-anchor="middle">Screening</text>
+                    
+                    <text x="390" y="130" fill="white" font-size="14" text-anchor="middle">Initial</text>
+                    <text x="390" y="150" fill="white" font-size="14" text-anchor="middle">Scoping</text>
+                    
+                    <text x="530" y="130" fill="white" font-size="14" text-anchor="middle">Feasibility</text>
+                    <text x="530" y="150" fill="white" font-size="14" text-anchor="middle">Assessment</text>
+                    
+                    <text x="670" y="130" fill="white" font-size="14" text-anchor="middle">Project</text>
+                    <text x="670" y="150" fill="white" font-size="14" text-anchor="middle">Definition</text>
+                    
+                    <text x="250" y="265" fill="black" font-size="14" text-anchor="middle">Viable?</text>
+                    
+                    <!-- Title -->
+                    <text x="400" y="50" fill="#2c3e50" font-size="20" font-weight="bold" text-anchor="middle">Typical Project Identification Process Flow</text>
+                    
+                    <!-- Feedback loop annotation -->
+                    <text x="150" y="230" fill="#2c3e50" font-size="12" text-anchor="middle">Feedback &amp; Refinement</text>
+                </svg>
+            </div>
+            <p><em>Typical project identification process flow with feedback loop</em></p>
+        </div>
+        
+        <div class="flashcard">
+            <div class="flashcard-question" onclick="toggleAnswer(this)">What are the five main steps in the project identification process?</div>
+            <div class="flashcard-answer">
+                <ol>
+                    <li>Idea Generation - Collecting potential project ideas from various sources</li>
+                    <li>Preliminary Screening - Filtering out unviable ideas using basic criteria</li>
+                    <li>Initial Scoping - Defining broad project parameters and requirements</li>
+                    <li>Feasibility Assessment - Evaluating technical, economic, legal, and operational feasibility</li>
+                    <li>Project Definition - Documenting the concept for further analysis</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Sources of Project Ideas</h2>
+        
+        <div class="method-card">
+            <div class="method-icon">🔍</div>
+            <h3 class="method-title">Market Analysis</h3>
+            <p>Identifying unmet needs, gaps in current offerings, or emerging trends in the marketplace.</p>
+            <div class="key-concept">
+                <div class="concept-title">Example</div>
+                <p>A software company identifies a need for better project management tools for remote teams after analyzing market surveys.</p>
+            </div>
+            <div class="example-box">
+                <div class="example-title">Study Example</div>
+                <p>Company XYZ conducted market analysis using surveys, focus groups, and competitor analysis. They discovered that 78% of remote workers struggled with time zone coordination in project management tools. This led to the idea for a new tool with integrated global time zone features.</p>
+            </div>
+        </div>
+        
+        <div class="method-card">
+            <div class="method-icon">💡</div>
+            <h3 class="method-title">Technological Developments</h3>
+            <p>New technologies or innovations that create opportunities for new products or services.</p>
+            <div class="key-concept">
+                <div class="concept-title">Example</div>
+                <p>The development of blockchain technology led to numerous financial service projects.</p>
+            </div>
+            <div class="example-box">
+                <div class="example-title">Study Example</div>
+                <p>A fintech startup monitored emerging technology trends and identified advances in machine learning algorithms that could detect fraudulent transactions with 30% greater accuracy. This technological development sparked the idea for a new fraud detection service for online retailers.</p>
+            </div>
+        </div>
+        
+        <div class="method-card">
+            <div class="method-icon">🏭</div>
+            <h3 class="method-title">Resource Availability</h3>
+            <p>Identification of underutilized resources or new resource discoveries that can be leveraged.</p>
+            <div class="key-concept">
+                <div class="concept-title">Example</div>
+                <p>A region with abundant sunlight might inspire solar energy projects.</p>
+            </div>
+            <div class="example-box">
+                <div class="example-title">Study Example</div>
+                <p>A manufacturing company had excess factory space after consolidating operations. Resource analysis indicated 40% unused capacity. This prompted the idea to lease the space to smaller manufacturers or use it for a new product line, creating two potential project ideas from underutilized resources.</p>
+            </div>
+        </div>
+        
+        <div class="method-card">
+            <div class="method-icon">📜</div>
+            <h3 class="method-title">Policy Changes</h3>
+            <p>New government policies, regulations, or incentives that create project opportunities.</p>
+            <div class="key-concept">
+                <div class="concept-title">Example</div>
+                <p>Environmental regulations might prompt waste management improvement projects.</p>
+            </div>
+            <div class="example-box">
+                <div class="example-title">Study Example</div>
+                <p>When the government introduced a 30% tax credit for renewable energy installations, a construction company analyzed the policy change and identified an opportunity to create a new division specializing in residential solar panel installation, capitalizing directly on the new incentive program.</p>
+            </div>
+        </div>
+        
+        <div class="method-card">
+            <div class="method-icon">🔄</div>
+            <h3 class="method-title">Problem Solving</h3>
+            <p>Addressing existing problems or inefficiencies in current systems or processes.</p>
+            <div class="key-concept">
+                <div class="concept-title">Example</div>
+                <p>Traffic congestion might lead to urban transportation projects.</p>
+            </div>
+            <div class="example-box">
+                <div class="example-title">Study Example</div>
+                <p>A hospital identified that patient wait times averaged 45 minutes higher than the industry benchmark. This problem led to a project idea for implementing a new digital check-in and scheduling system, with the goal of reducing wait times by 60% and improving patient satisfaction scores.</p>
+            </div>
+        </div>
+        
+        <div class="study-tip">
+            <strong>Effective Idea Generation:</strong> When generating project ideas, consider using multiple sources simultaneously. For example, combine market analysis with technological developments to identify how new technologies can solve market needs. Cross-referencing sources often yields the most innovative project ideas.
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Project Screening Criteria</h2>
+        
+        <table class="criteria-table">
+            <tr>
+                <th>Criterion</th>
+                <th>Description</th>
+                <th>Evaluation Method</th>
+                <th>Example</th>
+            </tr>
+            <tr>
+                <td>Strategic Alignment</td>
+                <td>How well the project aligns with organizational goals</td>
+                <td>Alignment matrix scoring</td>
+                <td>Each strategic goal is assigned a weight (1-5), and the project is rated (1-5) on how well it supports each goal. Weighted scores are calculated and summed.</td>
+            </tr>
+            <tr>
+                <td>Market Potential</td>
+                <td>Size and growth potential of target market</td>
+                <td>Market research analysis</td>
+                <td>Combination of TAM (Total Addressable Market), SAM (Serviceable Available Market), and SOM (Serviceable Obtainable Market) analysis with growth rate projections.</td>
+            </tr>
+            <tr>
+                <td>Technical Feasibility</td>
+                <td>Availability of required technology and expertise</td>
+                <td>Technical capability assessment</td>
+                <td>Evaluation of technical requirements against current capabilities, gap analysis, and technology readiness level (TRL) scoring on a scale of 1-9.</td>
+            </tr>
+            <tr>
+                <td>Financial Viability</td>
+                <td>Potential return on investment and funding availability</td>
+                <td>Preliminary cost-benefit analysis</td>
+                <td>Rough order of magnitude (ROM) cost estimate, preliminary NPV (Net Present Value), IRR (Internal Rate of Return), and payback period calculations.</td>
+            </tr>
+            <tr>
+                <td>Risk Assessment</td>
+                <td>Identification of potential risks and challenges</td>
+                <td>Risk matrix evaluation</td>
+                <td>Risks are identified and scored on likelihood (1-5) and impact (1-5). Risk score = Likelihood × Impact. Projects with multiple high scores (>15) may be rejected.</td>
+            </tr>
+            <tr>
+                <td>Legal/Regulatory</td>
+                <td>Compliance with laws and regulations</td>
+                <td>Legal review</td>
+                <td>Checklist of applicable regulations, legal consultation, and compliance rating (high/medium/low) for each relevant legal area.</td>
+            </tr>
+        </table>
+        
+        <div class="example-box">
+            <div class="example-title">Strategic Alignment Matrix Example</div>
+            <p>For a proposed mobile app project, company strategic goals are weighted as follows:</p>
+            <ul>
+                <li>Increase digital presence (weight: 5)</li>
+                <li>Improve customer engagement (weight: 4)</li>
+                <li>Generate new revenue streams (weight: 3)</li>
+                <li>Reduce operational costs (weight: 2)</li>
+            </ul>
+            <p>The project is rated against each goal:</p>
+            <ul>
+                <li>Increase digital presence: Rating 5 × Weight 5 = 25</li>
+                <li>Improve customer engagement: Rating 4 × Weight 4 = 16</li>
+                <li>Generate new revenue streams: Rating 3 × Weight 3 = 9</li>
+                <li>Reduce operational costs: Rating 1 × Weight 2 = 2</li>
+            </ul>
+            <p><strong>Total alignment score: 52/70</strong> (74% alignment with strategy)</p>
+            <div class="evaluation-method">
+                <strong>How to Apply:</strong> Create a table with organizational goals in rows, then add columns for weight, rating, and score. Multiply weight by rating for each row, then sum the scores. Compare the total to the maximum possible score to get an alignment percentage.
+            </div>
+        </div>
+        
+        <div class="example-box">
+            <div class="example-title">Market Research Analysis Example</div>
+            <p>For a new healthy snack product, market analysis shows:</p>
+            <ul>
+                <li>TAM (Total Addressable Market): $45 billion (entire snack food industry)</li>
+                <li>SAM (Serviceable Available Market): $12 billion (healthy snack segment)</li>
+                <li>SOM (Serviceable Obtainable Market): $120 million (realistic market capture in first 5 years)</li>
+                <li>Growth rate: 8.5% CAGR for healthy snack segment vs. 3.2% for overall snack industry</li>
+            </ul>
+            <div class="evaluation-method">
+                <strong>How to Apply:</strong> Research industry reports and market data to establish TAM. Define your specific market segment to calculate SAM. Estimate realistic market capture based on competition, resources, and distribution capabilities to determine SOM. Compare growth rates to industry benchmarks.
+            </div>
+        </div>
+        
+        <div class="example-box">
+            <div class="example-title">Technical Capability Assessment Example</div>
+            <p>For a company considering an AI-powered predictive maintenance system:</p>
+            <table style="width:100%; border-collapse: collapse; margin-top: 10px;">
+                <tr style="background-color: #f2f2f2;">
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Technical Requirement</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Current Capability</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Gap</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">TRL (1-9)</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">Sensor hardware</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">Available</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">None</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">9</td>
+                </tr>
+                <tr style="background-color: #f2f2f2;">
+                    <td style="border: 1px solid #ddd; padding: 8px;">Data processing infrastructure</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">Partial</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">Requires upgrade</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">7</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">AI expertise</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">Limited</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">Need to hire/train</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">4</td>
+                </tr>
+                <tr style="background-color: #f2f2f2;">
+                    <td style="border: 1px solid #ddd; padding: 8px;">Integration with existing systems</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">Available</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">Minor</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">8</td>
+                </tr>
+            </table>
+            <p><strong>Average TRL: 7</strong> (System prototype demonstration in operational environment)</p>
+            <div class="evaluation-method">
+                <strong>How to Apply:</strong> List all technical requirements for the project. Assess current capabilities for each requirement. Identify gaps and rate each component on the Technology Readiness Level (TRL) scale from 1 (basic principles observed) to 9 (proven system in operational environment). Calculate average TRL.
+            </div>
+        </div>
+        
+        <div class="example-box">
+            <div class="example-title">Risk Matrix Evaluation Example</div>
+            <p>For a new construction project, the risk assessment identifies:</p>
+            <table style="width:100%; border-collapse: collapse; margin-top: 10px;">
+                <tr style="background-color: #f2f2f2;">
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Risk Factor</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Likelihood (1-5)</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Impact (1-5)</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Risk Score</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">Material cost inflation</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">4</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">3</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">12</td>
+                </tr>
+                <tr style="background-color: #f2f2f2;">
+                    <td style="border: 1px solid #ddd; padding: 8px;">Permit delays</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">3</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">4</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">12</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">Labor shortage</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">5</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">4</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">20</td>
+                </tr>
+                <tr style="background-color: #f2f2f2;">
+                    <td style="border: 1px solid #ddd; padding: 8px;">Weather delays</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">4</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">2</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">8</td>
+                </tr>
+            </table>
+            <p><strong>Highest risk: Labor shortage (20)</strong> - This exceeds the threshold of 15 and requires mitigation planning.</p>
+            <div class="evaluation-method">
+                <strong>How to Apply:</strong> Identify potential risks for the project. Rate each risk on likelihood (1=rare, 5=almost certain) and impact (1=minimal, 5=severe). Multiply to get the risk score. Identify high-risk areas (scores >15) that may require mitigation plans or reconsidering the project.
+            </div>
+        </div>
+        
+        <div class="case-study">
+            <div class="case-title">Real-World Application: Urban Transportation Project</div>
+            <p><strong>Identification:</strong> City planners identified increasing traffic congestion and pollution as major problems affecting quality of life.</p>
+            <p><strong>Screening:</strong> Evaluated potential solutions including road expansion, congestion pricing, and public transit improvements against criteria of cost, impact, and implementation time.</p>
+            <p><strong>Outcome:</strong> Selected light rail transit project based on long-term sustainability and alignment with city's environmental goals.</p>
+            
+            <p><strong>Detailed Screening Process:</strong></p>
+            <table style="width:100%; border-collapse: collapse; margin-top: 10px;">
+                <tr style="background-color: #f2f2f2;">
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Project Option</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Strategic Alignment (1-5)</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Financial Viability (1-5)</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Technical Feasibility (1-5)</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Risk Level (1-5)</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: center;">Total Score</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">Road Expansion</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">2</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">3</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">4</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">3</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">12</td>
+                </tr>
+                <tr style="background-color: #f2f2f2;">
+                    <td style="border: 1px solid #ddd; padding: 8px;">Congestion Pricing</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">3</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">5</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">3</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">4</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">15</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">Light Rail Transit</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">5</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">3</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">4</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">3</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">15</td>
+                </tr>
+            </table>
+            <p><strong>Final Decision Factors:</strong> Though both congestion pricing and light rail scored equally, the light rail option was selected due to its perfect strategic alignment score (5) with the city's long-term environmental and urban development goals.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Key Concepts and Terminology</h2>
+        
+        <div class="key-terms">
+            <p><span class="term">Project Identification:</span> Process of finding potential project ideas that address needs or opportunities</p>
+            <p><span class="term">Screening Criteria:</span> Standards used to evaluate and compare potential projects</p>
+            <p><span class="term">Preliminary Feasibility:</span> Initial assessment of whether a project is worth further investigation</p>
+            <p><span class="term">Project Concept:</span> Brief description of the project's purpose and approach</p>
+            <p><span class="term">Stakeholder Analysis:</span> Identification of parties affected by or interested in the project</p>
+            <p><span class="term">SWOT Analysis:</span> Evaluation of Strengths, Weaknesses, Opportunities, and Threats</p>
+            <p><span class="term">Need Assessment:</span> Process of identifying and measuring gaps between current and desired states</p>
+            <p><span class="term">Opportunity Cost:</span> The potential benefits missed when choosing one alternative over others</p>
+            <p><span class="term">TAM (Total Addressable Market):</span> The total market demand for a product or service</p>
+            <p><span class="term">SAM (Serviceable Available Market):</span> The portion of TAM targeted by your products and services</p>
+            <p><span class="term">TRL (Technology Readiness Level):</span> A measurement system to assess the maturity level of a particular technology</p>
+            <p><span class="term">ROI (Return on Investment):</span> A performance measure used to evaluate the efficiency of an investment</p>
+        </div>
+        
+        <div class="flashcard">
+            <div class="flashcard-question" onclick="toggleAnswer(this)">What is the difference between TAM, SAM, and SOM?</div>
+            <div class="flashcard-answer">
+                <ul>
+                    <li><strong>TAM (Total Addressable Market):</strong> The total market demand for a product or service, representing the maximum potential market size.</li>
+                    <li><strong>SAM (Serviceable Available Market):</strong> The portion of TAM that is within your geographical reach and fits your business model.</li>
+                    <li><strong>SOM (Serviceable Obtainable Market):</strong> The portion of SAM that you can realistically capture in the near term, considering competition and resources.</li>
+                </ul>
+                <p>Example: For a local organic juice company, TAM might be the entire beverage market ($100B), SAM would be the organic juice market in their region ($5B), and SOM might be the expected market share they can capture in the first few years ($2M).</p>
+            </div>
+        </div>
+        
+        <div class="flashcard">
+            <div class="flashcard-question" onclick="toggleAnswer(this)">What are the components of a SWOT analysis and how is it used in project identification?</div>
+            <div class="flashcard-answer">
+                <p>SWOT Analysis components:</p>
+                <ul>
+                    <li><strong>Strengths:</strong> Internal positive attributes and resources that support project success</li>
+                    <li><strong>Weaknesses:</strong> Internal negative attributes or limitations that could hinder the project</li>
+                    <li><strong>Opportunities:</strong> External factors that could positively impact the project</li>
+                    <li><strong>Threats:</strong> External factors that could negatively impact the project</li>
+                </ul>
+                <p>In project identification, SWOT analysis helps identify potential project ideas by leveraging organizational strengths and market opportunities while addressing weaknesses and mitigating threats. It provides a structured framework for evaluating the internal and external factors that might influence project success.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Interactive Learning</h2>
+        
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/9JvJEKG6zBQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        
+        <div class="quiz">
+            <h3>Knowledge Check</h3>
+            <div class="quiz-question">1. Which of the following is NOT typically a source of project ideas?</div>
+            <p><input type="radio" name="q1" id="q1a"> Market analysis<br>
+            <input type="radio" name="q1" id="q1b"> Technological developments<br>
+            <input type="radio" name="q1" id="q1c"> Employee birthdays<br>
+            <input type="radio" name="q1" id="q1d"> Resource availability</p>
+            
+            <div class="quiz-question">2. What is the primary purpose of project screening criteria?</div>
+            <p><input type="radio" name="q2" id="q2a"> To eliminate all but one project idea<br>
+            <input type="radio" name="q2" id="q2b"> To evaluate and compare potential projects systematically<br>
+            <input type="radio" name="q2" id="q2c"> To determine the final project budget<br>
+            <input type="radio" name="q2" id="q2d"> To assign project team members</p>
+            
+            <div class="quiz-question">3. Which of these would be part of the project identification process?</div>
+            <p><input type="radio" name="q3" id="q3a"> Detailed cost estimation<br>
+            <input type="radio" name="q3" id="q3b"> Finalizing the project charter<br>
+            <input type="radio" name="q3" id="q3c"> Preliminary feasibility assessment<br>
+            <input type="radio" name="q3" id="q3d"> Executing the project plan</p>
+            
+            <div class="quiz-question">4. In a risk matrix evaluation, how is the risk score calculated?</div>
+            <p><input type="radio" name="q4" id="q4a"> Likelihood + Impact<br>
+            <input type="radio" name="q4" id="q4b"> Likelihood × Impact<br>
+            <input type="radio" name="q4" id="q4c"> Likelihood ÷ Impact<br>
+            <input type="radio" name="q4" id="q4d"> (Likelihood + Impact) ÷ 2</p>
+            
+            <div class="quiz-question">5. Which of the following best describes the Technology Readiness Level (TRL) scale?</div>
+            <p><input type="radio" name="q5" id="q5a"> A measure of how innovative a technology is<br>
+            <input type="radio" name="q5" id="q5b"> A measure of how expensive a technology is to implement<br>
+            <input type="radio" name="q5" id="q5c"> A measure of the maturity level of a particular technology<br>
+            <input type="radio" name="q5" id="q5d"> A measure of market adoption for a technology</p>
+
+            <button type="submit" class="submit-quiz" onclick="checkAnswers()">Submit Answers</button>
+            
+            <div class="quiz-feedback" id="quizFeedback" style="display: none;">
+                <h4>Your Results:</h4>
+                <p id="result1"></p>
+                <p id="result2"></p>
+                <p id="result3"></p>
+                <p id="result4"></p>
+                <p id="result5"></p>
+                <p id="score"></p>
+            </div>
+        </div>
+
+        <script>
+            function toggleAnswer(element) {
+                const answer = element.nextElementSibling;
+                if (answer.style.display === "block") {
+                    answer.style.display = "none";
+                } else {
+                    answer.style.display = "block";
+                }
+            }
+            
+            function checkAnswers() {
+                const answers = {
+                    q1: 'q1c',
+                    q2: 'q2b',
+                    q3: 'q3c',
+                    q4: 'q4b',
+                    q5: 'q5c'
+                };
+                
+                let score = 0;
+                const feedback = document.getElementById('quizFeedback');
+                const scoreDisplay = document.getElementById('score');
+                
+                // Check each question
+                for (let i = 1; i <= 5; i++) {
+                    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                    const correctId = answers[`q${i}`];
+                    const resultElement = document.getElementById(`result${i}`);
+                    
+                    if (selected && selected.id === correctId) {
+                        score++;
+                        resultElement.innerHTML = `Question ${i}: Correct! ✓`;
+                        resultElement.style.color = '#27ae60';
+                    } else {
+                        resultElement.innerHTML = `Question ${i}: Incorrect. The correct answer was: ${document.getElementById(correctId).nextSibling.textContent}`;
+                        resultElement.style.color = '#e74c3c';
+                    }
+                }
+                
+                scoreDisplay.innerHTML = `Your score: ${score}/5`;
+                feedback.style.display = 'block';
+            }
+        </script>
+        
+        <div class="resources">
+            <h3>Additional Resources</h3>
+            <ul>
+                <li><a href="https://www.pmi.org/learning/library/project-identification-selection-process-7090" target="_blank">PMI Guide to Project Identification</a></li>
+                <li><a href="https://www.worldbank.org/en/projects-operations/products-and-services/project-identification" target="_blank">World Bank Project Identification Resources</a></li>
+                <li><a href="https://www.cdc.gov/evaluation/guide/step1/index.htm" target="_blank">CDC Program Identification Guide</a></li>
+                <li><a href="https://www.sciencedirect.com/topics/computer-science/technology-readiness-level" target="_blank">Technology Readiness Levels Explained</a></li>
+                <li><a href="https://www.investopedia.com/terms/t/tam.asp" target="_blank">Understanding TAM, SAM, and SOM in Market Analysis</a></li>
+            </ul>
+        </div>
+        
+        <div class="study-tip">
+            <strong>Exam Preparation Tip:</strong> Create your own project identification case study by selecting an industry you're familiar with and walking through each step of the process. Identify potential project ideas, screening criteria, and evaluation methods. This practical application will help reinforce your understanding of the concepts.
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="./Project_Overview_Scheduling.html" class="nav-button">← Back to Module Overview</a>
+        <a href="./Market_Demand_Analysis.html" class="nav-button">Next: Market & Demand Analysis →</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feasibility Studies - Market & Demand Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --info-color: #2980b9;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1{
+            color: white;
+        }
+
+        h2, h3, h4 {
+            color: var(--primary-color);
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+        }
+        
+        .module-code {
+            background-color: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            color: #bdc3c7;
+            font-size: 1.1em;
+        }
+        
+        .content-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .learning-outcomes {
+            background-color: #e8f4fc;
+            border-left: 5px solid var(--secondary-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .outcome-item {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .outcome-item:before {
+            content: "✓";
+            color: var(--success-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .analysis-step {
+            background-color: white;
+            border-left: 4px solid var(--info-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 5px 5px 0;
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            background-color: var(--info-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+        }
+        
+        .method-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .method-title {
+            color: var(--secondary-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+        }
+        
+        .method-icon {
+            font-size: 1.8em;
+            color: var(--secondary-color);
+            margin-right: 15px;
+            float: left;
+        }
+        
+        .key-concept {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .concept-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .case-study {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px dashed var(--warning-color);
+            margin: 25px 0;
+        }
+        
+        .case-title {
+            font-weight: bold;
+            color: var(--warning-color);
+            margin-bottom: 10px;
+        }
+        
+        .resources {
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        .key-terms {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        
+        .term {
+            font-weight: bold;
+            color: var(--primary-color);
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .forecast-chart {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .chart-placeholder {
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #ccc;
+            margin: 10px 0;
+            padding: 20px;
+        }
+        
+        .quiz {
+            background-color: #fffde7;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px dashed var(--warning-color);
+            margin: 25px 0;
+        }
+        
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .nav-button {
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        
+        .nav-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .slider-container {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .slider-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .slider-label {
+            width: 200px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .slider {
+            flex-grow: 1;
+            margin: 0 15px;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #e0e0e0;
+            outline: none;
+            border-radius: 4px;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .slider::-webkit-slider-thumb:hover {
+            background: #2980b9;
+            transform: scale(1.2);
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+        
+        .slider::-moz-range-thumb:hover {
+            background: #2980b9;
+            transform: scale(1.2);
+        }
+        
+        .slider-value {
+            width: 50px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--secondary-color);
+            background-color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .slider-info {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 4px;
+            border-left: 3px solid var(--secondary-color);
+        }
+        
+        .parameter-impact {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px dashed #ccc;
+        }
+        
+        .impact-item h4 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+        
+        .impact-item ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .impact-item li {
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+        
+        .btn-submit {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        .btn-submit:hover {
+            background-color: #219653;
+        }
+        
+        .quiz-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .quiz-result.success {
+            background-color: rgba(39, 174, 96, 0.2);
+            border: 1px solid var(--success-color);
+        }
+        
+        .quiz-result.warning {
+            background-color: rgba(243, 156, 18, 0.2);
+            border: 1px solid var(--warning-color);
+        }
+        
+        .quiz-feedback {
+            margin-top: 10px;
+        }
+        
+        .option-feedback {
+            margin-left: 20px;
+            font-style: italic;
+            display: none;
+        }
+        
+        .correct-answer {
+            color: var(--success-color);
+        }
+        
+        .incorrect-answer {
+            color: var(--accent-color);
+        }
+        
+        .summary-card {
+            background-color: #e8f8f5;
+            border-left: 4px solid var(--success-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            margin: -25px -25px 20px -25px;
+            border-bottom: 1px solid #ddd;
+            border-radius: 8px 8px 0 0;
+            z-index: 100;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-x: auto;
+        }
+        
+        .nav-menu li {
+            margin-right: 15px;
+            white-space: nowrap;
+        }
+        
+        .nav-menu a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-menu a:hover {
+            background-color: var(--light-color);
+        }
+        
+        .flashcard-container {
+            perspective: 1000px;
+            margin: 20px 0;
+        }
+        
+        .flashcard {
+            width: 100%;
+            height: 200px;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .flashcard-front {
+            background-color: #f0f7ff;
+            border: 1px solid var(--secondary-color);
+        }
+        
+        .flashcard-back {
+            background-color: #fff8e1;
+            border: 1px solid var(--warning-color);
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-term {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .flashcard-definition {
+            font-size: 1.2em;
+            text-align: center;
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .key-terms {
+                columns: 1;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+            }
+            
+            .nav-menu li {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="module-code">FEASIBILITY STUDIES</div>
+        <h1>Market & Demand Analysis</h1>
+        <p class="subtitle">Assessing Market Viability for Project Success</p>
+    </header>
+
+    <div class="content-section">
+        <nav class="sticky-nav">
+            <ul class="nav-menu">
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#process">Analysis Process</a></li>
+                <li><a href="#components">Key Components</a></li>
+                <li><a href="#techniques">Demand Techniques</a></li>
+                <li><a href="#concepts">Key Concepts</a></li>
+                <li><a href="#interactive">Interactive Learning</a></li>
+                <li><a href="#flashcards">Study Flashcards</a></li>
+            </ul>
+        </nav>
+        
+        <h2 id="introduction">Introduction to Market & Demand Analysis</h2>
+        <p>Market and demand analysis is a critical component of feasibility studies that examines the commercial viability of a proposed project by assessing the characteristics of the target market and estimating potential demand for the product or service.</p>
+        
+        <div class="learning-outcomes">
+            <h3>Learning Outcomes</h3>
+            <div class="outcome-item">
+                <strong>LO1:</strong> Understand the purpose and components of market and demand analysis
+            </div>
+            <div class="outcome-item">
+                <strong>LO2:</strong> Conduct comprehensive market research and data collection
+            </div>
+            <div class="outcome-item">
+                <strong>LO3:</strong> Analyze market characteristics and segmentation
+            </div>
+            <div class="outcome-item">
+                <strong>LO4:</strong> Apply demand forecasting techniques
+            </div>
+            <div class="outcome-item">
+                <strong>LO5:</strong> Evaluate market competition and positioning
+            </div>
+        </div>
+        
+        <div class="summary-card">
+            <h3>Why This Matters</h3>
+            <p>A thorough market and demand analysis reduces investment risk by verifying that sufficient market demand exists to support a project's viability. Without this critical step, projects may be developed based on assumptions rather than evidence, leading to potential failure in the marketplace.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 id="process">The Market Analysis Process</h2>
+        
+        <div class="analysis-step">
+            <div class="step-number">1</div>
+            <h3>Define Market Boundaries</h3>
+            <p>Identify the geographic area, customer segments, and product/service scope for the analysis.</p>
+        </div>
+        
+        <div class="analysis-step">
+            <div class="step-number">2</div>
+            <h3>Collect Market Data</h3>
+            <p>Gather information through primary research (surveys, interviews) and secondary research (reports, publications).</p>
+        </div>
+        
+        <div class="analysis-step">
+            <div class="step-number">3</div>
+            <h3>Analyze Market Characteristics</h3>
+            <p>Examine market size, growth trends, segmentation, purchasing patterns, and seasonality.</p>
+        </div>
+        
+        <div class="analysis-step">
+            <div class="step-number">4</div>
+            <h3>Assess Competition</h3>
+            <p>Identify competitors, analyze their market share, strengths, weaknesses, and positioning.</p>
+        </div>
+        
+        <div class="analysis-step">
+            <div class="step-number">5</div>
+            <h3>Forecast Demand</h3>
+            <p>Estimate current and future demand using appropriate forecasting methods.</p>
+        </div>
+        
+        <div class="analysis-step">
+            <div class="step-number">6</div>
+            <h3>Evaluate Pricing</h3>
+            <p>Analyze price sensitivity, competitive pricing, and potential pricing strategies.</p>
+        </div>
+        
+        <div class="diagram">
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Main Container -->
+                <rect x="10" y="10" width="780" height="480" rx="10" fill="#f0f7ff" stroke="#3498db" stroke-width="2"/>
+                
+                <!-- Title -->
+                <text x="400" y="40" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#2c3e50">Market and Demand Analysis Framework</text>
+                
+                <!-- Center Circle -->
+                <circle cx="400" cy="250" r="100" fill="#3498db" opacity="0.8"/>
+                <text x="400" y="250" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="white">PROJECT</text>
+                <text x="400" y="275" font-family="Arial" font-size="16" text-anchor="middle" fill="white">VIABILITY</text>
+                
+                <!-- Outer Elements -->
+                <g>
+                    <!-- Market Size -->
+                    <circle cx="200" cy="150" r="70" fill="#27ae60" opacity="0.8"/>
+                    <text x="200" y="150" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">MARKET</text>
+                    <text x="200" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="white">SIZE</text>
+                    <line x1="257" y1="185" x2="333" y2="210" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+                    
+                    <!-- Market Segmentation -->
+                    <circle cx="200" cy="350" r="70" fill="#f39c12" opacity="0.8"/>
+                    <text x="200" y="350" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">MARKET</text>
+                    <text x="200" y="375" font-family="Arial" font-size="14" text-anchor="middle" fill="white">SEGMENTATION</text>
+                    <line x1="257" y1="315" x2="333" y2="290" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+                    
+                    <!-- Demand Forecasting -->
+                    <circle cx="600" cy="150" r="70" fill="#e74c3c" opacity="0.8"/>
+                    <text x="600" y="150" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">DEMAND</text>
+                    <text x="600" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="white">FORECASTING</text>
+                    <line x1="543" y1="185" x2="467" y2="210" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+                    
+                    <!-- Competitive Analysis -->
+                    <circle cx="600" cy="350" r="70" fill="#9b59b6" opacity="0.8"/>
+                    <text x="600" y="350" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">COMPETITIVE</text>
+                    <text x="600" y="375" font-family="Arial" font-size="14" text-anchor="middle" fill="white">ANALYSIS</text>
+                    <line x1="543" y1="315" x2="467" y2="290" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+                </g>
+                
+                <!-- External Factors -->
+                <rect x="40" y="70" width="140" height="40" rx="5" fill="#2c3e50" opacity="0.7"/>
+                <text x="110" y="95" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Economic Factors</text>
+                
+                <rect x="40" y="390" width="140" height="40" rx="5" fill="#2c3e50" opacity="0.7"/>
+                <text x="110" y="415" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Social Factors</text>
+                
+                <rect x="620" y="70" width="140" height="40" rx="5" fill="#2c3e50" opacity="0.7"/>
+                <text x="690" y="95" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Technological Factors</text>
+                
+                <rect x="620" y="390" width="140" height="40" rx="5" fill="#2c3e50" opacity="0.7"/>
+                <text x="690" y="415" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Regulatory Factors</text>
+                
+                <!-- Connecting lines to external factors -->
+                <line x1="140" y1="90" x2="175" y2="120" stroke="#333" stroke-width="1.5" stroke-dasharray="5,5"/>
+                <line x1="140" y1="410" x2="175" y2="380" stroke="#333" stroke-width="1.5" stroke-dasharray="5,5"/>
+                <line x1="660" y1="90" x2="625" y2="120" stroke="#333" stroke-width="1.5" stroke-dasharray="5,5"/>
+                <line x1="660" y1="410" x2="625" y2="380" stroke="#333" stroke-width="1.5" stroke-dasharray="5,5"/>
+            </svg>
+            <p><em>Framework for market and demand analysis</em></p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 id="components">Key Components of Market Analysis</h2>
+        
+        <div class="method-card">
+            <div class="method-icon">📊</div>
+            <h3 class="method-title">Market Size Assessment</h3>
+            <p>Determining the total volume or value of the market for your product/service.</p>
+            <div class="key-concept">
+                <div class="concept-title">Methods</div>
+                <p>Top-down (industry reports), bottom-up (building from customer data), and value chain analysis approaches.</p>
+            </div>
+        </div>
+        
+        <div class="method-card">
+            <div class="method-icon">👥</div>
+            <h3 class="method-title">Market Segmentation</h3>
+            <p>Dividing the market into distinct groups with common characteristics.</p>
+            <div class="key-concept">
+                <div class="concept-title">Segmentation Bases</div>
+                <p>Demographic, geographic, psychographic, and behavioral segmentation criteria.</p>
+            </div>
+        </div>
+        
+        <div class="method-card">
+            <div class="method-icon">📈</div>
+            <h3 class="method-title">Demand Forecasting</h3>
+            <p>Estimating future demand for the product/service under various conditions.</p>
+            <div class="key-concept">
+                <div class="concept-title">Techniques</div>
+                <p>Time series analysis, market testing, expert opinion, and econometric modeling.</p>
+            </div>
+        </div>
+        
+        <div class="method-card">
+            <div class="method-icon">🥊</div>
+            <h3 class="method-title">Competitive Analysis</h3>
+            <p>Evaluating competitors' strengths, weaknesses, and market positions.</p>
+            <div class="key-concept">
+                <div class="concept-title">Tools</div>
+                <p>SWOT analysis, Porter's Five Forces, and competitive benchmarking.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 id="techniques">Demand Analysis Techniques</h2>
+        
+        <table class="data-table">
+            <tr>
+                <th>Technique</th>
+                <th>Description</th>
+                <th>When to Use</th>
+                <th>Data Requirements</th>
+            </tr>
+            <tr>
+                <td>Trend Analysis</td>
+                <td>Projecting historical growth patterns into the future</td>
+                <td>Stable markets with historical data</td>
+                <td>Time series data (3-5 years minimum)</td>
+            </tr>
+            <tr>
+                <td>Market Testing</td>
+                <td>Small-scale product launches to gauge demand</td>
+                <td>New products with uncertain demand</td>
+                <td>Test market results</td>
+            </tr>
+            <tr>
+                <td>Consumer Surveys</td>
+                <td>Direct questioning of potential customers</td>
+                <td>When customer preferences are key</td>
+                <td>Survey responses (200+ recommended)</td>
+            </tr>
+            <tr>
+                <td>Expert Opinion</td>
+                <td>Consulting industry specialists</td>
+                <td>Emerging markets with little data</td>
+                <td>Expert interviews</td>
+            </tr>
+            <tr>
+                <td>Leading Indicators</td>
+                <td>Using related variables to predict demand</td>
+                <td>When causal relationships exist</td>
+                <td>Indicator data series</td>
+            </tr>
+        </table>
+        
+        <div class="forecast-chart">
+            <h3>Interactive Demand Forecast</h3>
+            <div class="chart-placeholder">
+                <div class="slider-container">
+                    <h4>Adjust Parameters to See Impact on Demand Forecast</h4>
+                    <div class="slider-row">
+                        <div class="slider-label">Initial Adoption Rate:</div>
+                        <input type="range" id="adoption-rate" class="slider" min="1" max="10" value="5" step="1">
+                        <div class="slider-value" id="adoption-value">5%</div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-label">Market Growth Rate:</div>
+                        <input type="range" id="growth-rate" class="slider" min="5" max="30" value="15" step="5">
+                        <div class="slider-value" id="growth-value">15%</div>
+                    </div>
+                    <div class="slider-row">
+                        <div class="slider-label">Competitive Intensity:</div>
+                        <input type="range" id="competition" class="slider" min="1" max="10" value="5" step="1">
+                        <div class="slider-value" id="competition-value">5</div>
+                    </div>
+                    <div class="slider-info">
+                        <p><small><strong>About this model:</strong> Adjust sliders to see how different market conditions affect product adoption. The model shows expected scenario (blue) along with optimistic (green) and pessimistic (red) projections based on your inputs.</small></p>
+                    </div>
+                </div>
+                <div style="height: 400px; width: 100%;">
+                    <canvas id="demandChart"></canvas>
+                </div>
+                <div class="parameter-impact">
+                    <div class="impact-item">
+                        <h4>Parameter Impact on Forecast:</h4>
+                        <ul>
+                            <li><strong>Higher Adoption Rate:</strong> Faster initial market penetration</li>
+                            <li><strong>Higher Growth Rate:</strong> Steeper adoption curve in mid-years</li>
+                            <li><strong>Higher Competitive Intensity:</strong> Lower overall market capture</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <p><em>Interactive demand forecast model for a new software product</em></p>
+        </div>
+        
+        <div class="case-study">
+            <div class="case-title">Real-World Application: Electric Vehicle Market</div>
+            <p><strong>Market Analysis:</strong> Automaker conducted extensive research on EV adoption trends, including:</p>
+            <ul>
+                <li>Consumer surveys on range anxiety and charging preferences</li>
+                <li>Analysis of government incentives and regulations</li>
+                <li>Competitor benchmarking of existing EV offerings</li>
+                <li>Forecasting based on battery cost reductions</li>
+            </ul>
+            <p><strong>Outcome:</strong> Projected 22% annual market growth, leading to $2B investment in new production facilities.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 id="concepts">Key Concepts and Terminology</h2>
+        
+        <div class="key-terms">
+            <p><span class="term">Market Analysis:</span> Study of market characteristics, size, and trends</p>
+            <p><span class="term">Demand Analysis:</span> Assessment of current and future demand for a product/service</p>
+            <p><span class="term">Market Segmentation:</span> Dividing a market into distinct customer groups</p>
+            <p><span class="term">Demand Forecasting:</span> Process of estimating future demand</p>
+            <p><span class="term">Market Share:</span> Percentage of total sales in a market captured by a company</p>
+            <p><span class="term">Elasticity of Demand:</span> Sensitivity of demand to price changes</p>
+            <p><span class="term">Competitive Advantage:</span> Factors that allow a company to outperform rivals</p>
+            <p><span class="term">SWOT Analysis:</span> Evaluation of Strengths, Weaknesses, Opportunities, Threats</p>
+        </div>
+        
+        <h3 id="flashcards">Study Flashcards</h3>
+        <p>Click on each card to reveal the definition!</p>
+        
+        <div class="flashcard-container">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-front">
+                    <div class="flashcard-term">Market Positioning</div>
+                </div>
+                <div class="flashcard-back">
+                    <div class="flashcard-definition">The way a product is perceived in the minds of customers relative to competing products, based on key attributes that are important to customers.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flashcard-container">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-front">
+                    <div class="flashcard-term">Price Elasticity of Demand</div>
+                </div>
+                <div class="flashcard-back">
+                    <div class="flashcard-definition">A measure of how sensitive demand for a product is to changes in price. Calculated as the percentage change in quantity demanded divided by the percentage change in price.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flashcard-container">
+            <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                <div class="flashcard-front">
+                    <div class="flashcard-term">Market Penetration Rate</div>
+                </div>
+                <div class="flashcard-back">
+                    <div class="flashcard-definition">The percentage of the total addressable market that has been captured by a product or service at a given point in time. It shows how much of the potential market has been reached.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2 id="interactive">Interactive Learning</h2>
+        
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Z03JjswtD7Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        
+        <div class="quiz">
+            <h3>Knowledge Check</h3>
+            <div id="quiz-form">
+                <div class="quiz-question">1. Which of these is NOT typically a component of market analysis?</div>
+                <p>
+                    <input type="radio" name="q1" id="q1a" value="a"> <label for="q1a">Market size assessment</label><br>
+                    <input type="radio" name="q1" id="q1b" value="b"> <label for="q1b">Demand forecasting</label><br>
+                    <input type="radio" name="q1" id="q1c" value="c"> <label for="q1c">Project scheduling</label><br>
+                    <input type="radio" name="q1" id="q1d" value="d"> <label for="q1d">Competitive analysis</label>
+                </p>
+                <div class="option-feedback" id="feedback-q1a">Incorrect. Market size assessment is a key component of market analysis that helps determine the total volume or value of the market.</div>
+                <div class="option-feedback" id="feedback-q1b">Incorrect. Demand forecasting is an essential component of market analysis used to estimate future customer demand.</div>
+                <div class="option-feedback" id="feedback-q1c">Correct! Project scheduling is part of project management, not market analysis.</div>
+                <div class="option-feedback" id="feedback-q1d">Incorrect. Competitive analysis is a crucial component of market analysis that evaluates competitors' positions in the market.</div>
+                
+                <div class="quiz-question">2. What is the primary purpose of market segmentation?</div>
+                <p>
+                    <input type="radio" name="q2" id="q2a" value="a"> <label for="q2a">To divide the market into manageable groups with similar characteristics</label><br>
+                    <input type="radio" name="q2" id="q2b" value="b"> <label for="q2b">To reduce production costs</label><br>
+                    <input type="radio" name="q2" id="q2c" value="c"> <label for="q2c">To eliminate competition</label><br>
+                    <input type="radio" name="q2" id="q2d" value="d"> <label for="q2d">To increase product features</label>
+                </p>
+                <div class="option-feedback" id="feedback-q2a">Correct! Market segmentation divides the market into distinct groups with common characteristics to better target marketing efforts.</div>
+                <div class="option-feedback" id="feedback-q2b">Incorrect. While segmentation might indirectly affect costs, its primary purpose is not cost reduction.</div>
+                <div class="option-feedback" id="feedback-q2c">Incorrect. Market segmentation does not aim to eliminate competition but to identify specific customer groups.</div>
+                <div class="option-feedback" id="feedback-q2d">Incorrect. Adding product features is related to product development, not market segmentation.</div>
+                
+                <div class="quiz-question">3. Which demand forecasting technique would be most appropriate for a completely new product with no historical data?</div>
+                <p>
+                    <input type="radio" name="q3" id="q3a" value="a"> <label for="q3a">Trend analysis</label><br>
+                    <input type="radio" name="q3" id="q3b" value="b"> <label for="q3b">Market testing</label><br>
+                    <input type="radio" name="q3" id="q3c" value="c"> <label for="q3c">Time series analysis</label><br>
+                    <input type="radio" name="q3" id="q3d" value="d"> <label for="q3d">Leading indicators</label>
+                </p>
+                <div class="option-feedback" id="feedback-q3a">Incorrect. Trend analysis requires historical data, which is not available for a completely new product.</div>
+                <div class="option-feedback" id="feedback-q3b">Correct! Market testing allows you to gauge demand through small-scale product launches when no historical data exists.</div>
+                <div class="option-feedback" id="feedback-q3c">Incorrect. Time series analysis also requires historical data points to identify patterns over time.</div>
+                <div class="option-feedback" id="feedback-q3d">Incorrect. While leading indicators can be useful, they typically require established relationships between indicators and demand.</div>
+                
+                <div class="quiz-question">4. What does the elasticity of demand measure?</div>
+                <p>
+                    <input type="radio" name="q4" id="q4a" value="a"> <label for="q4a">How quickly a product can be produced</label><br>
+                    <input type="radio" name="q4" id="q4b" value="b"> <label for="q4b">The flexibility of the production process</label><br>
+                    <input type="radio" name="q4" id="q4c" value="c"> <label for="q4c">The sensitivity of demand to price changes</label><br>
+                    <input type="radio" name="q4" id="q4d" value="d"> <label for="q4d">The market's growth rate over time</label>
+                </p>
+                <div class="option-feedback" id="feedback-q4a">Incorrect. Production speed is not related to elasticity of demand.</div>
+                <div class="option-feedback" id="feedback-q4b">Incorrect. Production flexibility is a manufacturing concept, not a demand concept.</div>
+                <div class="option-feedback" id="feedback-q4c">Correct! Elasticity of demand measures how sensitive customer demand is to changes in price.</div>
+                <div class="option-feedback" id="feedback-q4d">Incorrect. Market growth rate is a separate measure from elasticity of demand.</div>
+                
+                <div class="quiz-question">5. Which of these external factors would be LEAST relevant in a market analysis for a luxury watch brand?</div>
+                <p>
+                    <input type="radio" name="q5" id="q5a" value="a"> <label for="q5a">Global economic conditions</label><br>
+                    <input type="radio" name="q5" id="q5b" value="b"> <label for="q5b">Agricultural commodity prices</label><br>
+                    <input type="radio" name="q5" id="q5c" value="c"> <label for="q5c">Rising disposable income in emerging markets</label><br>
+                    <input type="radio" name="q5" id="q5d" value="d"> <label for="q5d">Changing consumer attitudes toward status symbols</label>
+                </p>
+                <div class="option-feedback" id="feedback-q5a">Incorrect. Global economic conditions directly impact spending on luxury goods.</div>
+                <div class="option-feedback" id="feedback-q5b">Correct! Agricultural commodity prices would have minimal impact on the luxury watch market.</div>
+                <div class="option-feedback" id="feedback-q5c">Incorrect. Rising disposable income in emerging markets creates new customers for luxury watches.</div>
+                <div class="option-feedback" id="feedback-q5d">Incorrect. Consumer attitudes toward status symbols directly affect purchasing decisions for luxury watches.</div>
+                
+                <button type="button" id="submit-quiz" class="btn-submit">Submit Answers</button>
+            </div>
+            
+            <div class="quiz-result" id="quiz-result">
+                <h3>Your Score: <span id="quiz-score">0</span>/5</h3>
+                <div class="quiz-feedback" id="quiz-feedback"></div>
+            </div>
+        </div>
+        
+        <div class="resources">
+            <h3>Additional Resources</h3>
+            <ul>
+                <li><a href="https://www.ibisworld.com" target="_blank">IBISWorld Industry Reports</a></li>
+                <li><a href="https://www.statista.com" target="_blank">Statista Market Data</a></li>
+                <li><a href="https://www.marketresearch.com" target="_blank">MarketResearch.com Reports</a></li>
+                <li><a href="https://www.sba.gov/business-guide/plan-your-business/market-research-competitive-analysis" target="_blank">SBA Market Research Guide</a></li>
+                <li><a href="https://hbr.org/topic/market-research" target="_blank">Harvard Business Review: Market Research Articles</a></li>
+                <li><a href="https://www.mckinsey.com/business-functions/marketing-and-sales/our-insights" target="_blank">McKinsey Insights: Marketing & Sales</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="./Project_Identification.html" class="nav-button">← Back to Project Identification</a>
+        <a href="./Project_Cost_Estimation.html" class="nav-button">Next: Project Cost Estimation →</a>
+    </div>
+
+    <script>
+        // Set up the demand forecast chart
+        const ctx = document.getElementById('demandChart').getContext('2d');
+        let demandChart;
+        
+        // Chart configuration
+        function createChart() {
+            // Get current slider values
+            const adoptionRate = parseInt(document.getElementById('adoption-rate').value);
+            const growthRate = parseInt(document.getElementById('growth-rate').value);
+            const competition = parseInt(document.getElementById('competition').value);
+            
+            // Timeline for forecast
+            const years = ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'];
+            
+            // Calculate demand curve based on parameters
+            // This creates the primary market adoption curve
+            const adjustedDemand = calculateDemandCurve(adoptionRate, growthRate, competition);
+            
+            // Calculate an "optimistic" scenario with higher adoption and growth
+            const optimisticDemand = calculateDemandCurve(
+                Math.min(adoptionRate + 2, 10),
+                Math.min(growthRate + 10, 30),
+                Math.max(competition - 2, 1)
+            );
+            
+            // Calculate a "pessimistic" scenario with lower adoption and growth
+            const pessimisticDemand = calculateDemandCurve(
+                Math.max(adoptionRate - 2, 1),
+                Math.max(growthRate - 10, 5),
+                Math.min(competition + 2, 10)
+            );
+            
+            // Create or update chart
+            if (demandChart) {
+                // Update existing chart with new data
+                demandChart.data.datasets[0].data = adjustedDemand;
+                demandChart.data.datasets[1].data = optimisticDemand;
+                demandChart.data.datasets[2].data = pessimisticDemand;
+                demandChart.update();
+            } else {
+                // Create new chart with multiple scenarios
+                demandChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: years,
+                        datasets: [
+                            {
+                                label: 'Expected Scenario',
+                                data: adjustedDemand,
+                                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                                borderColor: 'rgba(52, 152, 219, 1)',
+                                borderWidth: 3,
+                                pointBackgroundColor: 'rgba(52, 152, 219, 1)',
+                                pointRadius: 5,
+                                tension: 0.3
+                            },
+                            {
+                                label: 'Optimistic Scenario',
+                                data: optimisticDemand,
+                                backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                                borderColor: 'rgba(46, 204, 113, 0.8)',
+                                borderWidth: 2,
+                                pointBackgroundColor: 'rgba(46, 204, 113, 0.8)',
+                                pointRadius: 4,
+                                tension: 0.3,
+                                borderDash: [5, 5]
+                            },
+                            {
+                                label: 'Pessimistic Scenario',
+                                data: pessimisticDemand,
+                                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                                borderColor: 'rgba(231, 76, 60, 0.8)',
+                                borderWidth: 2,
+                                pointBackgroundColor: 'rgba(231, 76, 60, 0.8)',
+                                pointRadius: 4,
+                                tension: 0.3,
+                                borderDash: [5, 5]
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Market Adoption (%)',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(200, 200, 200, 0.2)'
+                                },
+                                ticks: {
+                                    stepSize: 10,
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Time Horizon',
+                                    font: {
+                                        weight: 'bold'
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(200, 200, 200, 0.2)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Software Product Adoption Forecast',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                },
+                                padding: {
+                                    bottom: 15
+                                }
+                            },
+                            subtitle: {
+                                display: true,
+                                text: 'Expected adoption with optimistic and pessimistic scenarios',
+                                font: {
+                                    size: 12,
+                                    style: 'italic'
+                                },
+                                padding: {
+                                    bottom: 10
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                                titleFont: {
+                                    size: 14
+                                },
+                                bodyFont: {
+                                    size: 13
+                                },
+                                padding: 12,
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.dataset.label}: ${context.parsed.y.toFixed(1)}% adoption`;
+                                    }
+                                }
+                            },
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    boxWidth: 15,
+                                    padding: 15
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Add adoption milestone annotations
+            updateAdoptionMilestones();
+        }
+        
+        // Calculate demand curve based on parameters
+        function calculateDemandCurve(adoptionRate, growthRate, competition) {
+            // Baseline demand curve (typical S-curve for product adoption)
+            const baselineDemand = [10, 25, 45, 60, 70];
+            
+            // Apply parameter adjustments
+            return baselineDemand.map((value, index) => {
+                let adjusted = value;
+                
+                // Early adoption impact (stronger in early years)
+                adjusted += (adoptionRate - 5) * (3 - 0.5 * index);
+                
+                // Growth rate impact (stronger in middle years, follows classic diffusion curve)
+                const growthImpact = ((growthRate - 15) / 5);
+                if (index < 2) {
+                    // Stronger impact in early-mid phase (Year 2-3)
+                    adjusted += growthImpact * (index + 1) * 1.5;
+                } else {
+                    // Diminishing returns in later phases
+                    adjusted += growthImpact * (5 - index) * 1.2;
+                }
+                
+                // Competition impact (increases over time as market matures)
+                const competitionImpact = ((competition - 5) / 10);
+                adjusted -= competitionImpact * Math.pow(index + 1, 1.5);
+                
+                // Market saturation effect (natural ceiling as market saturates)
+                if (adjusted > 70) {
+                    // Apply diminishing returns as we approach market saturation
+                    adjusted = 70 + (adjusted - 70) * 0.7;
+                }
+                
+                // Ensure values stay within realistic range (5-100%)
+                return Math.max(5, Math.min(100, adjusted));
+            });
+        }
+        
+        // Update adoption milestones on the chart
+        function updateAdoptionMilestones() {
+            if (!demandChart) return;
+            
+            // Clear existing annotations
+            if (demandChart.options.plugins.annotation) {
+                demandChart.options.plugins.annotation.annotations = {};
+            }
+            
+            // Get main dataset values
+            const data = demandChart.data.datasets[0].data;
+            
+            // Find where adoption crosses important thresholds
+            const crossesThreshold = (threshold) => {
+                for (let i = 0; i < data.length - 1; i++) {
+                    if (data[i] < threshold && data[i+1] >= threshold) {
+                        // Linear interpolation to find more precise crossing point
+                        const x1 = i;
+                        const x2 = i + 1;
+                        const y1 = data[i];
+                        const y2 = data[i+1];
+                        const position = x1 + (threshold - y1) / (y2 - y1);
+                        return position;
+                    }
+                }
+                return null;
+            };
+            
+            // Add milestone markers at key adoption percentages
+            const milestones = [
+                { threshold: 25, label: 'Early Majority' },
+                { threshold: 50, label: 'Mass Adoption' }
+            ];
+            
+            // No need to add annotations since we're not using the annotation plugin currently
+            // This function is kept for future enhancement
+        }
+        
+        // Initialize sliders and chart
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up sliders
+            const adoptionSlider = document.getElementById('adoption-rate');
+            const growthSlider = document.getElementById('growth-rate');
+            const competitionSlider = document.getElementById('competition');
+            
+            adoptionSlider.addEventListener('input', function() {
+                document.getElementById('adoption-value').textContent = this.value + '%';
+                createChart();
+            });
+            
+            growthSlider.addEventListener('input', function() {
+                document.getElementById('growth-value').textContent = this.value + '%';
+                createChart();
+            });
+            
+            competitionSlider.addEventListener('input', function() {
+                document.getElementById('competition-value').textContent = this.value;
+                createChart();
+            });
+            
+            // Initialize chart
+            createChart();
+            
+            // Quiz functionality
+            document.getElementById('submit-quiz').addEventListener('click', function() {
+                // Correct answers
+                const correctAnswers = {
+                    q1: 'c',
+                    q2: 'a',
+                    q3: 'b',
+                    q4: 'c',
+                    q5: 'b'
+                };
+                
+                // Calculate score
+                let score = 0;
+                let feedback = '';
+                
+                for (const question in correctAnswers) {
+                    const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                    
+                    // Hide all feedback initially
+                    document.querySelectorAll(`[id^=feedback-${question}]`).forEach(el => {
+                        el.style.display = 'none';
+                    });
+                    
+                    if (selectedOption) {
+                        // Show feedback for selected option
+                        const feedbackElement = document.getElementById(`feedback-${question}${selectedOption.value}`);
+                        feedbackElement.style.display = 'block';
+                        
+                        // Add to score if correct
+                        if (selectedOption.value === correctAnswers[question]) {
+                            score++;
+                            feedbackElement.classList.add('correct-answer');
+                        } else {
+                            feedbackElement.classList.add('incorrect-answer');
+                        }
+                    } else {
+                        feedback += `<p>Question ${question.slice(1)}: No answer selected</p>`;
+                    }
+                }
+                
+                // Display result
+                document.getElementById('quiz-score').textContent = score;
+                document.getElementById('quiz-feedback').innerHTML = feedback;
+                
+                const resultElement = document.getElementById('quiz-result');
+                resultElement.style.display = 'block';
+                
+                if (score >= 4) {
+                    resultElement.className = 'quiz-result success';
+                    if (score === 5) {
+                        document.getElementById('quiz-feedback').innerHTML += '<p>Perfect score! You have an excellent understanding of market and demand analysis concepts.</p>';
+                    } else {
+                        document.getElementById('quiz-feedback').innerHTML += '<p>Great job! You have a strong grasp of the material.</p>';
+                    }
+                } else {
+                    resultElement.className = 'quiz-result warning';
+                    document.getElementById('quiz-feedback').innerHTML += '<p>Review the material again to strengthen your understanding of these concepts.</p>';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1 Briefing: Project Overview & Scheduling</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color:#ddd;
+        }
+
+        h2, h3, h4 {
+            color: var(--primary-color);
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+        }
+        
+        .module-code {
+            background-color: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            color: #bdc3c7;
+            font-size: 1.1em;
+        }
+        
+        .content-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .learning-outcomes {
+            background-color: #e8f4fc;
+            border-left: 5px solid var(--secondary-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .outcome-item {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .outcome-item:before {
+            content: "✓";
+            color: var(--success-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .topic-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .topic-title {
+            color: var(--secondary-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+        }
+        
+        .topic-icon {
+            font-size: 1.8em;
+            color: var(--secondary-color);
+            margin-right: 15px;
+            float: left;
+        }
+        
+        .key-concept {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .concept-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .case-study {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px dashed var(--warning-color);
+            margin: 25px 0;
+        }
+        
+        .case-title {
+            font-weight: bold;
+            color: var(--warning-color);
+            margin-bottom: 10px;
+        }
+        
+        .resources {
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        .key-terms {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        
+        .term {
+            font-weight: bold;
+            color: var(--primary-color);
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .nav-button {
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        
+        .nav-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .module-structure {
+            background-color: #e8f8f0;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .duration-badge {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        .feasibility-component {
+            background-color: #f8f9fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .feasibility-component h4 {
+            color: var(--secondary-color);
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        .assessment-list {
+            background-color: #f0f7fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .assessment-list h5 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .formula {
+            background-color: #f5f5f5;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: "Courier New", monospace;
+            margin: 10px 0;
+            display: inline-block;
+        }
+        
+        .example-box {
+            background-color: #e8f4f8;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .warning-box {
+            background-color: #fff5e6;
+            border-left: 4px solid var(--warning-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .process-phase {
+            background-color: #edf2f7;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .process-phase h4 {
+            margin-top: 0;
+            color: var(--secondary-color);
+        }
+        
+        .reference-list {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary-color);
+            margin: 20px 0;
+        }
+        
+        .reference-list ol {
+            margin-bottom: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .key-terms {
+                columns: 1;
+            }
+            
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="module-code">MODULE 1</div>
+        <h1>Project Overview & Scheduling</h1>
+        <p class="subtitle">Foundations of Project Management and Planning Techniques</p>
+    </header>
+
+    <div class="content-section">
+        <h2>Welcome to Module 1</h2>
+        <p>This module serves as your gateway to understanding the fundamental concepts of project management, focusing on project initiation, feasibility assessment, and scheduling techniques. Over the next 5 hours of study, you'll develop the skills to analyze project viability and create effective schedules.</p>
+        
+        <div class="learning-outcomes">
+            <h3>Learning Outcomes</h3>
+            <div class="outcome-item">
+                <strong>LO1:</strong> Conduct comprehensive feasibility studies for new projects
+            </div>
+            <div class="outcome-item">
+                <strong>LO2:</strong> Perform market and demand analysis to assess project viability
+            </div>
+            <div class="outcome-item">
+                <strong>LO3:</strong> Develop accurate project cost estimates and financial appraisals
+            </div>
+            <div class="outcome-item">
+                <strong>LO4:</strong> Create project schedules using appropriate techniques
+            </div>
+            <div class="outcome-item">
+                <strong>LO5:</strong> Apply PERT and CPM methods for critical path calculation
+            </div>
+        </div>
+        
+        <div class="module-structure">
+            <h3>Module Structure <span class="duration-badge">5 Hours</span></h3>
+            <p>This module is divided into two main sections:</p>
+            <ol>
+                <li><strong>Project Overview and Feasibility Studies</strong> (2.5 hours)
+                    <ul>
+                        <li>Project Identification</li>
+                        <li>Market and Demand Analysis</li>
+                        <li>Project Cost Estimation</li>
+                        <li>Financial Appraisal</li>
+                    </ul>
+                </li>
+                <li><strong>Project Scheduling Techniques</strong> (2.5 hours)
+                    <ul>
+                        <li>Fundamentals of Project Scheduling</li>
+                        <li>Introduction to PERT and CPM</li>
+                        <li>Critical Path Calculation</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Key Topics Overview</h2>
+        
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-icon">📋</div>
+                <h3 class="topic-title">Projects & Their Characteristics</h3>
+                <p>A project is a temporary endeavor undertaken to create a unique product, service, or result with a defined beginning and end.</p>
+                <div class="key-concept">
+                    <div class="concept-title">Key Project Characteristics</div>
+                    <p>Projects are characterized by their temporary nature, uniqueness of deliverables, progressive elaboration, constrained resources, and specific objectives.</p>
+                </div>
+                <div class="key-concept">
+                    <div class="concept-title">Types of IT Projects</div>
+                    <ul>
+                        <li><strong>Infrastructure:</strong> Hardware, network, cloud deployment</li>
+                        <li><strong>Software Development:</strong> Custom applications, mobile apps</li>
+                        <li><strong>Implementation:</strong> ERP, CRM systems</li>
+                        <li><strong>Integration:</strong> Connecting disparate systems</li>
+                        <li><strong>Data & Analytics:</strong> Data warehousing, BI solutions</li>
+                        <li><strong>Security:</strong> Cybersecurity implementations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-icon">🔍</div>
+                <h3 class="topic-title">Project Identification</h3>
+                <p>The process of conceiving, defining, and developing project ideas to meet identified needs or solve problems.</p>
+                <div class="key-concept">
+                    <div class="concept-title">Project Selection Criteria</div>
+                    <p>Projects are typically evaluated based on strategic alignment, feasibility, cost-benefit analysis, and risk assessment.</p>
+                </div>
+                <div class="key-concept">
+                    <div class="concept-title">Identification Methods</div>
+                    <ul>
+                        <li><strong>Problem Analysis:</strong> Identifying organizational pain points</li>
+                        <li><strong>SWOT Analysis:</strong> Exploring strengths, weaknesses, opportunities, threats</li>
+                        <li><strong>Gap Analysis:</strong> Comparing current vs. desired state</li>
+                        <li><strong>Brainstorming:</strong> Generating ideas from stakeholders</li>
+                        <li><strong>Benchmarking:</strong> Comparing against industry best practices</li>
+                    </ul>
+                </div>
+                <div class="key-concept">
+                    <div class="concept-title">Idea Screening Process</div>
+                    <p>Initial filtering of project ideas through preliminary analysis, categorization, prioritization, and alignment with strategic objectives before formal initiation.</p>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <div class="topic-icon">🚀</div>
+                <h3 class="topic-title">Project Initiation</h3>
+                <p>The formal process of authorizing a new project and defining its initial scope, objectives, stakeholders, and boundaries.</p>
+                <div class="key-concept">
+                    <div class="concept-title">Key Initiation Activities</div>
+                    <ul>
+                        <li><strong>Project Charter Development:</strong> Creating the authorizing document</li>
+                        <li><strong>Stakeholder Identification:</strong> Mapping all affected parties</li>
+                        <li><strong>Initial Requirements Gathering:</strong> High-level needs assessment</li>
+                        <li><strong>Resource Estimation:</strong> Preliminary budget and resource planning</li>
+                        <li><strong>Risk Identification:</strong> Preliminary assessment of major risks</li>
+                    </ul>
+                </div>
+                <div class="key-concept">
+                    <div class="concept-title">Project Charter Components</div>
+                    <p>A comprehensive charter includes project purpose, objectives, scope (inclusions/exclusions), high-level requirements, deliverables, milestones, assumptions, constraints, success criteria, stakeholders, and preliminary budget/schedule.</p>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <div class="topic-icon">📊</div>
+                <h3 class="topic-title">Market & Demand Analysis</h3>
+                <p>Systematic approach to understanding market needs, customer demand, and competitive landscape for a proposed project.</p>
+                <div class="key-concept">
+                    <div class="concept-title">Key Components</div>
+                    <p>Includes market size estimation, demand forecasting, pricing analysis, and distribution channel assessment.</p>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <div class="topic-icon">💰</div>
+                <h3 class="topic-title">Cost Estimation</h3>
+                <p>The process of forecasting the financial resources needed to complete project activities.</p>
+                <div class="key-concept">
+                    <div class="concept-title">Estimation Techniques</div>
+                    <p>Analogous, parametric, bottom-up, and three-point estimation methods are commonly used.</p>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <div class="topic-icon">📈</div>
+                <h3 class="topic-title">Financial Appraisal</h3>
+                <p>Evaluation of a project's financial viability using various financial metrics and indicators.</p>
+                <div class="key-concept">
+                    <div class="concept-title">Key Metrics</div>
+                    <p>NPV (Net Present Value), IRR (Internal Rate of Return), Payback Period, and ROI (Return on Investment).</p>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <div class="topic-icon">⏱️</div>
+                <h3 class="topic-title">Project Scheduling</h3>
+                <p>The process of listing tasks, activities, and milestones with planned start and finish dates.</p>
+                <div class="key-concept">
+                    <div class="concept-title">Scheduling Components</div>
+                    <p>Includes work breakdown structure, activity sequencing, duration estimation, and schedule development.</p>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <div class="topic-icon">🔄</div>
+                <h3 class="topic-title">PERT & CPM</h3>
+                <p>Network-based scheduling techniques for project planning and management.</p>
+                <div class="key-concept">
+                    <div class="concept-title">Key Difference</div>
+                    <p>PERT uses probabilistic time estimates, while CPM uses deterministic time estimates.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Project Overview</h2>
+        
+        <div class="key-concept">
+            <div class="concept-title">What is a Project?</div>
+            <p>A project is a temporary endeavor undertaken to create a unique product, service, or result. Projects are fundamentally different from ongoing operations in that they have defined beginning and end points, specific objectives, and typically involve a team assembled for the particular purpose of delivering the project outcomes.</p>
+        </div>
+        
+        <div class="assessment-list">
+            <h5>Distinguishing Characteristics of Projects:</h5>
+            <ul>
+                <li><strong>Temporary Nature:</strong> Every project has a definite beginning and a definite end</li>
+                <li><strong>Unique Deliverables:</strong> Projects create unique products, services, or results</li>
+                <li><strong>Progressive Elaboration:</strong> Projects develop in steps and continue by increments</li>
+                <li><strong>Resource Constraints:</strong> Limited time, budget, and resources</li>
+                <li><strong>Uncertainty:</strong> Projects inherently involve risk and uncertainty</li>
+            </ul>
+        </div>
+        
+        <div class="feasibility-component">
+            <h4>The Project Management Lifecycle</h4>
+            <p>The project management lifecycle provides a framework for managing projects from initiation through closure. Understanding this lifecycle is essential for effective project planning and execution.</p>
+            
+            <div class="process-phase">
+                <h4>1. Project Initiation</h4>
+                <p>The formal process of starting a new project by defining its purpose, objectives, scope, and stakeholders.</p>
+                <ul>
+                    <li><strong>Key Activities:</strong> Developing project charter, identifying stakeholders, conducting initial feasibility analysis</li>
+                    <li><strong>Outputs:</strong> Project charter, stakeholder register, preliminary scope statement</li>
+                </ul>
+            </div>
+            
+            <div class="process-phase">
+                <h4>2. Project Planning</h4>
+                <p>Establishing the total scope, defining objectives, and developing the course of action required to attain those objectives.</p>
+                <ul>
+                    <li><strong>Key Activities:</strong> Scope definition, schedule development, cost estimation, resource planning, risk assessment, quality planning</li>
+                    <li><strong>Outputs:</strong> Project management plan, project schedule, budget, risk register</li>
+                </ul>
+            </div>
+            
+            <div class="process-phase">
+                <h4>3. Project Execution</h4>
+                <p>Performing the work defined in the project management plan to satisfy the project specifications.</p>
+                <ul>
+                    <li><strong>Key Activities:</strong> Team coordination, resource allocation, quality assurance, stakeholder engagement</li>
+                    <li><strong>Outputs:</strong> Deliverables, work performance data, change requests</li>
+                </ul>
+            </div>
+            
+            <div class="process-phase">
+                <h4>4. Project Monitoring & Controlling</h4>
+                <p>Tracking, reviewing, and regulating the progress and performance of the project.</p>
+                <ul>
+                    <li><strong>Key Activities:</strong> Performance measurement, integrated change control, scope verification, risk monitoring</li>
+                    <li><strong>Outputs:</strong> Performance reports, updated project documents, change requests</li>
+                </ul>
+            </div>
+            
+            <div class="process-phase">
+                <h4>5. Project Closure</h4>
+                <p>Finalizing all activities across all process groups to formally close the project.</p>
+                <ul>
+                    <li><strong>Key Activities:</strong> Deliverable acceptance, administrative closure, lessons learned documentation</li>
+                    <li><strong>Outputs:</strong> Final product/service/result, project archives, lessons learned documentation</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="case-study">
+            <div class="case-title">Project Identification Case Example</div>
+            <p><strong>Scenario:</strong> A financial services company is experiencing customer complaints about the time it takes to process loan applications. The customer service department has identified this as a significant issue affecting customer satisfaction and retention.</p>
+            
+            <p><strong>Identification Approach:</strong></p>
+            <ol>
+                <li><strong>Problem Definition:</strong> Customer loan application processing takes 7-10 business days, while competitors average 3-5 days</li>
+                <li><strong>Opportunity Assessment:</strong> Reducing processing time could improve customer satisfaction scores and reduce customer churn</li>
+                <li><strong>Gap Analysis:</strong> Current manual processing vs. potential automated workflow</li>
+                <li><strong>Stakeholder Input:</strong> Customer service, loan officers, IT department, and senior management perspectives considered</li>
+            </ol>
+            
+            <p><strong>Project Identified:</strong> Implementation of a Loan Processing Automation System to reduce processing time to 2-3 business days</p>
+            
+            <p><strong>Preliminary Selection Criteria Assessment:</strong></p>
+            <ul>
+                <li><strong>Strategic Alignment:</strong> High (supports customer experience strategic pillar)</li>
+                <li><strong>Estimated ROI:</strong> 135% over 3 years</li>
+                <li><strong>Technical Feasibility:</strong> Medium (requires integration with legacy systems)</li>
+                <li><strong>Operational Impact:</strong> High (changes loan officer workflows)</li>
+            </ul>
+        </div>
+        
+        <div class="feasibility-component">
+            <h4>Project Initiation Best Practices</h4>
+            
+            <div class="assessment-list">
+                <h5>Effective Project Charter Development:</h5>
+                <ul>
+                    <li>Involve key stakeholders in charter development to ensure buy-in</li>
+                    <li>Clearly define the project's business case and value proposition</li>
+                    <li>Establish specific, measurable project objectives</li>
+                    <li>Define high-level scope boundaries, including explicit exclusions</li>
+                    <li>Identify major milestones and constraints upfront</li>
+                    <li>Secure formal approval from project sponsor before proceeding</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h5>Common Project Initiation Pitfalls:</h5>
+                <ul>
+                    <li><strong>Scope Ambiguity:</strong> Lack of clear scope definition leading to scope creep</li>
+                    <li><strong>Stakeholder Exclusion:</strong> Missing key stakeholders during initiation</li>
+                    <li><strong>Unrealistic Expectations:</strong> Setting overly optimistic objectives or timelines</li>
+                    <li><strong>Inadequate Authority:</strong> Unclear project manager authority and decision-making boundaries</li>
+                    <li><strong>Poor Business Case:</strong> Weak or unquantified business justification</li>
+                </ul>
+            </div>
+            
+            <div class="example-box">
+                <h5>Project Charter Template Elements:</h5>
+                <ol>
+                    <li><strong>Project Information:</strong> Title, duration, sponsor, project manager</li>
+                    <li><strong>Business Case:</strong> Problem/opportunity statement, justification</li>
+                    <li><strong>Objectives:</strong> Specific, measurable project goals</li>
+                    <li><strong>Scope:</strong> Major deliverables, boundaries, exclusions</li>
+                    <li><strong>Success Criteria:</strong> Measurable indicators of project success</li>
+                    <li><strong>Constraints:</strong> Time, budget, resource limitations</li>
+                    <li><strong>Assumptions:</strong> Factors presumed to be true for planning purposes</li>
+                    <li><strong>Key Stakeholders:</strong> Names, roles, and influence levels</li>
+                    <li><strong>High-level Risks:</strong> Major identified threats and opportunities</li>
+                    <li><strong>Initial Resources:</strong> Preliminary budget and resource requirements</li>
+                    <li><strong>Approvals:</strong> Signatures of project sponsor and key stakeholders</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+        
+        <h3>Feasibility Study Components</h3>
+        <p>A feasibility study is a structured investigation that assesses the viability of a proposed project or solution. It serves as a critical decision-making tool before significant resources are committed, helping organizations determine whether to proceed, modify, or abandon project ideas.</p>
+        
+        <div class="diagram">
+            <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+                <!-- Central Node -->
+                <circle cx="500" cy="350" r="70" fill="#3498db" />
+                <text x="500" y="350" text-anchor="middle" dominant-baseline="middle" fill="white" font-weight="bold" font-size="16">Feasibility Study</text>
+
+                <!-- Connecting Lines -->
+                <!-- Technical -->
+                <path d="M555 300 L700 200" stroke="#2c3e50" stroke-width="3" fill="none" />
+                <!-- Economic -->
+                <path d="M560 380 L750 400" stroke="#2c3e50" stroke-width="3" fill="none" />
+                <!-- Market -->
+                <path d="M540 410 L650 550" stroke="#2c3e50" stroke-width="3" fill="none" />
+                <!-- Operational -->
+                <path d="M460 410 L350 550" stroke="#2c3e50" stroke-width="3" fill="none" />
+                <!-- Legal -->
+                <path d="M440 380 L250 400" stroke="#2c3e50" stroke-width="3" fill="none" />
+                <!-- Schedule -->
+                <path d="M445 300 L300 200" stroke="#2c3e50" stroke-width="3" fill="none" />
+                <!-- Resource -->
+                <path d="M490 280 L490 120" stroke="#2c3e50" stroke-width="3" fill="none" />
+                <!-- Environmental -->
+                <path d="M510 420 L510 580" stroke="#2c3e50" stroke-width="3" fill="none" />
+
+                <!-- Components -->
+                <!-- 1. Technical Feasibility -->
+                <circle cx="700" cy="200" r="60" fill="#e74c3c" />
+                <text x="700" y="190" text-anchor="middle" fill="white" font-weight="bold" font-size="14">Technical</text>
+                <text x="700" y="210" text-anchor="middle" fill="white" font-size="12">Feasibility</text>
+                <!-- Technical Subcomponents -->
+                <circle cx="820" cy="150" r="35" fill="#f39c12" />
+                <text x="820" y="150" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Technology</text>
+                <path d="M750 170 L790 155" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="830" cy="230" r="35" fill="#f39c12" />
+                <text x="830" y="230" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Technical Skills</text>
+                <path d="M750 215 L795 225" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="785" cy="280" r="35" fill="#f39c12" />
+                <text x="785" y="280" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Integration</text>
+                <path d="M730 240 L760 260" stroke="#2c3e50" stroke-width="2" fill="none" />
+
+                <!-- 2. Economic Feasibility -->
+                <circle cx="750" cy="400" r="60" fill="#e74c3c" />
+                <text x="750" y="390" text-anchor="middle" fill="white" font-weight="bold" font-size="14">Economic</text>
+                <text x="750" y="410" text-anchor="middle" fill="white" font-size="12">Feasibility</text>
+                <!-- Economic Subcomponents -->
+                <circle cx="870" cy="370" r="35" fill="#f39c12" />
+                <text x="870" y="370" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">ROI</text>
+                <path d="M800 385 L840 375" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="875" cy="450" r="35" fill="#f39c12" />
+                <text x="875" y="450" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">NPV</text>
+                <path d="M800 415 L845 440" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="810" cy="500" r="35" fill="#f39c12" />
+                <text x="810" y="500" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Payback</text>
+                <path d="M770 450 L795 475" stroke="#2c3e50" stroke-width="2" fill="none" />
+
+                <!-- 3. Market Feasibility -->
+                <circle cx="650" cy="550" r="60" fill="#e74c3c" />
+                <text x="650" y="540" text-anchor="middle" fill="white" font-weight="bold" font-size="14">Market</text>
+                <text x="650" y="560" text-anchor="middle" fill="white" font-size="12">Feasibility</text>
+                <!-- Market Subcomponents -->
+                <circle cx="750" cy="600" r="35" fill="#f39c12" />
+                <text x="750" y="600" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Demand</text>
+                <path d="M695 580 L725 590" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="700" cy="650" r="35" fill="#f39c12" />
+                <text x="700" y="650" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Competition</text>
+                <path d="M660 600 L685 625" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="600" cy="630" r="35" fill="#f39c12" />
+                <text x="600" y="630" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Customers</text>
+                <path d="M630 600 L610 610" stroke="#2c3e50" stroke-width="2" fill="none" />
+
+                <!-- 4. Operational Feasibility -->
+                <circle cx="350" cy="550" r="60" fill="#e74c3c" />
+                <text x="350" y="540" text-anchor="middle" fill="white" font-weight="bold" font-size="14">Operational</text>
+                <text x="350" y="560" text-anchor="middle" fill="white" font-size="12">Feasibility</text>
+                <!-- Operational Subcomponents -->
+                <circle cx="250" cy="600" r="35" fill="#f39c12" />
+                <text x="250" y="600" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Processes</text>
+                <path d="M305 580 L275 590" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="300" cy="650" r="35" fill="#f39c12" />
+                <text x="300" y="650" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Change</text>
+                <path d="M340 600 L315 625" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="400" cy="630" r="35" fill="#f39c12" />
+                <text x="400" y="630" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Efficiency</text>
+                <path d="M370 600 L390 610" stroke="#2c3e50" stroke-width="2" fill="none" />
+
+                <!-- 5. Legal & Regulatory Feasibility -->
+                <circle cx="250" cy="400" r="60" fill="#e74c3c" />
+                <text x="250" y="390" text-anchor="middle" fill="white" font-weight="bold" font-size="14">Legal</text>
+                <text x="250" y="410" text-anchor="middle" fill="white" font-size="12">Feasibility</text>
+                <!-- Legal Subcomponents -->
+                <circle cx="130" cy="370" r="35" fill="#f39c12" />
+                <text x="130" y="370" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Compliance</text>
+                <path d="M200 385 L160 375" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="125" cy="450" r="35" fill="#f39c12" />
+                <text x="125" y="450" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">IP Rights</text>
+                <path d="M200 415 L155 440" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="190" cy="500" r="35" fill="#f39c12" />
+                <text x="190" y="500" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Contracts</text>
+                <path d="M230 450 L205 475" stroke="#2c3e50" stroke-width="2" fill="none" />
+
+                <!-- 6. Schedule Feasibility -->
+                <circle cx="300" cy="200" r="60" fill="#e74c3c" />
+                <text x="300" y="190" text-anchor="middle" fill="white" font-weight="bold" font-size="14">Schedule</text>
+                <text x="300" y="210" text-anchor="middle" fill="white" font-size="12">Feasibility</text>
+                <!-- Schedule Subcomponents -->
+                <circle cx="180" cy="150" r="35" fill="#f39c12" />
+                <text x="180" y="150" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Timeline</text>
+                <path d="M250 170 L210 155" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="170" cy="230" r="35" fill="#f39c12" />
+                <text x="170" y="230" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Milestones</text>
+                <path d="M250 215 L205 225" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="215" cy="280" r="35" fill="#f39c12" />
+                <text x="215" y="280" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Critical Path</text>
+                <path d="M270 240 L240 260" stroke="#2c3e50" stroke-width="2" fill="none" />
+
+                <!-- 7. Resource Feasibility -->
+                <circle cx="490" cy="120" r="60" fill="#e74c3c" />
+                <text x="490" y="110" text-anchor="middle" fill="white" font-weight="bold" font-size="14">Resource</text>
+                <text x="490" y="130" text-anchor="middle" fill="white" font-size="12">Feasibility</text>
+                <!-- Resource Subcomponents -->
+                <circle cx="400" cy="70" r="35" fill="#f39c12" />
+                <text x="400" y="70" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Human</text>
+                <path d="M445 90 L420 75" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="490" cy="30" r="35" fill="#f39c12" />
+                <text x="490" y="30" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Material</text>
+                <path d="M490 70 L490 55" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="580" cy="70" r="35" fill="#f39c12" />
+                <text x="580" y="70" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">External</text>
+                <path d="M535 90 L560 75" stroke="#2c3e50" stroke-width="2" fill="none" />
+
+                <!-- 8. Environmental & Social Feasibility -->
+                <circle cx="510" cy="580" r="60" fill="#e74c3c" />
+                <text x="510" y="570" text-anchor="middle" fill="white" font-weight="bold" font-size="12">Environmental</text>
+                <text x="510" y="590" text-anchor="middle" fill="white" font-size="12">& Social</text>
+                <!-- Environmental Subcomponents -->
+                <circle cx="420" cy="640" r="35" fill="#f39c12" />
+                <text x="420" y="640" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Impact</text>
+                <path d="M470 610 L440 630" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="510" cy="670" r="35" fill="#f39c12" />
+                <text x="510" y="670" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">Sustainability</text>
+                <path d="M510 630 L510 645" stroke="#2c3e50" stroke-width="2" fill="none" />
+                
+                <circle cx="600" cy="640" r="35" fill="#f39c12" />
+                <text x="600" y="640" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">CSR</text>
+                <path d="M550 610 L580 630" stroke="#2c3e50" stroke-width="2" fill="none" />
+
+            </svg>
+            <p><em>Key components of a comprehensive feasibility study</em></p>
+        </div>
+        
+        <h4>Comprehensive Feasibility Study Components</h4>
+        
+        <div class="feasibility-component">
+            <h4>1. Technical Feasibility</h4>
+            <p>Evaluates whether the organization has or can acquire the technical resources, expertise, and infrastructure to successfully implement and operate the project.</p>
+            
+            <div class="assessment-list">
+                <h5>Key Assessment Areas:</h5>
+                <ul>
+                    <li><strong>Technology Requirements Analysis:</strong> Identification of all hardware, software, and technology infrastructure needed</li>
+                    <li><strong>Technical Skills Assessment:</strong> Evaluation of available expertise vs. required skills</li>
+                    <li><strong>Technical Risks:</strong> Analysis of technical challenges, limitations, and potential solutions</li>
+                    <li><strong>Scalability & Integration:</strong> Assessment of how the solution will integrate with existing systems and scale for future needs</li>
+                </ul>
+            </div>
+            
+            <div class="example-box">
+                <h5>IT Project Example:</h5>
+                <p>For a new enterprise resource planning (ERP) system implementation, technical feasibility would assess whether:</p>
+                <ul>
+                    <li>The proposed ERP can integrate with legacy systems</li>
+                    <li>The IT infrastructure can support the new system</li>
+                    <li>The technical team has adequate expertise or requires training</li>
+                    <li>Technical risks like data migration challenges can be addressed</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Key Questions:</h5>
+                <ul>
+                    <li>Is the proposed technology proven or emerging?</li>
+                    <li>What technical resources are required vs. available?</li>
+                    <li>Are there technical alternatives if primary approaches fail?</li>
+                    <li>Does the organization have experience with similar technical implementations?</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feasibility-component">
+            <h4>2. Economic/Financial Feasibility</h4>
+            <p>Determines whether the project is financially viable and justifiable from an investment perspective.</p>
+            
+            <div class="assessment-list">
+                <h5>Key Assessment Areas:</h5>
+                <ul>
+                    <li><strong>Cost-Benefit Analysis:</strong> Detailed comparison of all costs against projected benefits</li>
+                    <li><strong>Investment Metrics:</strong> Calculation of ROI, NPV, IRR, and payback period</li>
+                    <li><strong>Budget Forecasting:</strong> Comprehensive projection of capital and operational expenditures</li>
+                    <li><strong>Sensitivity Analysis:</strong> Testing project financial viability under different scenarios</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Methodology:</h5>
+                <ul>
+                    <li><strong>Capital Costs:</strong> Hardware, software, facilities, initial training, implementation</li>
+                    <li><strong>Operational Costs:</strong> Maintenance, support, upgrades, ongoing training</li>
+                    <li><strong>Intangible Benefits:</strong> Improved employee satisfaction, enhanced brand reputation, better decision-making</li>
+                    <li><strong>Tangible Benefits:</strong> Cost savings, increased revenue, improved productivity</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Financial Metrics Calculation Guide:</h5>
+                <ul>
+                    <li>
+                        <strong>Net Present Value (NPV):</strong> Sum of present values of all cash flows (positive and negative)
+                        <div class="formula">NPV = Σ (Cash flow in period t / (1+r)^t) - Initial investment</div>
+                        <p>Decision rule: Accept if NPV > 0</p>
+                    </li>
+                    <li>
+                        <strong>Internal Rate of Return (IRR):</strong> Discount rate that makes NPV equal to zero
+                        <p>Decision rule: Accept if IRR > required rate of return</p>
+                    </li>
+                    <li>
+                        <strong>Payback Period:</strong> Time required to recover the initial investment
+                        <div class="formula">Payback Period = Initial Investment / Annual Cash Flow</div>
+                        <p>Decision rule: Shorter payback periods are preferred</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feasibility-component">
+            <h4>3. Market Feasibility</h4>
+            <p>Assesses market conditions, customer demand, and competitive landscape to determine if the project output will succeed in the marketplace.</p>
+            
+            <div class="assessment-list">
+                <h5>Key Assessment Areas:</h5>
+                <ul>
+                    <li><strong>Market Size and Growth:</strong> Analysis of total addressable market and growth trends</li>
+                    <li><strong>Customer Analysis:</strong> Identification of target customers, their needs, and willingness to pay</li>
+                    <li><strong>Competitive Analysis:</strong> Evaluation of direct and indirect competitors</li>
+                    <li><strong>Distribution Channels:</strong> Assessment of ways to reach customers</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Research Methods:</h5>
+                <ul>
+                    <li><strong>Primary Research:</strong> Surveys, interviews, focus groups, user testing</li>
+                    <li><strong>Secondary Research:</strong> Industry reports, market databases, competitor analysis</li>
+                    <li>
+                        <strong>Demand Forecasting Techniques:</strong>
+                        <ul>
+                            <li>Time series analysis</li>
+                            <li>Regression analysis</li>
+                            <li>Delphi method (expert panel consensus)</li>
+                            <li>Market testing</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Critical Success Factors:</h5>
+                <ul>
+                    <li>Clearly defined unique value proposition</li>
+                    <li>Detailed customer personas and use cases</li>
+                    <li>Comprehensive competitive positioning analysis</li>
+                    <li>Realistic market entry strategy</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feasibility-component">
+            <h4>4. Operational Feasibility</h4>
+            <p>Evaluates how well the proposed solution will work within the organization's existing operational framework and business processes.</p>
+            
+            <div class="assessment-list">
+                <h5>Key Assessment Areas:</h5>
+                <ul>
+                    <li><strong>Process Impact:</strong> How the project will change existing workflows</li>
+                    <li><strong>Organizational Structure:</strong> Impact on roles, responsibilities, and reporting lines</li>
+                    <li><strong>Operational Efficiency:</strong> Potential improvements to operational KPIs</li>
+                    <li><strong>Change Management:</strong> Assessment of organizational readiness and resistance</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Implementation Considerations:</h5>
+                <ul>
+                    <li>Resource allocation requirements</li>
+                    <li>Training needs and knowledge transfer approaches</li>
+                    <li>Operational transition planning</li>
+                    <li>Maintenance and support requirements</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <h5>Warning Signs of Low Operational Feasibility:</h5>
+                <ul>
+                    <li>High resistance from key stakeholders</li>
+                    <li>Significant disruption to critical business processes</li>
+                    <li>Inadequate skill sets for ongoing operations</li>
+                    <li>Misalignment with organizational culture</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feasibility-component">
+            <h4>5. Legal and Regulatory Feasibility</h4>
+            <p>Examines legal implications, regulatory requirements, and compliance considerations.</p>
+            
+            <div class="assessment-list">
+                <h5>Key Assessment Areas:</h5>
+                <ul>
+                    <li><strong>Compliance Requirements:</strong> Industry-specific regulations and standards</li>
+                    <li><strong>Intellectual Property:</strong> Patents, trademarks, copyrights, and licensing</li>
+                    <li><strong>Contractual Obligations:</strong> Existing agreements that may impact implementation</li>
+                    <li><strong>Risk Management:</strong> Legal exposure and mitigation strategies</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>IT-Specific Legal Considerations:</h5>
+                <ul>
+                    <li>Data privacy laws (GDPR, CCPA, HIPAA)</li>
+                    <li>Information security requirements</li>
+                    <li>Software licensing agreements</li>
+                    <li>Accessibility compliance (ADA, Section 508)</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Regulatory Documentation Requirements:</h5>
+                <ul>
+                    <li>Compliance certifications</li>
+                    <li>Security assessments</li>
+                    <li>Privacy impact analyses</li>
+                    <li>Audit trail capabilities</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feasibility-component">
+            <h4>6. Schedule Feasibility</h4>
+            <p>Determines whether the project can be completed within required timeframes.</p>
+            
+            <div class="assessment-list">
+                <h5>Key Assessment Areas:</h5>
+                <ul>
+                    <li><strong>Timeline Analysis:</strong> Realistic assessment of project duration</li>
+                    <li><strong>Milestone Planning:</strong> Key checkpoints and deliverables</li>
+                    <li><strong>Resource Scheduling:</strong> Availability of critical resources at required times</li>
+                    <li><strong>Schedule Risks:</strong> Identification of potential delays and mitigation strategies</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Schedule Estimation Techniques:</h5>
+                <ul>
+                    <li>Analogous estimating (comparison to similar past projects)</li>
+                    <li>Parametric estimating (using statistical relationships)</li>
+                    <li>Three-point estimating (optimistic, most likely, pessimistic)</li>
+                    <li>Bottom-up estimating (detailed work breakdown structure)</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Schedule Risk Mitigation:</h5>
+                <ul>
+                    <li>Buffer allocation strategies</li>
+                    <li>Critical path analysis and management</li>
+                    <li>Resource leveling approaches</li>
+                    <li>Fast-tracking and crashing techniques</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feasibility-component">
+            <h4>7. Resource Feasibility</h4>
+            <p>Assesses whether necessary human resources, materials, and assets are available for project execution.</p>
+            
+            <div class="assessment-list">
+                <h5>Key Assessment Areas:</h5>
+                <ul>
+                    <li><strong>Human Resources:</strong> Skills, availability, and capacity of project team</li>
+                    <li><strong>Material Resources:</strong> Equipment, supplies, and physical assets</li>
+                    <li><strong>External Resources:</strong> Contractors, vendors, and partners</li>
+                    <li><strong>Resource Constraints:</strong> Limitations and competing priorities</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Resource Planning Tools:</h5>
+                <ul>
+                    <li>Skills matrices for capability assessment</li>
+                    <li>Resource histograms for allocation planning</li>
+                    <li>RACI charts for responsibility assignment</li>
+                    <li>Resource leveling techniques for optimization</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Best Practices:</h5>
+                <ul>
+                    <li>Develop detailed resource requirement specifications</li>
+                    <li>Create contingency plans for critical resource shortages</li>
+                    <li>Establish clear procurement processes for external resources</li>
+                    <li>Implement resource monitoring systems</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="feasibility-component">
+            <h4>8. Environmental and Social Feasibility</h4>
+            <p>Evaluates the project's environmental impact and social implications.</p>
+            
+            <div class="assessment-list">
+                <h5>Key Assessment Areas:</h5>
+                <ul>
+                    <li><strong>Environmental Impact:</strong> Energy consumption, waste generation, carbon footprint</li>
+                    <li><strong>Social Impact:</strong> Community effects, stakeholder relationships, ethical considerations</li>
+                    <li><strong>Sustainability:</strong> Long-term environmental, social, and governance (ESG) factors</li>
+                    <li><strong>Corporate Social Responsibility:</strong> Alignment with organizational CSR objectives</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>IT Project Considerations:</h5>
+                <ul>
+                    <li>E-waste management and equipment disposal</li>
+                    <li>Energy efficiency of data centers and systems</li>
+                    <li>Digital inclusion and accessibility</li>
+                    <li>Ethical data usage and algorithm fairness</li>
+                </ul>
+            </div>
+            
+            <div class="assessment-list">
+                <h5>Assessment Frameworks:</h5>
+                <ul>
+                    <li>Environmental Impact Assessment (EIA)</li>
+                    <li>Social Impact Assessment (SIA)</li>
+                    <li>Sustainability reporting standards (GRI, SASB)</li>
+                    <li>Corporate social responsibility metrics</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h4>Feasibility Study Process</h4>
+        
+        <div class="process-phase">
+            <h4>1. Preparation Phase</h4>
+            <ul>
+                <li>Define study objectives and scope</li>
+                <li>Assemble feasibility study team</li>
+                <li>Develop assessment methodology</li>
+                <li>Identify key stakeholders</li>
+            </ul>
+        </div>
+        
+        <div class="process-phase">
+            <h4>2. Data Collection Phase</h4>
+            <ul>
+                <li>Gather requirements and constraints</li>
+                <li>Conduct research across all feasibility dimensions</li>
+                <li>Document assumptions and limitations</li>
+                <li>Collect benchmark data from similar projects</li>
+            </ul>
+        </div>
+        
+        <div class="process-phase">
+            <h4>3. Analysis Phase</h4>
+            <ul>
+                <li>Evaluate data against established criteria</li>
+                <li>Identify strengths, weaknesses, opportunities, and threats</li>
+                <li>Calculate financial metrics and projections</li>
+                <li>Assess risks and develop mitigation strategies</li>
+            </ul>
+        </div>
+        
+        <div class="process-phase">
+            <h4>4. Recommendation Phase</h4>
+            <ul>
+                <li>Synthesize findings across all feasibility dimensions</li>
+                <li>Develop go/no-go recommendation</li>
+                <li>Create implementation roadmap</li>
+                <li>Present findings to decision-makers</li>
+            </ul>
+        </div>
+        
+        <div class="case-study">
+            <div class="case-title">Case Study Example: Enterprise CRM Implementation</div>
+            <p><strong>Background:</strong> A mid-sized insurance company plans to implement a new customer relationship management (CRM) system to improve customer service and sales processes.</p>
+            
+            <p><strong>Feasibility Study Highlights:</strong></p>
+            
+            <p><strong>Technical Feasibility:</strong></p>
+            <ul>
+                <li>Assessment of cloud-based vs. on-premises solutions</li>
+                <li>Integration requirements with existing policy management system</li>
+                <li>Technical skills gap analysis for implementation team</li>
+                <li>Evaluation of data migration complexity from legacy systems</li>
+            </ul>
+            
+            <p><strong>Economic Feasibility:</strong></p>
+            <ul>
+                <li>Implementation costs: $1.2M</li>
+                <li>Annual operational costs: $250K</li>
+                <li>Expected benefits: $500K annual revenue increase, $300K cost savings</li>
+                <li>NPV (5 years): $1.1M, ROI: 28%, Payback period: 2.4 years</li>
+            </ul>
+            
+            <p><strong>Market Feasibility:</strong></p>
+            <ul>
+                <li>Customer experience benchmarking against competitors</li>
+                <li>Analysis of customer expectations for self-service capabilities</li>
+                <li>Sales process efficiency comparison with industry standards</li>
+                <li>Market trend analysis for CRM features and functionality</li>
+            </ul>
+            
+            <p><strong>Operational Feasibility:</strong></p>
+            <ul>
+                <li>Business process redesign requirements</li>
+                <li>Change management strategy for sales and customer service teams</li>
+                <li>User acceptance testing approach</li>
+                <li>Training and knowledge transfer plan</li>
+            </ul>
+            
+            <p><strong>Recommendation:</strong> Based on positive findings across all feasibility dimensions, the study recommended proceeding with the CRM implementation with specific risk mitigation strategies for data migration and change management challenges.</p>
+        </div>
+        
+        <div class="warning-box">
+            <h5>Common Pitfalls in Feasibility Studies</h5>
+            <ol>
+                <li><strong>Confirmation Bias:</strong> Unconsciously favoring data that supports desired outcomes</li>
+                <li><strong>Inadequate Stakeholder Involvement:</strong> Failing to include key perspectives</li>
+                <li><strong>Optimism Bias:</strong> Underestimating costs and overestimating benefits</li>
+                <li><strong>Narrow Focus:</strong> Emphasizing only one or two feasibility dimensions</li>
+                <li><strong>Insufficient Risk Analysis:</strong> Failing to identify and assess key risks</li>
+                <li><strong>Ambiguous Criteria:</strong> Lacking clear standards for determining feasibility</li>
+                <li><strong>Documentation Gaps:</strong> Insufficient detail to support conclusions</li>
+                <li><strong>Unrealistic Assumptions:</strong> Basing analysis on improbable scenarios</li>
+            </ol>
+        </div>
+        
+        <div class="assessment-list">
+            <h5>Best Practices for Successful Feasibility Studies</h5>
+            <ol>
+                <li><strong>Establish Clear Objectives:</strong> Define what success looks like before starting</li>
+                <li><strong>Use Diverse Expertise:</strong> Include perspectives from different functional areas</li>
+                <li><strong>Apply Rigorous Methodology:</strong> Use systematic and data-driven approaches</li>
+                <li><strong>Challenge Assumptions:</strong> Critically evaluate all underlying assumptions</li>
+                <li><strong>Consider Multiple Scenarios:</strong> Test feasibility under different conditions</li>
+                <li><strong>Document Thoroughly:</strong> Provide complete supporting evidence</li>
+                <li><strong>Update Iteratively:</strong> Revise as new information becomes available</li>
+                <li><strong>Present Balanced Findings:</strong> Acknowledge both strengths and limitations</li>
+            </ol>
+        </div>
+        
+        <div class="reference-list">
+            <h5>References and Further Reading</h5>
+            <ol>
+                <li>Project Management Institute. (2017). <em>A Guide to the Project Management Body of Knowledge (PMBOK® Guide)</em> – Sixth Edition. Newtown Square, PA: Author.</li>
+                <li>Kerzner, H. (2017). <em>Project Management: A Systems Approach to Planning, Scheduling, and Controlling</em> – 12th Edition. Hoboken, NJ: Wiley.</li>
+                <li>Hoagland, H., & Williamson, L. (2000). <em>Feasibility Studies</em>. Kentucky: University of Kentucky.</li>
+                <li>Schmidt, M. J. (2002). <em>Business Case Essentials: A Guide to Structure and Content</em>. Solution Matrix Ltd.</li>
+                <li>Ward, J. L., & Daniel, E. M. (2012). <em>Benefits Management: How to Increase the Business Value of Your IT Projects</em>. Chichester: Wiley.</li>
+            </ol>
+        </div>
+        
+        <h3>Critical Path Method</h3>
+        <p>The critical path is the longest sequence of activities in a project plan which must be completed on time for the project to complete on its due date.</p>
+        
+        <div class="case-study">
+            <div class="case-title">Real-World Application</div>
+            <p><strong>Construction Project Example:</strong> A building project with the following activities:</p>
+            <ul>
+                <li>Foundation (5 days) → Walls (10 days) → Roof (7 days)</li>
+                <li>Foundation (5 days) → Plumbing (8 days) → Electrical (5 days)</li>
+                <li>Walls (10 days) → Painting (3 days)</li>
+            </ul>
+            <p>The critical path would be Foundation → Walls → Roof totaling 22 days, as this is the longest path through the project network.</p>
+        </div>
+        
+        <div class="key-terms">
+            <p><span class="term">Feasibility Study:</span> Analysis of project viability considering various factors</p>
+            <p><span class="term">Market Analysis:</span> Assessment of the target market's size and characteristics</p>
+            <p><span class="term">Cost Estimation:</span> Process of forecasting project expenses</p>
+            <p><span class="term">Financial Appraisal:</span> Evaluation of project's financial worthiness</p>
+            <p><span class="term">PERT:</span> Program Evaluation and Review Technique</p>
+            <p><span class="term">CPM:</span> Critical Path Method</p>
+            <p><span class="term">Critical Path:</span> Longest path through project network</p>
+            <p><span class="term">Float/Slack:</span> Amount of time an activity can be delayed</p>
+            <p><span class="term">Technical Feasibility:</span> Evaluation of technical requirements and capabilities</p>
+            <p><span class="term">Operational Feasibility:</span> Assessment of how well a project fits within operations</p>
+            <p><span class="term">NPV:</span> Net Present Value - sum of discounted cash flows</p>
+            <p><span class="term">IRR:</span> Internal Rate of Return - discount rate at which NPV equals zero</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Interactive Learning</h2>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/5E3Y8Ozv-Mc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        
+        <div class="resources">
+            <h3>Recommended Resources</h3>
+            <ul>
+                <li><a href="https://www.pmi.org/learning/library/conducting-feasibility-studies-projects-7099" target="_blank">PMI Guide to Feasibility Studies</a></li>
+                <li><a href="https://www.projectmanager.com/guides/critical-path-method" target="_blank">Critical Path Method Guide</a></li>
+                <li><a href="https://asq.org/quality-resources/pert" target="_blank">PERT Technique Overview</a></li>
+                <li><a href="https://www.workamajig.com/blog/project-cost-estimation" target="_blank">Project Cost Estimation Techniques</a></li>
+                <li><a href="https://www.smartsheet.com/content/feasibility-study-templates" target="_blank">Feasibility Study Templates</a></li>
+                <li><a href="https://www.techtarget.com/searchcio/definition/feasibility-study" target="_blank">Comprehensive Guide to IT Feasibility Studies</a></li>
+                <li><a href="https://www.mckinsey.com/capabilities/operations/our-insights/delivering-large-scale-it-projects-on-time-on-budget-and-on-value" target="_blank">McKinsey: Delivering Large-Scale IT Projects</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="../CSE4033 - IT Project Management syllabus.html" class="nav-button">← Course Introduction</a>
+        <a href="./Project_Identification.html" class="nav-button">Next: Detailed Feasibility Studies →</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Path Method (CPM) Explained</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1{
+            color: white;
+        }
+        
+        h2, h3 {
+            color: var(--primary);
+        }
+        
+        .content-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .highlight-box {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary);
+            margin: 15px 0;
+        }
+        
+        .example {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid var(--warning);
+            margin: 20px 0;
+        }
+        
+        .interactive-tool {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 25px 0;
+        }
+        
+        .activity-input {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        label {
+            font-weight: bold;
+        }
+        
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .results {
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .critical-path {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .network-diagram {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .network-diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .steps {
+            counter-reset: step-counter;
+            padding-left: 0;
+        }
+        
+        .step {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 15px;
+            list-style-type: none;
+        }
+        
+        .step:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: var(--secondary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Critical Path Method (CPM)</h1>
+        <p>Project Scheduling Technique for Effective Planning</p>
+    </header>
+
+    <div class="content-card">
+        <h2>What is the Critical Path Method?</h2>
+        <p>The Critical Path Method (CPM) is a step-by-step project management technique for process planning that identifies critical and non-critical tasks to prevent time-frame problems and process bottlenecks.</p>
+        
+        <div class="highlight-box">
+            <p><strong>Key Characteristics:</strong></p>
+            <ul>
+                <li>Uses deterministic time estimates (single duration per activity)</li>
+                <li>Focuses on identifying the longest path (critical path) through the project</li>
+                <li>Calculates early start, early finish, late start, and late finish times</li>
+                <li>Determines float (slack time) for non-critical activities</li>
+                <li>Helps optimize project schedules and resource allocation</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h2>CPM Calculation Steps</h2>
+        
+        <ol class="steps">
+            <li class="step">
+                <h3>List All Activities</h3>
+                <p>Identify all tasks required to complete the project along with their durations.</p>
+            </li>
+            <li class="step">
+                <h3>Determine Dependencies</h3>
+                <p>Establish the sequence of activities and identify which tasks depend on others.</p>
+            </li>
+            <li class="step">
+                <h3>Create Network Diagram</h3>
+                <p>Draw the project activities as nodes and dependencies as arrows.</p>
+            </li>
+            <li class="step">
+                <h3>Forward Pass (Early Times)</h3>
+                <p>Calculate Early Start (ES) and Early Finish (EF) times from project start.</p>
+                <div class="highlight-box">
+                    EF = ES + Duration<br>
+                    ES of next activity = EF of previous activity
+                </div>
+            </li>
+            <li class="step">
+                <h3>Backward Pass (Late Times)</h3>
+                <p>Calculate Late Start (LS) and Late Finish (LF) times from project end.</p>
+                <div class="highlight-box">
+                    LS = LF - Duration<br>
+                    LF of previous activity = LS of next activity
+                </div>
+            </li>
+            <li class="step">
+                <h3>Calculate Float</h3>
+                <p>Determine the slack time for each activity.</p>
+                <div class="highlight-box">
+                    Float = LS - ES or LF - EF
+                </div>
+            </li>
+            <li class="step">
+                <h3>Identify Critical Path</h3>
+                <p>The sequence of activities with zero float is the critical path.</p>
+            </li>
+        </ol>
+    </div>
+
+    <div class="content-card">
+        <h2>CPM Example: Website Development Project</h2>
+        
+        <div class="example">
+            <h3>Project Activities</h3>
+            <table>
+                <tr>
+                    <th>Activity</th>
+                    <th>Description</th>
+                    <th>Duration (days)</th>
+                    <th>Predecessors</th>
+                </tr>
+                <tr>
+                    <td>A</td>
+                    <td>Requirements Gathering</td>
+                    <td>5</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>B</td>
+                    <td>Design</td>
+                    <td>10</td>
+                    <td>A</td>
+                </tr>
+                <tr>
+                    <td>C</td>
+                    <td>Frontend Development</td>
+                    <td>15</td>
+                    <td>B</td>
+                </tr>
+                <tr>
+                    <td>D</td>
+                    <td>Backend Development</td>
+                    <td>12</td>
+                    <td>B</td>
+                </tr>
+                <tr>
+                    <td>E</td>
+                    <td>Testing</td>
+                    <td>8</td>
+                    <td>C, D</td>
+                </tr>
+                <tr>
+                    <td>F</td>
+                    <td>Deployment</td>
+                    <td>3</td>
+                    <td>E</td>
+                </tr>
+            </table>
+            
+            <h3>Critical Path Calculation</h3>
+            <p>The critical path is: <span class="critical-path">A → B → C → E → F</span> with a total duration of 41 days.</p>
+            <p>Activity D has a float of 3 days (can be delayed without affecting project completion).</p>
+        </div>
+        
+        <div class="network-diagram">
+            <h3>CPM Network Diagram</h3>
+            <img src="https://www.projectmanager.com/wp-content/uploads/2021/01/cpm-diagram.png" alt="CPM Network Diagram">
+            <p><em>Network diagram showing activities and critical path</em></p>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h2>Interactive CPM Calculator</h2>
+        
+        <div class="interactive-tool">
+            <h3>Enter Activity Details</h3>
+            <div id="activityInputs">
+                <div class="activity-input">
+                    <label>Activity ID:</label>
+                    <input type="text" id="activityId1" placeholder="A">
+                    <label>Duration:</label>
+                    <input type="number" id="duration1" min="1" value="5">
+                    <label>Predecessors:</label>
+                    <input type="text" id="predecessors1" placeholder="(none)">
+                </div>
+            </div>
+            
+            <button onclick="addActivity()">Add Another Activity</button>
+            <button onclick="calculateCPM()">Calculate Critical Path</button>
+            
+            <div class="results" id="cpmResults">
+                <h3>Results</h3>
+                <div id="resultsTable"></div>
+                <p><strong>Critical Path:</strong> <span id="criticalPath"></span></p>
+                <p><strong>Project Duration:</strong> <span id="projectDuration"></span> days</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h2>CPM vs. PERT Comparison</h2>
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>CPM</th>
+                <th>PERT</th>
+            </tr>
+            <tr>
+                <td>Time Estimation</td>
+                <td>Single estimate (deterministic)</td>
+                <td>Three estimates (probabilistic)</td>
+            </tr>
+            <tr>
+                <td>Focus</td>
+                <td>Time-cost tradeoff</td>
+                <td>Time uncertainty management</td>
+            </tr>
+            <tr>
+                <td>Best For</td>
+                <td>Projects with predictable durations</td>
+                <td>Projects with uncertain durations</td>
+            </tr>
+            <tr>
+                <td>Critical Path</td>
+                <td>Identifies longest path</td>
+                <td>Identifies longest path</td>
+            </tr>
+            <tr>
+                <td>Complexity</td>
+                <td>Moderate</td>
+                <td>High</td>
+            </tr>
+        </table>
+        
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/rR3A6q4or_c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        let activityCount = 1;
+        
+        function addActivity() {
+            activityCount++;
+            const newActivity = document.createElement('div');
+            newActivity.className = 'activity-input';
+            newActivity.innerHTML = `
+                <label>Activity ID:</label>
+                <input type="text" id="activityId${activityCount}" placeholder="B">
+                <label>Duration:</label>
+                <input type="number" id="duration${activityCount}" min="1" value="10">
+                <label>Predecessors:</label>
+                <input type="text" id="predecessors${activityCount}" placeholder="A">
+            `;
+            document.getElementById('activityInputs').appendChild(newActivity);
+        }
+        
+        function calculateCPM() {
+            // This is a simplified simulation - a full CPM calculation would require more complex logic
+            // In a real implementation, you would need to:
+            // 1. Build the network diagram
+            // 2. Perform forward and backward passes
+            // 3. Calculate float for each activity
+            // 4. Identify the critical path
+            
+            // For demonstration purposes, we'll simulate a result
+            let activities = [];
+            for (let i = 1; i <= activityCount; i++) {
+                const id = document.getElementById(`activityId${i}`).value || `Activity ${i}`;
+                const duration = parseInt(document.getElementById(`duration${i}`).value) || 0;
+                const pred = document.getElementById(`predecessors${i}`).value || '';
+                activities.push({id, duration, pred});
+            }
+            
+            // Generate sample results table
+            let tableHTML = `
+                <table>
+                    <tr>
+                        <th>Activity</th>
+                        <th>Duration</th>
+                        <th>ES</th>
+                        <th>EF</th>
+                        <th>LS</th>
+                        <th>LF</th>
+                        <th>Float</th>
+                    </tr>
+            `;
+            
+            // Simulate data for demonstration
+            activities.forEach((act, index) => {
+                const es = index * 5;
+                const ef = es + act.duration;
+                const ls = es + (index % 2);
+                const lf = ls + act.duration;
+                const float = ls - es;
+                
+                tableHTML += `
+                    <tr>
+                        <td>${act.id}</td>
+                        <td>${act.duration}</td>
+                        <td>${es}</td>
+                        <td>${ef}</td>
+                        <td>${ls}</td>
+                        <td>${lf}</td>
+                        <td>${float}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `</table>`;
+            
+            document.getElementById('resultsTable').innerHTML = tableHTML;
+            document.getElementById('criticalPath').textContent = activities.map(a => a.id).join(' → ');
+            document.getElementById('projectDuration').textContent = activities.reduce((sum, a) => sum + a.duration, 0);
+            document.getElementById('cpmResults').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

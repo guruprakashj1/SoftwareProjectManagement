@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Scheduling Basics and Methods</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1{
+            color: white;
+        }
+        h2, h3, h4 {
+            color: var(--primary-color);
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            color: #bdc3c7;
+            font-size: 1.2em;
+        }
+        
+        .content-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .definition-box {
+            background-color: #e8f4fc;
+            border-left: 5px solid var(--secondary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .method-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .method-title {
+            color: var(--secondary-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+        }
+        
+        .method-icon {
+            font-size: 2em;
+            color: var(--secondary-color);
+            margin-right: 15px;
+            float: left;
+        }
+        
+        .formula {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+            border-left: 3px solid var(--secondary-color);
+        }
+        
+        .example {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .example-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .diagram img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .pros-cons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .pros, .cons {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .pros {
+            background-color: #e8f8f0;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .cons {
+            background-color: #fae8e8;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .pros h3, .cons h3 {
+            margin-top: 0;
+        }
+        
+        .pros h3 {
+            color: var(--success-color);
+        }
+        
+        .cons h3 {
+            color: var(--accent-color);
+        }
+        
+        .quiz {
+            background-color: #fffde7;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px dashed var(--warning-color);
+            margin: 25px 0;
+        }
+        
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .resources {
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        .key-terms {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        
+        .term {
+            font-weight: bold;
+            color: var(--primary-color);
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        
+        .nav-button {
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        
+        .nav-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+            margin: 30px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--secondary-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            border: 3px solid white;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .key-terms {
+                columns: 1;
+            }
+            
+            .pros-cons {
+                flex-direction: column;
+            }
+            
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Project Scheduling Basics</h1>
+        <p class="subtitle">Essential Techniques and Methods for Effective Project Planning</p>
+    </header>
+
+    <div class="content-section">
+        <h2>What is Project Scheduling?</h2>
+        <div class="definition-box">
+            <p><strong>Project scheduling</strong> is the process of listing tasks, activities, and milestones with planned start and finish dates. A project schedule assigns work to resources and identifies the order in which activities need to be performed to complete the project on time.</p>
+        </div>
+        
+        <p>Effective project scheduling helps project managers:</p>
+        <ul>
+            <li>Communicate what work needs to be performed</li>
+            <li>Identify required resources and their allocation</li>
+            <li>Determine the project timeline and critical path</li>
+            <li>Track progress against the plan</li>
+            <li>Identify potential problems before they occur</li>
+        </ul>
+    </div>
+
+    <div class="content-section">
+        <h2>Key Scheduling Concepts</h2>
+        <div class="key-terms">
+            <p><span class="term">Work Breakdown Structure (WBS):</span> Hierarchical decomposition of the work to be executed</p>
+            <p><span class="term">Activities/Tasks:</span> Individual units of work that consume time</p>
+            <p><span class="term">Milestones:</span> Significant points or events in the project</p>
+            <p><span class="term">Dependencies:</span> Relationships between activities</p>
+            <p><span class="term">Critical Path:</span> The sequence of activities that determines the project duration</p>
+            <p><span class="term">Float/Slack:</span> Amount of time an activity can be delayed without delaying the project</p>
+            <p><span class="term">Gantt Chart:</span> Bar chart that illustrates a project schedule</p>
+            <p><span class="term">Resource Leveling:</span> Technique to resolve resource overallocation</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>The Scheduling Process</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">Step 1</div>
+                <h3>Define Project Scope</h3>
+                <p>Clearly outline what needs to be accomplished, including deliverables and objectives.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">Step 2</div>
+                <h3>Create Work Breakdown Structure (WBS)</h3>
+                <p>Decompose the project into smaller, manageable components and tasks.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">Step 3</div>
+                <h3>Define Activities</h3>
+                <p>Identify all specific activities needed to produce the project deliverables.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">Step 4</div>
+                <h3>Sequence Activities</h3>
+                <p>Determine the order of activities and identify dependencies between them.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">Step 5</div>
+                <h3>Estimate Activity Durations</h3>
+                <p>Determine how long each activity will take to complete.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">Step 6</div>
+                <h3>Develop Schedule</h3>
+                <p>Create the project schedule using appropriate scheduling methods.</p>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">Step 7</div>
+                <h3>Monitor and Control</h3>
+                <p>Track project progress and make adjustments as needed.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Project Scheduling Methods</h2>
+        <p>There are several techniques used for project scheduling, each with its own strengths and appropriate use cases:</p>
+        
+        <div class="method-grid">
+            <div class="method-card">
+                <div class="method-icon">📊</div>
+                <h3 class="method-title">Gantt Charts</h3>
+                <p>Bar charts that illustrate project schedules by showing start and finish dates for project elements.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Advantages</h4>
+                        <ul>
+                            <li>Easy to understand and create</li>
+                            <li>Visual representation of timeline</li>
+                            <li>Good for simple projects</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Limitations</h4>
+                        <ul>
+                            <li>Doesn't show dependencies well</li>
+                            <li>Can become cluttered for complex projects</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="diagram">
+                    <img src="https://www.projectmanager.com/wp-content/uploads/2021/10/gantt-chart-example.png" alt="Gantt Chart Example">
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-icon">⏱️</div>
+                <h3 class="method-title">Critical Path Method (CPM)</h3>
+                <p>Algorithm for scheduling project activities that identifies the sequence of crucial steps.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Advantages</h4>
+                        <ul>
+                            <li>Identifies critical activities</li>
+                            <li>Helps optimize project duration</li>
+                            <li>Good for projects with known durations</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Limitations</h4>
+                        <ul>
+                            <li>Requires accurate time estimates</li>
+                            <li>Doesn't handle uncertainty well</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-icon">📈</div>
+                <h3 class="method-title">PERT (Program Evaluation and Review Technique)</h3>
+                <p>Probabilistic approach that uses three time estimates for each activity (optimistic, most likely, pessimistic).</p>
+                <p class="formula">Expected Time = (Optimistic + 4×Most Likely + Pessimistic) / 6</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Advantages</h4>
+                        <ul>
+                            <li>Handles uncertainty in durations</li>
+                            <li>Provides probability estimates</li>
+                            <li>Good for R&D projects</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Limitations</h4>
+                        <ul>
+                            <li>More complex than CPM</li>
+                            <li>Requires more estimation effort</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-icon">🔄</div>
+                <h3 class="method-title">Critical Chain Project Management (CCPM)</h3>
+                <p>Focuses on resource dependencies and uses buffers to protect project completion date.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Advantages</h4>
+                        <ul>
+                            <li>Accounts for resource constraints</li>
+                            <li>Reduces student syndrome and Parkinson's Law</li>
+                            <li>Focuses on project completion</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Limitations</h4>
+                        <ul>
+                            <li>Cultural change required</li>
+                            <li>Less focus on individual task deadlines</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-icon">🧩</div>
+                <h3 class="method-title">Agile Scheduling</h3>
+                <p>Iterative approach that breaks projects into small increments with minimal planning.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Advantages</h4>
+                        <ul>
+                            <li>Adaptable to changes</li>
+                            <li>Delivers value early and often</li>
+                            <li>Good for uncertain requirements</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Limitations</h4>
+                        <ul>
+                            <li>Less predictable timeline</li>
+                            <li>Requires customer involvement</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-icon">📅</div>
+                <h3 class="method-title">Line of Balance (LOB)</h3>
+                <p>Used for repetitive work where resources move from unit to unit.</p>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Advantages</h4>
+                        <ul>
+                            <li>Good for construction projects</li>
+                            <li>Optimizes resource utilization</li>
+                            <li>Shows work flow clearly</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Limitations</h4>
+                        <ul>
+                            <li>Limited to repetitive projects</li>
+                            <li>Not widely used</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Method Comparison</h2>
+        <table class="comparison-table">
+            <tr>
+                <th>Method</th>
+                <th>Best For</th>
+                <th>Complexity</th>
+                <th>Time Estimation</th>
+                <th>Visualization</th>
+            </tr>
+            <tr>
+                <td>Gantt Chart</td>
+                <td>Simple projects, high-level overview</td>
+                <td>Low</td>
+                <td>Single estimate</td>
+                <td>Excellent</td>
+            </tr>
+            <tr>
+                <td>CPM</td>
+                <td>Projects with known durations</td>
+                <td>Medium</td>
+                <td>Single estimate</td>
+                <td>Good</td>
+            </tr>
+            <tr>
+                <td>PERT</td>
+                <td>Projects with uncertain durations</td>
+                <td>High</td>
+                <td>Three estimates</td>
+                <td>Good</td>
+            </tr>
+            <tr>
+                <td>CCPM</td>
+                <td>Resource-constrained projects</td>
+                <td>High</td>
+                <td>Single estimate with buffers</td>
+                <td>Fair</td>
+            </tr>
+            <tr>
+                <td>Agile</td>
+                <td>Projects with changing requirements</td>
+                <td>Medium</td>
+                <td>Relative estimation</td>
+                <td>Fair</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="content-section">
+        <h2>Choosing the Right Method</h2>
+        <p>Selecting the appropriate scheduling method depends on several factors:</p>
+        <ul>
+            <li><strong>Project complexity:</strong> Simple projects may only need Gantt charts, while complex ones may require CPM or PERT</li>
+            <li><strong>Uncertainty level:</strong> High uncertainty favors PERT or Agile approaches</li>
+            <li><strong>Resource constraints:</strong> CCPM is designed for resource-constrained projects</li>
+            <li><strong>Industry standards:</strong> Some industries have preferred methods (construction often uses CPM)</li>
+            <li><strong>Stakeholder needs:</strong> Consider what information stakeholders need to see</li>
+            <li><strong>Team familiarity:</strong> Methods the team knows well will be more effective</li>
+        </ul>
+        
+        <div class="example">
+            <div class="example-title">Example Scenario</div>
+            <p><strong>Software Development Project with Changing Requirements:</strong> An Agile approach would be most appropriate because it allows for flexibility and iterative delivery.</p>
+            <p><strong>Construction Project with Fixed Deadline:</strong> CPM would be ideal as it identifies the critical path and helps ensure the project finishes on time.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h2>Interactive Learning</h2>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Qo4HwIT4hpI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        
+        <div class="quiz">
+            <h3>Knowledge Check</h3>
+            <div class="quiz-question">1. Which scheduling method is best suited for projects with highly uncertain activity durations?</div>
+            <p><input type="radio" name="q1" id="q1a"> Gantt Chart<br>
+            <input type="radio" name="q1" id="q1b"> CPM<br>
+            <input type="radio" name="q1" id="q1c"> PERT<br>
+            <input type="radio" name="q1" id="q1d"> Line of Balance</p>
+            
+            <div class="quiz-question">2. What is the primary purpose of the Critical Path in project scheduling?</div>
+            <p><input type="radio" name="q2" id="q2a"> To identify the most expensive activities<br>
+            <input type="radio" name="q2" id="q2b"> To determine the sequence that defines the project duration<br>
+            <input type="radio" name="q2" id="q2c"> To allocate resources evenly<br>
+            <input type="radio" name="q2" id="q2d"> To create a visual timeline</p>
+            
+            <div class="quiz-question">3. Which of these is NOT typically a step in the project scheduling process?</div>
+            <p><input type="radio" name="q3" id="q3a"> Define project scope<br>
+            <input type="radio" name="q3" id="q3b"> Create Work Breakdown Structure<br>
+            <input type="radio" name="q3" id="q3c"> Estimate activity costs<br>
+            <input type="radio" name="q3" id="q3d"> Sequence activities</p>
+
+            <button onclick="checkAnswers()" class="check-answers-btn">Check Answers</button>
+            <div id="quiz-results" class="quiz-results"></div>
+        </div>
+
+        <script>
+            function checkAnswers() {
+                const answers = {
+                    q1: 'q1c', // PERT
+                    q2: 'q2b', // To determine the sequence that defines the project duration
+                    q3: 'q3c'  // Estimate activity costs
+                };
+                
+                let score = 0;
+                let feedback = '';
+                
+                for (let q in answers) {
+                    const selected = document.querySelector(`input[name="${q}"]:checked`);
+                    if (selected && selected.id === answers[q]) {
+                        score++;
+                    }
+                }
+                
+                const resultsDiv = document.getElementById('quiz-results');
+                resultsDiv.innerHTML = `<p>Your score: ${score}/3</p>`;
+                
+                if (score === 3) {
+                    resultsDiv.innerHTML += '<p class="correct">Excellent! All answers are correct!</p>';
+                } else {
+                    resultsDiv.innerHTML += '<p class="incorrect">Some answers are incorrect. Please review the material and try again.</p>';
+                }
+            }
+        </script>
+
+        <style>
+            .check-answers-btn {
+                background-color: var(--primary-color);
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin: 20px 0;
+                font-size: 16px;
+            }
+            
+            .check-answers-btn:hover {
+                background-color: var(--secondary-color);
+            }
+            
+            .quiz-results {
+                margin-top: 20px;
+                padding: 15px;
+                border-radius: 5px;
+            }
+            
+            .correct {
+                color: var(--success-color);
+            }
+            
+            .incorrect {
+                color: var(--warning-color);
+            }
+        </style>
+    </div>
+
+    <div class="content-section resources">
+        <h2>Additional Resources</h2>
+        <ul>
+            <li><a href="https://www.pmi.org/learning/library/project-scheduling-approaches-measures-6670" target="_blank">PMI Guide to Project Scheduling</a></li>
+            <li><a href="https://asana.com/resources/project-scheduling" target="_blank">Project Scheduling 101 - Asana</a></li>
+            <li><a href="https://www.workamajig.com/blog/project-scheduling" target="_blank">Complete Guide to Project Scheduling</a></li>
+            <li><a href="https://www.projectmanager.com/guides/project-scheduling" target="_blank">Project Scheduling Guide - ProjectManager.com</a></li>
+        </ul>
+    </div>
+
+
+</body>
+</html>
