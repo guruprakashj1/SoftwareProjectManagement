@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Analysis Learning Framework</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow: hidden;
+        }
+
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            text-align: center;
+            animation: fadeIn 0.5s;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin: 20px;
+            max-width: 95%;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #34495e;
+            font-size: 2em;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        h3 {
+            color: #2980b9;
+            font-size: 1.5em;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .teaching-notes {
+            background: #f8f9fa;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            border-radius: 5px;
+        }
+
+        .formula {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .example {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            border-left: 4px solid #9c27b0;
+        }
+
+        .definition {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .abbreviation {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table th {
+            background: #3498db;
+            color: white;
+        }
+
+        .table tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .symbol-box {
+            background: #ffe0e6;
+            border: 2px solid #e91e63;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .calculation {
+            background: #f0f8ff;
+            border: 1px solid #87ceeb;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .decision-rule {
+            background: #e8f5e8;
+            border: 3px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .toc {
+            text-align: left;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .toc-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+
+        .slide-full {
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            text-align: left;
+        }
+
+        .risk-level {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .risk-low { background: #d4edda; border: 2px solid #28a745; }
+        .risk-medium { background: #fff3cd; border: 2px solid #ffc107; }
+        .risk-high { background: #f8d7da; border: 2px solid #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">45</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Financial Analysis Learning Framework</h1>
+            <div class="teaching-notes">
+                <h3>🎯 Course Overview</h3>
+                <p><strong>Duration:</strong> 8 weeks comprehensive program</p>
+                <p><strong>Target:</strong> Business students, finance professionals, managers</p>
+                <p><strong>Outcome:</strong> Master capital budgeting and investment analysis</p>
+            </div>
+            <div class="definition">
+                <h3>What You'll Learn:</h3>
+                <ul style="text-align: left; font-size: 1.1em; line-height: 1.6;">
+                    <li><strong>TVM</strong> (Time Value of Money) - Foundation concepts</li>
+                    <li><strong>NPV</strong> (Net Present Value) - Investment evaluation</li>
+                    <li><strong>IRR</strong> (Internal Rate of Return) - Return calculation</li>
+                    <li><strong>Break-Even Analysis</strong> - Risk assessment</li>
+                    <li><strong>Real-world Applications</strong> - Practical decision making</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 2: Table of Contents -->
+        <div class="slide">
+            <h1>Course Structure</h1>
+            <div class="toc">
+                <div class="toc-item">
+                    <strong>Module 1:</strong> Time Value of Money (TVM) Foundation
+                </div>
+                <div class="toc-item">
+                    <strong>Module 2:</strong> Discount Rate Analysis
+                </div>
+                <div class="toc-item">
+                    <strong>Module 3:</strong> Net Present Value (NPV)
+                </div>
+                <div class="toc-item">
+                    <strong>Module 4:</strong> Internal Rate of Return (IRR)
+                </div>
+                <div class="toc-item">
+                    <strong>Module 5:</strong> Break-Even Analysis
+                </div>
+                <div class="toc-item">
+                    <strong>Module 6:</strong> Advanced Applications
+                </div>
+            </div>
+            <div class="teaching-notes">
+                <strong>Teaching Tip:</strong> Each module builds on previous concepts. Ensure students master fundamentals before advancing.
+            </div>
+        </div>
+
+        <!-- Slide 3: Module 1 Introduction -->
+        <div class="slide">
+            <h1>Module 1: Time Value of Money</h1>
+            <h2>The Foundation of Finance</h2>
+            
+            <div class="definition">
+                <h3>📚 Definition</h3>
+                <p><strong>Time Value of Money (TVM):</strong> The fundamental principle that money available today is worth more than the same amount in the future.</p>
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎓 Teaching Points</h3>
+                <ul>
+                    <li><strong>Start with intuition:</strong> "Would you prefer $100 today or $100 in one year?"</li>
+                    <li><strong>Use real examples:</strong> Bank interest, loan payments, investment returns</li>
+                    <li><strong>Emphasize universality:</strong> This applies to ALL financial decisions</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h3>🔍 Why TVM Matters</h3>
+                <p><strong>Four Key Reasons:</strong></p>
+                <ol>
+                    <li><strong>Earning Potential:</strong> Money can be invested to grow</li>
+                    <li><strong>Inflation:</strong> Purchasing power decreases over time</li>
+                    <li><strong>Risk:</strong> Future payments are uncertain</li>
+                    <li><strong>Opportunity Cost:</strong> Alternative investment returns</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Slide 4: Present Value Concept -->
+        <div class="slide">
+            <h1>Present Value (PV)</h1>
+            <h2>"What is future money worth today?"</h2>
+
+            <div class="formula">
+                PV = FV ÷ (1 + r)^t
+            </div>
+
+            <div class="symbol-box">
+                <h3>📋 Symbol Guide</h3>
+                <ul>
+                    <li><span class="abbreviation">PV</span> = Present Value (what we're calculating)</li>
+                    <li><span class="abbreviation">FV</span> = Future Value (amount received later)</li>
+                    <li><span class="abbreviation">r</span> = Interest rate (as decimal, e.g., 0.10 for 10%)</li>
+                    <li><span class="abbreviation">t</span> = Time periods (usually years)</li>
+                    <li><span class="abbreviation">(1 + r)^t</span> = Discount factor</li>
+                </ul>
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎯 Teaching Strategy</h3>
+                <p><strong>Key Message:</strong> Present Value tells us what future money is worth in "today's dollars"</p>
+                <p><strong>Common Mistake:</strong> Students forget to convert percentages to decimals</p>
+                <p><strong>Memory Aid:</strong> "PV is smaller than FV because money loses value over time"</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: PV Example -->
+        <div class="slide slide-full">
+            <h1>Present Value Example</h1>
+            
+            <div class="example">
+                <h3>💰 Problem</h3>
+                <p>You will receive $5,000 in 3 years. If the discount rate is 8%, what is this worth today?</p>
+            </div>
+
+            <div class="step">
+                <strong>Step 1:</strong> Identify Given Information
+                <div class="calculation">
+                    FV = $5,000<br>
+                    r = 8% = 0.08<br>
+                    t = 3 years<br>
+                    PV = ? (unknown)
+                </div>
+            </div>
+
+            <div class="step">
+                <strong>Step 2:</strong> Write the Formula
+                <div class="calculation">PV = FV ÷ (1 + r)^t</div>
+            </div>
+
+            <div class="step">
+                <strong>Step 3:</strong> Substitute Values
+                <div class="calculation">PV = $5,000 ÷ (1 + 0.08)^3</div>
+            </div>
+
+            <div class="step">
+                <strong>Step 4:</strong> Calculate Discount Factor
+                <div class="calculation">(1.08)^3 = 1.2597</div>
+            </div>
+
+            <div class="step">
+                <strong>Step 5:</strong> Final Calculation
+                <div class="calculation">PV = $5,000 ÷ 1.2597 = $3,969.16</div>
+            </div>
+
+            <div class="decision-rule">
+                💡 Answer: $5,000 received in 3 years is worth $3,969.16 today
+            </div>
+
+            <div class="teaching-notes">
+                <strong>Verification:</strong> $3,969.16 × (1.08)^3 = $5,000 ✓
+            </div>
+        </div>
+
+        <!-- Slide 6: Future Value Concept -->
+        <div class="slide">
+            <h1>Future Value (FV)</h1>
+            <h2>"What will today's money be worth later?"</h2>
+
+            <div class="formula">
+                FV = PV × (1 + r)^t
+            </div>
+
+            <div class="symbol-box">
+                <h3>📋 Symbol Guide</h3>
+                <ul>
+                    <li><span class="abbreviation">FV</span> = Future Value (what we're calculating)</li>
+                    <li><span class="abbreviation">PV</span> = Present Value (amount invested today)</li>
+                    <li><span class="abbreviation">r</span> = Interest rate per period</li>
+                    <li><span class="abbreviation">t</span> = Number of periods</li>
+                    <li><span class="abbreviation">(1 + r)^t</span> = Compound growth factor</li>
+                </ul>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h3>🎯 Key Concepts</h3>
+                    <ul>
+                        <li>Shows growth potential</li>
+                        <li>Includes compound interest</li>
+                        <li>Used for investment planning</li>
+                        <li>Retirement calculations</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>📚 Teaching Focus</h3>
+                    <ul>
+                        <li>Emphasize compounding effect</li>
+                        <li>Compare simple vs compound</li>
+                        <li>Use realistic examples</li>
+                        <li>Connect to student goals</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: FV Example -->
+        <div class="slide slide-full">
+            <h1>Future Value Example</h1>
+            
+            <div class="example">
+                <h3>💰 Problem</h3>
+                <p>You invest $10,000 today at 6% annual interest. What will it be worth in 5 years?</p>
+            </div>
+
+            <div class="step">
+                <strong>Step 1:</strong> Identify Variables
+                <div class="calculation">
+                    PV = $10,000<br>
+                    r = 6% = 0.06<br>
+                    t = 5 years<br>
+                    FV = ?
+                </div>
+            </div>
+
+            <div class="step">
+                <strong>Step 2:</strong> Apply Formula
+                <div class="calculation">FV = $10,000 × (1.06)^5</div>
+            </div>
+
+            <div class="step">
+                <strong>Step 3:</strong> Calculate Growth Factor
+                <div class="calculation">(1.06)^5 = 1.3382</div>
+            </div>
+
+            <div class="step">
+                <strong>Step 4:</strong> Final Calculation
+                <div class="calculation">FV = $10,000 × 1.3382 = $13,382</div>
+            </div>
+
+            <div class="decision-rule">
+                💡 Answer: $10,000 invested today grows to $13,382 in 5 years<br>
+                💰 Interest Earned: $3,382
+            </div>
+
+            <div class="teaching-notes">
+                <strong>Teaching Note:</strong> Emphasize that the extra $3,382 is compound interest earned over 5 years.
+            </div>
+        </div>
+
+        <!-- Slide 8: Compound vs Simple Interest -->
+        <div class="slide">
+            <h1>Compound vs Simple Interest</h1>
+            <h2>The Power of Compounding</h2>
+
+            <div class="example">
+                <h3>📊 Comparison: $1,000 at 10% for 3 years</h3>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h3>Simple Interest</h3>
+                    <div class="calculation">
+                        Interest = Principal × Rate × Time<br>
+                        = $1,000 × 0.10 × 3<br>
+                        = $300<br><br>
+                        <strong>Total = $1,300</strong>
+                    </div>
+                </div>
+                <div>
+                    <h3>Compound Interest</h3>
+                    <div class="calculation">
+                        FV = $1,000 × (1.10)^3<br>
+                        = $1,000 × 1.331<br>
+                        = $1,331<br><br>
+                        <strong>Total = $1,331</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="decision-rule">
+                💡 Compound Interest Advantage: $31 extra from compounding!
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎓 Year-by-Year Breakdown</h3>
+                <ul>
+                    <li>Year 1: $1,000 × 1.10 = $1,100</li>
+                    <li>Year 2: $1,100 × 1.10 = $1,210 (earning interest on interest!)</li>
+                    <li>Year 3: $1,210 × 1.10 = $1,331</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 9: Discount Rate Introduction -->
+        <div class="slide">
+            <h1>Module 2: Discount Rate</h1>
+            <h2>The Required Rate of Return</h2>
+
+            <div class="definition">
+                <h3>📚 Definition</h3>
+                <p><strong>Discount Rate (r):</strong> The rate of return used to convert future cash flows to present value. It represents the minimum return an investor requires for taking risk.</p>
+            </div>
+
+            <div class="formula">
+                Discount Rate = Risk-free Rate + Risk Premium + Inflation Premium + Liquidity Premium
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎯 Why Different Discount Rates?</h3>
+                <p>Different investments have different risks, so they require different returns.</p>
+                <ul>
+                    <li><strong>Government bonds:</strong> Low risk = Low return</li>
+                    <li><strong>Corporate stocks:</strong> Higher risk = Higher return</li>
+                    <li><strong>Startup investments:</strong> Very high risk = Very high return</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 10: Discount Rate Components -->
+        <div class="slide slide-full">
+            <h1>Discount Rate Components</h1>
+
+            <div class="symbol-box">
+                <h3>📋 Component Breakdown</h3>
+                <ul>
+                    <li><strong>Risk-free Rate (Rf):</strong> Government bond yield (3-5%)</li>
+                    <li><strong>Risk Premium (Rp):</strong> Additional return for risk (1-20%)</li>
+                    <li><strong>Inflation Premium (IP):</strong> Expected inflation (2-4%)</li>
+                    <li><strong>Liquidity Premium (LP):</strong> For illiquid investments (0-5%)</li>
+                </ul>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Investment Type</th>
+                        <th>Risk-Free</th>
+                        <th>Risk Premium</th>
+                        <th>Inflation</th>
+                        <th>Liquidity</th>
+                        <th>Total Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Treasury Bonds</td>
+                        <td>4%</td>
+                        <td>0%</td>
+                        <td>3%</td>
+                        <td>0%</td>
+                        <td><strong>7%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Corporate Bonds</td>
+                        <td>4%</td>
+                        <td>2%</td>
+                        <td>3%</td>
+                        <td>0%</td>
+                        <td><strong>9%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Large Cap Stocks</td>
+                        <td>4%</td>
+                        <td>4%</td>
+                        <td>3%</td>
+                        <td>0%</td>
+                        <td><strong>11%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Small Cap Stocks</td>
+                        <td>4%</td>
+                        <td>8%</td>
+                        <td>3%</td>
+                        <td>1%</td>
+                        <td><strong>16%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Real Estate</td>
+                        <td>4%</td>
+                        <td>6%</td>
+                        <td>3%</td>
+                        <td>2%</td>
+                        <td><strong>15%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Startup Investment</td>
+                        <td>4%</td>
+                        <td>20%</td>
+                        <td>3%</td>
+                        <td>5%</td>
+                        <td><strong>32%</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 11: NPV Introduction -->
+        <div class="slide">
+            <h1>Module 3: Net Present Value</h1>
+            <h2>The Gold Standard of Investment Analysis</h2>
+
+            <div class="definition">
+                <h3>📚 Definition</h3>
+                <p><strong>Net Present Value (NPV):</strong> The difference between the present value of cash inflows and outflows. It measures the dollar amount of value a project creates.</p>
+            </div>
+
+            <div class="formula">
+                NPV = Σ [CFt ÷ (1+r)^t] - Initial Investment
+            </div>
+
+            <div class="symbol-box">
+                <h3>📋 Symbol Guide</h3>
+                <ul>
+                    <li><span class="abbreviation">NPV</span> = Net Present Value</li>
+                    <li><span class="abbreviation">CFt</span> = Cash flow in period t</li>
+                    <li><span class="abbreviation">r</span> = Discount rate (cost of capital)</li>
+                    <li><span class="abbreviation">t</span> = Time period</li>
+                    <li><span class="abbreviation">Σ</span> = Summation (add up all terms)</li>
+                </ul>
+            </div>
+
+            <div class="teaching-notes">
+                <strong>🎯 Why NPV is the "Gold Standard":</strong>
+                <ul>
+                    <li>Shows exact dollar value created</li>
+                    <li>Accounts for time value of money</li>
+                    <li>Considers risk through discount rate</li>
+                    <li>NPVs can be added together</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 12: NPV Decision Rules -->
+        <div class="slide">
+            <h1>NPV Decision Rules</h1>
+            <h2>Simple but Powerful</h2>
+
+            <div class="risk-level risk-low">
+                <h3>✅ NPV > 0</h3>
+                <p><strong>ACCEPT</strong> the project</p>
+                <p>Project creates value and increases firm worth</p>
+            </div>
+
+            <div class="risk-level risk-high">
+                <h3>❌ NPV < 0</h3>
+                <p><strong>REJECT</strong> the project</p>
+                <p>Project destroys value and decreases firm worth</p>
+            </div>
+
+            <div class="risk-level risk-medium">
+                <h3>🤔 NPV = 0</h3>
+                <p><strong>INDIFFERENT</strong></p>
+                <p>Project breaks even - consider other factors</p>
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎓 Teaching Emphasis</h3>
+                <p><strong>Key Message:</strong> NPV directly answers "How much value does this project create?"</p>
+                <p><strong>Real-world Application:</strong> Companies use NPV for equipment purchases, new products, acquisitions, R&D investments</p>
+            </div>
+        </div>
+
+        <!-- Slide 13: NPV Example Setup -->
+        <div class="slide">
+            <h1>NPV Calculation Example</h1>
+            
+            <div class="example">
+                <h3>💰 Problem</h3>
+                <p>A company can buy equipment for $50,000 that will generate $18,000 per year for 4 years. The discount rate is 12%. Calculate NPV.</p>
+            </div>
+
+            <div class="step">
+                <strong>Step 1:</strong> Organize Cash Flows
+                <div class="calculation">
+                    Year 0: -$50,000 (initial investment)<br>
+                    Year 1: +$18,000<br>
+                    Year 2: +$18,000<br>
+                    Year 3: +$18,000<br>
+                    Year 4: +$18,000
+                </div>
+            </div>
+
+            <div class="step">
+                <strong>Step 2:</strong> Set Up NPV Calculation
+                <div class="formula">
+                    NPV = -$50,000 + $18,000÷(1.12)¹ + $18,000÷(1.12)² + $18,000÷(1.12)³ + $18,000÷(1.12)⁴
+                </div>
+            </div>
+
+            <div class="teaching-notes">
+                <strong>Teaching Note:</strong> Always start by clearly identifying and organizing all cash flows with their timing.
+            </div>
+        </div>
+
+        <!-- Slide 14: NPV Example Calculation -->
+        <div class="slide slide-full">
+            <h1>NPV Calculation (Continued)</h1>
+
+            <div class="step">
+                <strong>Step 3:</strong> Calculate Each Present Value
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Cash Flow</th>
+                            <th>Calculation</th>
+                            <th>Present Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>-$50,000</td>
+                            <td>-$50,000</td>
+                            <td>-$50,000.00</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>$18,000</td>
+                            <td>$18,000 ÷ 1.12</td>
+                            <td>$16,071.43</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>$18,000</td>
+                            <td>$18,000 ÷ 1.2544</td>
+                            <td>$14,349.49</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>$18,000</td>
+                            <td>$18,000 ÷ 1.4049</td>
+                            <td>$12,811.69</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>$18,000</td>
+                            <td>$18,000 ÷ 1.5735</td>
+                            <td>$11,439.01</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="step">
+                <strong>Step 4:</strong> Sum All Present Values
+                <div class="calculation">
+                    NPV = -$50,000 + $16,071.43 + $14,349.49 + $12,811.69 + $11,439.01<br>
+                    NPV = -$50,000 + $54,671.62 = <span class="highlight">$4,671.62</span>
+                </div>
+            </div>
+
+            <div class="decision-rule">
+                ✅ NPV = $4,671.62 > 0, therefore <strong>ACCEPT</strong> the project!<br>
+                💰 The project creates $4,671.62 of value.
+            </div>
+        </div>
+
+        <!-- Slide 15: IRR Introduction -->
+        <div class="slide">
+            <h1>Module 4: Internal Rate of Return</h1>
+            <h2>Finding the Break-Even Rate</h2>
+
+            <div class="definition">
+                <h3>📚 Definition</h3>
+                <p><strong>Internal Rate of Return (IRR):</strong> The discount rate that makes the NPV of a project equal to zero. It represents the project's actual return rate.</p>
+            </div>
+
+            <div class="formula">
+                0 = Σ [CFt ÷ (1+IRR)^t] - Initial Investment
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎯 Why Calculate IRR?</h3>
+                <ul>
+                    <li><strong>Intuitive:</strong> Easy to understand percentage</li>
+                    <li><strong>Comparison:</strong> Compare with cost of capital</li>
+                    <li><strong>Communication:</strong> Management likes percentages</li>
+                    <li><strong>Break-even:</strong> Shows minimum acceptable rate</li>
+                </ul>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h3>IRR vs NPV</h3>
+                    <ul>
+                        <li>IRR: Percentage (relative)</li>
+                        <li>NPV: Dollars (absolute)</li>
+                        <li>Both needed for complete analysis</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>IRR Applications</h3>
+                    <ul>
+                        <li>Project evaluation</li>
+                        <li>Investment ranking</li>
+                        <li>Hurdle rate setting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: IRR Decision Rules -->
+        <div class="slide">
+            <h1>IRR Decision Rules</h1>
+
+            <div class="risk-level risk-low">
+                <h3>✅ IRR > Cost of Capital</h3>
+                <p><strong>ACCEPT</strong> the project</p>
+                <p>Project returns more than required</p>
+            </div>
+
+            <div class="risk-level risk-high">
+                <h3>❌ IRR < Cost of Capital</h3>
+                <p><strong>REJECT</strong> the project</p>
+                <p>Project returns less than required</p>
+            </div>
+
+            <div class="risk-level risk-medium">
+                <h3>🤔 IRR = Cost of Capital</h3>
+                <p><strong>INDIFFERENT</strong></p>
+                <p>Project meets minimum requirements</p>
+            </div>
+
+            <div class="example">
+                <h3>💡 Example Decision</h3>
+                <p><strong>Project IRR = 18%</strong></p>
+                <p><strong>Company's Cost of Capital = 12%</strong></p>
+                <p><strong>Decision:</strong> ACCEPT (18% > 12%)</p>
+                <p><strong>Interpretation:</strong> Project returns 18%, exceeding the 12% required return.</p>
+            </div>
+        </div>
+
+        <!-- Slide 17: IRR Trial and Error Method -->
+        <div class="slide slide-full">
+            <h1>IRR Calculation: Trial and Error</h1>
+
+            <div class="example">
+                <h3>💰 Problem</h3>
+                <p>Find IRR for: Initial investment $1,000, receive $600 in Year 1, $700 in Year 2</p>
+            </div>
+
+            <div class="step">
+                <strong>Step 1:</strong> Set up equation
+                <div class="calculation">0 = -$1,000 + $600÷(1+IRR)¹ + $700÷(1+IRR)²</div>
+            </div>
+
+            <div class="step">
+                <strong>Step 2:</strong> Try different rates
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Rate</th>
+                            <th>NPV Calculation</th>
+                            <th>NPV Result</th>
+                            <th>Conclusion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>15%</td>
+                            <td>-$1,000 + $521.74 + $529.30</td>
+                            <td class="highlight">+$51.04</td>
+                            <td>IRR > 15%</td>
+                        </tr>
+                        <tr>
+                            <td>20%</td>
+                            <td>-$1,000 + $500.00 + $486.11</td>
+                            <td class="highlight">-$13.89</td>
+                            <td>IRR < 20%</td>
+                        </tr>
+                        <tr>
+                            <td>18%</td>
+                            <td>-$1,000 + $508.47 + $502.92</td>
+                            <td class="highlight">+$11.39</td>
+                            <td>IRR > 18%</td>
+                        </tr>
+                        <tr>
+                            <td>19%</td>
+                            <td>-$1,000 + $504.20 + $494.71</td>
+                            <td class="highlight">-$1.09</td>
+                            <td>Very close!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="decision-rule">
+                💡 IRR ≈ 18.9%
+            </div>
+
+            <div class="teaching-notes">
+                <strong>Teaching Tip:</strong> Show that we're looking for the rate where NPV = 0. Narrow the range systematically.
+            </div>
+        </div>
+
+        <!-- Slide 18: Break-Even Analysis Introduction -->
+        <div class="slide">
+            <h1>Module 5: Break-Even Analysis</h1>
+            <h2>Finding the Tipping Point</h2>
+
+            <div class="definition">
+                <h3>📚 Definition</h3>
+                <p><strong>Break-Even Analysis:</strong> Finding the point where there's no gain or loss - where you neither make money nor lose money.</p>
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎯 Types of Break-Even Analysis</h3>
+                <ol>
+                    <li><strong>Break-Even Discount Rate:</strong> IRR (already covered)</li>
+                    <li><strong>Break-Even Time:</strong> Payback Period</li>
+                    <li><strong>Break-Even Volume:</strong> Units needed to cover costs</li>
+                    <li><strong>Break-Even NPV Scenarios:</strong> Required cash flows</li>
+                </ol>
+            </div>
+
+            <div class="example">
+                <h3>🔍 Business Applications</h3>
+                <ul>
+                    <li>Product launch planning</li>
+                    <li>Equipment purchase decisions</li>
+                    <li>Pricing strategy</li>
+                    <li>Risk assessment</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 19: Payback Period -->
+        <div class="slide">
+            <h1>Payback Period Analysis</h1>
+            <h2>Time to Recover Investment</h2>
+
+            <div class="two-column">
+                <div>
+                    <h3>Simple Payback</h3>
+                    <div class="formula">
+                        Payback = Initial Investment ÷ Annual Cash Flow
+                    </div>
+                    <p><strong>Ignores time value of money</strong></p>
+                </div>
+                <div>
+                    <h3>Discounted Payback</h3>
+                    <div class="formula">
+                        Uses Present Values of Cash Flows
+                    </div>
+                    <p><strong>Considers time value of money</strong></p>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>💰 Example: Simple Payback</h3>
+                <p><strong>Investment:</strong> $60,000</p>
+                <p><strong>Annual Cash Flow:</strong> $15,000</p>
+                <div class="calculation">
+                    Payback Period = $60,000 ÷ $15,000 = 4 years
+                </div>
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎓 Teaching Points</h3>
+                <ul>
+                    <li><strong>Advantage:</strong> Simple to calculate and understand</li>
+                    <li><strong>Disadvantage:</strong> Ignores cash flows after payback</li>
+                    <li><strong>Use:</strong> Quick screening tool, not primary decision method</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 20: Break-Even Volume -->
+        <div class="slide">
+            <h1>Break-Even Volume Analysis</h1>
+            <h2>Units Needed to Cover All Costs</h2>
+
+            <div class="formula">
+                Break-Even Units = Fixed Costs ÷ (Price per Unit - Variable Cost per Unit)
+            </div>
+
+            <div class="symbol-box">
+                <h3>📋 Cost Structure</h3>
+                <ul>
+                    <li><strong>Fixed Costs (FC):</strong> Don't change with volume (rent, salaries)</li>
+                    <li><strong>Variable Costs (VC):</strong> Change with volume (materials, labor)</li>
+                    <li><strong>Contribution Margin:</strong> Price - Variable Cost per unit</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h3>💰 Widget Company Example</h3>
+                <ul>
+                    <li><strong>Fixed Costs:</strong> $120,000/year</li>
+                    <li><strong>Variable Cost per Widget:</strong> $8</li>
+                    <li><strong>Selling Price per Widget:</strong> $20</li>
+                </ul>
+                
+                <div class="calculation">
+                    Contribution Margin = $20 - $8 = $12 per unit<br>
+                    Break-Even Units = $120,000 ÷ $12 = 10,000 units<br>
+                    Break-Even Revenue = 10,000 × $20 = $240,000
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: Break-Even Table -->
+        <div class="slide slide-full">
+            <h1>Break-Even Analysis Table</h1>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Units Sold</th>
+                        <th>Revenue</th>
+                        <th>Variable Costs</th>
+                        <th>Fixed Costs</th>
+                        <th>Total Costs</th>
+                        <th>Profit/Loss</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>$0</td>
+                        <td>$0</td>
+                        <td>$120,000</td>
+                        <td>$120,000</td>
+                        <td style="color: red;">-$120,000</td>
+                    </tr>
+                    <tr>
+                        <td>5,000</td>
+                        <td>$100,000</td>
+                        <td>$40,000</td>
+                        <td>$120,000</td>
+                        <td>$160,000</td>
+                        <td style="color: red;">-$60,000</td>
+                    </tr>
+                    <tr style="background: #ffeb3b;">
+                        <td><strong>10,000</strong></td>
+                        <td><strong>$200,000</strong></td>
+                        <td><strong>$80,000</strong></td>
+                        <td><strong>$120,000</strong></td>
+                        <td><strong>$200,000</strong></td>
+                        <td><strong>$0</strong></td>
+                    </tr>
+                    <tr>
+                        <td>15,000</td>
+                        <td>$300,000</td>
+                        <td>$120,000</td>
+                        <td>$120,000</td>
+                        <td>$240,000</td>
+                        <td style="color: green;">$60,000</td>
+                    </tr>
+                    <tr>
+                        <td>20,000</td>
+                        <td>$400,000</td>
+                        <td>$160,000</td>
+                        <td>$120,000</td>
+                        <td>$280,000</td>
+                        <td style="color: green;">$120,000</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="teaching-notes">
+                <h3>🎓 Key Insights</h3>
+                <ul>
+                    <li><strong>Break-even:</strong> Exactly 10,000 units</li>
+                    <li><strong>Profit contribution:</strong> Each unit above break-even adds $12 profit</li>
+                    <li><strong>Loss reduction:</strong> Each unit below break-even reduces loss by $12</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 22: Risk Assessment Framework -->
+        <div class="slide">
+            <h1>Risk Assessment Framework</h1>
+            <h2>Matching Risk with Return Requirements</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Risk Level</th>
+                        <th>Characteristics</th>
+                        <th>Discount Rate</th>
+                        <th>Payback Target</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="risk-low">
+                        <td><strong>Low Risk</strong></td>
+                        <td>Stable cash flows, proven market</td>
+                        <td>8-12%</td>
+                        <td>< 3 years</td>
+                    </tr>
+                    <tr class="risk-medium">
+                        <td><strong>Moderate Risk</strong></td>
+                        <td>Some uncertainty, competitive market</td>
+                        <td>12-18%</td>
+                        <td>3-5 years</td>
+                    </tr>
+                    <tr class="risk-high">
+                        <td><strong>High Risk</strong></td>
+                        <td>Uncertain cash flows, new market</td>
+                        <td>18-25%+</td>
+                        <td>< 2 years</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="teaching-notes">
+                <h3>🎯 Decision Questions</h3>
+                <ol>
+                    <li>Is the break-even point realistic?</li>
+                    <li>How long to reach break-even?</li>
+                    <li>What's the margin of safety?</li>
+                    <li>How sensitive is break-even to assumptions?</li>
+                </ol>
+            </div>
+
+            <div class="example">
+                <h3>💡 Example Assessment</h3>
+                <p><strong>Project with 4.5-year payback:</strong> Moderate to High Risk</p>
+                <p><strong>Recommendation:</strong> Proceed with caution, monitor closely</p>
+            </div>
+        </div>
+
+        <!-- Slide 23: Sensitivity Analysis -->
+        <div class="slide">
+            <h1>Sensitivity Analysis</h1>
+            <h2>Understanding Project Robustness</h2>
+
+            <div class="definition">
+                <h3>📚 Purpose</h3>
+                <p>Understand how changes in key variables affect project viability (NPV, IRR, break-even).</p>
+            </div>
+
+            <div class="example">
+                <h3>📊 Example: NPV Sensitivity to Discount Rate</h3>
+                <p><strong>Project:</strong> $100,000 investment, $35,000 annual cash flows for 4 years</p>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Discount Rate</th>
+                            <th>NPV</th>
+                            <th>Decision</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10%</td>
+                            <td>$10,947</td>
+                            <td style="color: green;">Accept</td>
+                        </tr>
+                        <tr>
+                            <td>12%</td>
+                            <td>$6,306</td>
+                            <td style="color: green;">Accept</td>
+                        </tr>
+                        <tr style="background: #ffeb3b;">
+                            <td><strong>15%</strong></td>
+                            <td><strong>-$75</strong></td>
+                            <td><strong>Reject (IRR ≈ 15%)</strong></td>
+                        </tr>
+                        <tr>
+                            <td>18%</td>
+                            <td>-$5,846</td>
+                            <td style="color: red;">Reject</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="teaching-notes">
+                <strong>🎓 Key Finding:</strong> Project is very sensitive to discount rate assumptions. Accept only if cost of capital < 15%.
+            </div>
+        </div>
+
+        <!-- Slide 24: Decision Framework Integration -->
+        <div class="slide">
+            <h1>Comprehensive Decision Framework</h1>
+            <h2>Putting It All Together</h2>
+
+            <div class="step">
+                <strong>Step 1:</strong> Calculate NPV
+            </div>
+            <div class="step">
+                <strong>Step 2:</strong> Calculate IRR
+            </div>
+            <div class="step">
+                <strong>Step 3:</strong> Perform Break-Even Analysis
+            </div>
+            <div class="step">
+                <strong>Step 4:</strong> Conduct Sensitivity Analysis
+            </div>
+            <div class="step">
+                <strong>Step 5:</strong> Make Final Decision
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎯 Decision Criteria Matrix</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Criterion</th>
+                            <th>Accept If</th>
+                            <th>Reject If</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>NPV</strong></td>
+                            <td>NPV > 0</td>
+                            <td>NPV < 0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IRR</strong></td>
+                            <td>IRR > Cost of Capital</td>
+                            <td>IRR < Cost of Capital</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Payback</strong></td>
+                            <td>Payback < Target</td>
+                            <td>Payback > Target</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 25: Advanced Topics Preview -->
+        <div class="slide">
+            <h1>Advanced Topics</h1>
+            <h2>Beyond the Basics</h2>
+
+            <div class="two-column">
+                <div>
+                    <h3>Modified IRR (MIRR)</h3>
+                    <ul>
+                        <li>Solves multiple IRR problem</li>
+                        <li>More realistic reinvestment assumption</li>
+                        <li>Better for project ranking</li>
+                    </ul>
+                    
+                    <h3>Profitability Index (PI)</h3>
+                    <ul>
+                        <li>PI = PV of cash flows ÷ Initial investment</li>
+                        <li>Accept if PI > 1.0</li>
+                        <li>Useful for capital rationing</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Monte Carlo Simulation</h3>
+                    <ul>
+                        <li>Analyzes uncertainty in cash flows</li>
+                        <li>Runs thousands of scenarios</li>
+                        <li>Provides probability distributions</li>
+                    </ul>
+                    
+                    <h3>Real Options Analysis</h3>
+                    <ul>
+                        <li>Values flexibility in investments</li>
+                        <li>Option to expand, abandon, delay</li>
+                        <li>Important for strategic projects</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎓 When to Use Advanced Methods</h3>
+                <ul>
+                    <li><strong>MIRR:</strong> When IRR gives multiple solutions</li>
+                    <li><strong>PI:</strong> When capital is limited (rationing)</li>
+                    <li><strong>Monte Carlo:</strong> When uncertainty is high</li>
+                    <li><strong>Real Options:</strong> When flexibility has value</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Additional slides would continue here... -->
+        
+        <!-- Slide 43: Common Mistakes -->
+        <div class="slide">
+            <h1>Common Student Mistakes</h1>
+            <h2>Troubleshooting Guide</h2>
+
+            <div class="example">
+                <h3>❌ Time Value of Money Errors</h3>
+                <ul>
+                    <li><strong>Mistake:</strong> Using 10 instead of 0.10 for 10%</li>
+                    <li><strong>Solution:</strong> Always convert percentages to decimals</li>
+                </ul>
+                <ul>
+                    <li><strong>Mistake:</strong> (1.10)³ = 1.10 × 3 = 3.30</li>
+                    <li><strong>Solution:</strong> Use calculator for exponents</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h3>❌ NPV Calculation Errors</h3>
+                <ul>
+                    <li><strong>Mistake:</strong> Making initial investment positive</li>
+                    <li><strong>Solution:</strong> Initial investment is cash outflow (negative)</li>
+                </ul>
+                <ul>
+                    <li><strong>Mistake:</strong> Mixing monthly and annual cash flows</li>
+                    <li><strong>Solution:</strong> Keep all periods consistent</li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <h3>❌ IRR Calculation Errors</h3>
+                <ul>
+                    <li><strong>Mistake:</strong> Not testing wide enough rate range</li>
+                    <li><strong>Solution:</strong> Start broad, then narrow systematically</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 44: Technology Tools -->
+        <div class="slide">
+            <h1>Technology Integration</h1>
+            <h2>Excel and Financial Calculators</h2>
+
+            <div class="two-column">
+                <div>
+                    <h3>📊 Excel Functions</h3>
+                    <div class="calculation">
+                        =PV(rate, nper, pmt, fv)<br>
+                        =FV(rate, nper, pmt, pv)<br>
+                        =NPV(rate, value1, value2...)<br>
+                        =IRR(values, guess)<br>
+                        =MIRR(values, finance_rate, reinvest_rate)
+                    </div>
+                </div>
+                <div>
+                    <h3>🧮 Financial Calculator</h3>
+                    <ul>
+                        <li><strong>N:</strong> Number of periods</li>
+                        <li><strong>I/Y:</strong> Interest rate per year</li>
+                        <li><strong>PV:</strong> Present Value</li>
+                        <li><strong>PMT:</strong> Payment per period</li>
+                        <li><strong>FV:</strong> Future Value</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🎓 Teaching Strategy</h3>
+                <ul>
+                    <li><strong>Start manual:</strong> Build understanding with hand calculations</li>
+                    <li><strong>Then technology:</strong> Use tools for efficiency and verification</li>
+                    <li><strong>Always verify:</strong> Check if results make business sense</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 45: Course Summary -->
+        <div class="slide">
+            <h1>Course Summary & Next Steps</h1>
+            <h2>Mastery Checklist</h2>
+
+            <div class="two-column">
+                <div>
+                    <h3>✅ Foundation Level</h3>
+                    <ul>
+                        <li>Explain time value of money</li>
+                        <li>Calculate PV and FV</li>
+                        <li>Determine discount rates</li>
+                        <li>Understand risk-return relationship</li>
+                    </ul>
+                    
+                    <h3>✅ Application Level</h3>
+                    <ul>
+                        <li>Calculate NPV for any project</li>
+                        <li>Find IRR using trial and error</li>
+                        <li>Perform break-even analysis</li>
+                        <li>Interpret financial results</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>✅ Analysis Level</h3>
+                    <ul>
+                        <li>Conduct sensitivity analysis</li>
+                        <li>Compare multiple projects</li>
+                        <li>Make capital budgeting decisions</li>
+                        <li>Assess investment risk</li>
+                    </ul>
+                    
+                    <h3>✅ Synthesis Level</h3>
+                    <ul>
+                        <li>Integrate all techniques</li>
+                        <li>Develop recommendations</li>
+                        <li>Present to management</li>
+                        <li>Defend investment decisions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="decision-rule">
+                🎯 Remember: Financial analysis is both art and science.<br>
+                Use quantitative tools, but apply business judgment!
+            </div>
+
+            <div class="teaching-notes">
+                <h3>🚀 Next Steps for Students</h3>
+                <ul>
+                    <li>Practice with real company cases</li>
+                    <li>Explore advanced topics (options, simulation)</li>
+                    <li>Apply to personal financial decisions</li>
+                    <li>Stay updated on market conditions</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">❮ Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next ❯</button>
+        <button class="nav-btn" onclick="goToSlide(1)">🏠 Home</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') changeSlide(-1);
+            if (event.key === 'ArrowRight') changeSlide(1);
+            if (event.key === 'Home') goToSlide(1);
+            if (event.key === 'End') goToSlide(totalSlides);
+        });
+
+        // Initialize
+        showSlide(currentSlide);
+
+        // Auto-expand abbreviations on hover
+        document.addEventListener('DOMContentLoaded', function() {
+            const abbreviations = document.querySelectorAll('.abbreviation');
+            abbreviations.forEach(abbr => {
+                abbr.addEventListener('mouseenter', function() {
+                    // Add tooltip or highlight effect
+                    this.style.backgroundColor = '#fff3cd';
+                });
+                abbr.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
