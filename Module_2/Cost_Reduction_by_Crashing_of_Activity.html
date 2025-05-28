@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cost Reduction by Crashing of Activity</title>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 25px;
+            background-color: #f9fbfd;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #e74c3c);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 35px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            margin-top: 1.5em;
+        }
+        
+        h1 {
+            font-size: 2.4em;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        h2 {
+            border-bottom: 3px solid #e74c3c;
+            padding-bottom: 10px;
+            font-size: 1.9em;
+        }
+        
+        h3 {
+            color: #e74c3c;
+            font-size: 1.5em;
+            border-left: 4px solid #e74c3c;
+            padding-left: 15px;
+        }
+        
+        h4 {
+            color: #3498db;
+            font-size: 1.2em;
+        }
+        
+        .definition-box {
+            background-color: #ffebee;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .process-step {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-top: 3px solid #42a5f5;
+            position: relative;
+            padding-left: 70px;
+        }
+        
+        .step-number {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background-color: #e74c3c;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .formula {
+            font-family: 'Courier New', monospace;
+            background-color: #f5f5f5;
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px 0;
+            font-size: 1.1em;
+            border-left: 3px solid #e74c3c;
+        }
+        
+        .cost-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .cost-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .cost-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        
+        .cost-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .crash-analysis {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        
+        .visual-aid {
+            text-align: center;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+        }
+        
+        .case-study {
+            background-color: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border-left: 5px solid #ffa726;
+        }
+        
+        .interactive-quiz {
+            background-color: #e8f5e9;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 35px 0;
+        }
+        
+        .key-term {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .note-box {
+            background-color: #fff9c4;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid #ffd600;
+        }
+        
+        .tradeoff-chart {
+            width: 100%;
+            height: 300px;
+            background-color: #f5f5f5;
+            margin: 20px 0;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #616161;
+            font-size: 0.95em;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .process-step {
+                padding-left: 20px;
+                padding-top: 50px;
+            }
+            
+            .step-number {
+                top: 10px;
+                left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cost Reduction by Crashing of Activity</h1>
+        <p>Optimizing Project Duration and Cost Through Schedule Compression</p>
+    </header>
+
+    <div class="definition-box">
+        <h2>What is Crashing?</h2>
+        <p><span class="key-term">Crashing</span> is a schedule compression technique used to reduce the project duration by adding additional resources to critical path activities at the least incremental cost.</p>
+        <p>It involves making cost-time tradeoffs to achieve the optimal balance between project duration and total cost.</p>
+    </div>
+
+    <h2>When to Use Crashing</h2>
+    <ul>
+        <li>When the project is behind schedule and needs to meet a deadline</li>
+        <li>When early completion offers financial incentives</li>
+        <li>When reducing duration lowers indirect project costs</li>
+        <li>When resources are available for allocation</li>
+        <li>Only on critical path activities (those with zero float)</li>
+    </ul>
+
+    <div class="note-box">
+        <h3>Important Considerations</h3>
+        <p>Crashing is not always the best solution. Consider:</p>
+        <ul>
+            <li>Diminishing returns - each additional unit of time reduction costs more</li>
+            <li>Potential quality risks from rushing work</li>
+            <li>Limited crash potential - activities can't be reduced beyond their crash limit</li>
+            <li>May create new critical paths</li>
+        </ul>
+    </div>
+
+    <h2>The Crashing Process</h2>
+    
+    <div class="process-step">
+        <div class="step-number">1</div>
+        <h3>Identify Critical Path</h3>
+        <p>Determine the current critical path and its duration using CPM.</p>
+        <p>Only activities on the critical path are candidates for crashing.</p>
+    </div>
+    
+    <div class="process-step">
+        <div class="step-number">2</div>
+        <h3>Determine Crash Costs</h3>
+        <p>For each critical activity, identify:</p>
+        <ul>
+            <li><span class="key-term">Normal Duration</span>: Original estimated time</li>
+            <li><span class="key-term">Normal Cost</span>: Cost at normal duration</li>
+            <li><span class="key-term">Crash Duration</span>: Minimum possible time</li>
+            <li><span class="key-term">Crash Cost</span>: Cost at crash duration</li>
+        </ul>
+    </div>
+    
+    <div class="process-step">
+        <div class="step-number">3</div>
+        <h3>Calculate Cost Slopes</h3>
+        <p>Determine the cost per time unit for crashing each activity:</p>
+        <div class="formula">
+            Cost Slope = (Crash Cost - Normal Cost) / (Normal Duration - Crash Duration)
+        </div>
+        <p>The slope represents the additional cost per unit of time saved.</p>
+    </div>
+    
+    <div class="process-step">
+        <div class="step-number">4</div>
+        <h3>Prioritize Activities for Crashing</h3>
+        <p>Start with activities that have the lowest cost slope (cheapest to crash per time unit).</p>
+        <p>Create a prioritized list of crashable activities.</p>
+    </div>
+    
+    <div class="process-step">
+        <div class="step-number">5</div>
+        <h3>Implement Crashing</h3>
+        <p>Crash activities in order of priority until:</p>
+        <ul>
+            <li>Desired duration is achieved</li>
+            <li>Cost exceeds benefits</li>
+            <li>No more crashing is possible</li>
+            <li>A new critical path emerges</li>
+        </ul>
+    </div>
+
+    <div class="visual-aid">
+        <h3>Time-Cost Tradeoff Curve</h3>
+        <div class="tradeoff-chart">
+            <!-- This would be replaced with an actual chart in implementation -->
+            <p style="text-align: center; padding-top: 130px;">[Visualization of time-cost tradeoff showing optimal crash point]</p>
+        </div>
+        <p>The curve shows the relationship between project duration and total cost, helping identify the optimal crash point.</p>
+    </div>
+
+    <div class="crash-analysis">
+        <h2>Crash Analysis Example</h2>
+        
+        <table class="cost-table">
+            <tr>
+                <th>Activity</th>
+                <th>Normal Duration</th>
+                <th>Normal Cost</th>
+                <th>Crash Duration</th>
+                <th>Crash Cost</th>
+                <th>Cost Slope</th>
+                <th>Max Crash Days</th>
+            </tr>
+            <tr>
+                <td>A (Critical)</td>
+                <td>10 days</td>
+                <td>$5,000</td>
+                <td>7 days</td>
+                <td>$8,000</td>
+                <td>$1,000/day</td>
+                <td>3 days</td>
+            </tr>
+            <tr>
+                <td>B (Critical)</td>
+                <td>15 days</td>
+                <td>$10,000</td>
+                <td>12 days</td>
+                <td>$13,000</td>
+                <td>$1,000/day</td>
+                <td>3 days</td>
+            </tr>
+            <tr>
+                <td>C (Critical)</td>
+                <td>8 days</td>
+                <td>$4,000</td>
+                <td>6 days</td>
+                <td>$5,000</td>
+                <td>$500/day</td>
+                <td>2 days</td>
+            </tr>
+            <tr>
+                <td>D (Non-critical)</td>
+                <td>12 days</td>
+                <td>$6,000</td>
+                <td>9 days</td>
+                <td>$9,000</td>
+                <td>$1,000/day</td>
+                <td>3 days</td>
+            </tr>
+        </table>
+        
+        <h3>Crashing Strategy</h3>
+        <ol>
+            <li>First crash Activity C (lowest cost slope at $500/day) by 2 days → Total cost increase: $1,000</li>
+            <li>Then crash Activities A and B (next lowest at $1,000/day) by 1 day each → Total cost increase: $2,000</li>
+            <li>Total project duration reduced by 4 days (from 33 to 29 days) at additional cost of $3,000</li>
+        </ol>
+    </div>
+
+    <div class="case-study">
+        <h3>Real-World Application: Software Development Project</h3>
+        <p><strong>Scenario:</strong> A software project has a critical path duration of 90 days, but the client needs it in 80 days to meet a trade show deadline. Early completion bonus: $50,000.</p>
+        
+        <p><strong>Crash Analysis:</strong></p>
+        <ul>
+            <li>Requirements phase can be crashed from 20 to 15 days at $2,000/day</li>
+            <li>Development can be crashed from 50 to 40 days by adding programmers at $1,500/day</li>
+            <li>Testing can be crashed from 20 to 15 days with additional testers at $3,000/day</li>
+        </ul>
+        
+        <p><strong>Optimal Solution:</strong> Crash requirements by 3 days ($6,000), development by 7 days ($10,500), and testing by 0 days. Total cost: $16,500. Net gain: $33,500 bonus.</p>
+    </div>
+
+    <div class="interactive-quiz">
+        <h3>Knowledge Check</h3>
+        <p><strong>Question 1:</strong> An activity has normal duration 8 days ($4,000), crash duration 5 days ($7,000). What is its cost slope?</p>
+        <p><strong>Question 2:</strong> Why shouldn't you crash activities that aren't on the critical path?</p>
+        <p><strong>Scenario:</strong> Your project has two parallel critical paths after initial crashing. How does this affect further crashing decisions?</p>
+    </div>
+
+    <h2>Advanced Crashing Concepts</h2>
+    
+    <h3>Multiple Critical Paths</h3>
+    <p>After initial crashing, new critical paths may emerge. You must then crash activities on all critical paths simultaneously to further reduce project duration.</p>
+    
+    <h3>Indirect Costs</h3>
+    <p>Consider how crashing affects indirect costs (overhead, facilities, etc.) which may decrease with shorter durations.</p>
+    
+    <h3>Non-linear Crashing</h3>
+    <p>In reality, cost slopes may not be linear - crashing becomes progressively more expensive.</p>
+
+    <div class="note-box">
+        <h3>Best Practices for Effective Crashing</h3>
+        <ul>
+            <li>Always analyze cost-benefit before crashing</li>
+            <li>Monitor for new critical paths after each crash</li>
+            <li>Consider quality impacts and risk factors</li>
+            <li>Communicate changes to all stakeholders</li>
+            <li>Document all crashing decisions and results</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>© 2023 IT Project Management Course | Module: Project Scheduling and Cost Control</p>
+        <p>Next Topic: Project Cost Control (PERT/Cost)</p>
+    </footer>
+</body>
+</html>

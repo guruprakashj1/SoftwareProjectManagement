@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Scheduling: Precedence Relationships</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h2, h3 {
+            color: #2c3e50;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+        }
+        
+        .module-info {
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        
+        .concept-box {
+            background-color: white;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 4px solid #3498db;
+        }
+        
+        .dependency-type {
+            background-color: #f0f7ff;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 3px solid #2980b9;
+        }
+        
+        .example {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px dashed #ccc;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .key-term {
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: #eaf2f8;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .visual-aid {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .activity-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .activity-table th, .activity-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .activity-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .activity-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        .interactive {
+            background-color: #e8f8f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Project Scheduling: Precedence Relationships</h1>
+        <p>Understanding Task Dependencies in Project Management</p>
+    </header>
+
+    <div class="module-info">
+        <h2>Introduction to Precedence Relationships</h2>
+        <p>Precedence relationships define the logical sequence in which project activities must be performed. These dependencies are fundamental to creating accurate project schedules and identifying the critical path.</p>
+    </div>
+
+    <h2>Types of Precedence Relationships</h2>
+    
+    <div class="concept-box">
+        <h3>1. Finish-to-Start (FS)</h3>
+        <div class="dependency-type">
+            <p>The most common dependency type where Activity B cannot start until Activity A finishes.</p>
+            <p><strong>Example:</strong> You can't start painting a wall (B) until the plastering is complete (A).</p>
+        </div>
+        
+        <div class="visual-aid">
+            <p>[Activity A] → [Activity B]</p>
+            <p>FS with no lag: A must finish before B can start</p>
+        </div>
+    </div>
+    
+    <div class="concept-box">
+        <h3>2. Start-to-Start (SS)</h3>
+        <div class="dependency-type">
+            <p>Activity B cannot start until Activity A starts.</p>
+            <p><strong>Example:</strong> Quality testing (B) can start once coding (A) begins, but doesn't need to wait for coding to finish.</p>
+        </div>
+        
+        <div class="visual-aid">
+            <p>[Activity A] → [Activity B] (start points aligned)</p>
+            <p>SS with 2-day lag: B can start 2 days after A starts</p>
+        </div>
+    </div>
+    
+    <div class="concept-box">
+        <h3>3. Finish-to-Finish (FF)</h3>
+        <div class="dependency-type">
+            <p>Activity B cannot finish until Activity A finishes.</p>
+            <p><strong>Example:</strong> Documentation (B) can't be completed until software development (A) is finished.</p>
+        </div>
+        
+        <div class="visual-aid">
+            <p>[Activity A] → [Activity B] (end points aligned)</p>
+            <p>FF with 1-day lag: B can finish 1 day after A finishes</p>
+        </div>
+    </div>
+    
+    <div class="concept-box">
+        <h3>4. Start-to-Finish (SF)</h3>
+        <div class="dependency-type">
+            <p>The least common type where Activity B cannot finish until Activity A starts.</p>
+            <p><strong>Example:</strong> Night security shift (B) can't end until morning shift (A) begins.</p>
+        </div>
+        
+        <div class="visual-aid">
+            <p>[Activity A] → [Activity B] (A start aligns with B finish)</p>
+            <p>SF with 1-hour lag: B can finish 1 hour after A starts</p>
+        </div>
+    </div>
+
+    <h2>Precedence Diagram Method (PDM)</h2>
+    
+    <div class="concept-box">
+        <p>The Precedence Diagram Method is a technique for constructing a project schedule network diagram that uses boxes/nodes to represent activities and connects them with arrows to show dependencies.</p>
+        
+        <div class="visual-aid">
+            <h4>Sample PDM Diagram</h4>
+            <p>[Activity A (FS)] → [Activity B (SS+2)] → [Activity C]</p>
+            <p>[Activity A] → [Activity D (FF-1)]</p>
+        </div>
+        
+        <h3>Key Components:</h3>
+        <ul>
+            <li><span class="key-term">Nodes:</span> Represent activities with duration estimates</li>
+            <li><span class="key-term">Arrows:</span> Show dependencies between activities</li>
+            <li><span class="key-term">Lag/Lead:</span> Time gaps or overlaps between dependent activities</li>
+        </ul>
+    </div>
+
+    <h2>Practical Example</h2>
+    
+    <div class="example">
+        <h3>Website Development Project</h3>
+        
+        <table class="activity-table">
+            <tr>
+                <th>Activity</th>
+                <th>Description</th>
+                <th>Predecessor</th>
+                <th>Dependency Type</th>
+                <th>Lag</th>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>Requirements Gathering</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>UI Design</td>
+                <td>A</td>
+                <td>FS</td>
+                <td>0</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>Backend Development</td>
+                <td>A</td>
+                <td>FS</td>
+                <td>2 days</td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td>Frontend Development</td>
+                <td>B</td>
+                <td>SS</td>
+                <td>3 days</td>
+            </tr>
+            <tr>
+                <td>E</td>
+                <td>Testing</td>
+                <td>C, D</td>
+                <td>FF</td>
+                <td>1 day</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>Best Practices</h2>
+    
+    <div class="concept-box">
+        <ul>
+            <li>Use <span class="key-term">Finish-to-Start</span> relationships as your default unless another type better represents the real-world constraint</li>
+            <li>Document all dependencies clearly in your project management software</li>
+            <li>Review dependencies with your team to ensure they reflect actual workflow constraints</li>
+            <li>Consider both <span class="key-term">mandatory</span> (hard logic) and <span class="key-term">discretionary</span> (soft logic) dependencies</li>
+            <li>Use lags and leads carefully to model realistic timing between activities</li>
+        </ul>
+    </div>
+
+    <div class="interactive">
+        <h3>Knowledge Check</h3>
+        <p>1. What dependency type would you use to model this situation: "The software demo can begin once development has started, but doesn't need to wait for development to finish"?</p>
+        <p>2. If Activity X must finish at least 2 days before Activity Y can start, how would you model this in a precedence diagram?</p>
+        <p>3. Why might you choose a Start-to-Finish relationship over other types?</p>
+    </div>
+
+    <footer>
+        <p>© 2023 IT Project Management Course | Module: Project Scheduling and Cost Control</p>
+        <p>Next Topic: Difference Between PERT and CPM</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Difference Between PERT and CPM</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9fbfd;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h2, h3 {
+            color: #2c3e50;
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.2em;
+            color: white;
+        }
+        
+        h2 {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 8px;
+            margin-top: 40px;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+            font-size: 1.4em;
+        }
+        
+        .comparison-card {
+            display: flex;
+            margin: 25px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .pert-section, .cpm-section {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .pert-section {
+            background-color: #e8f4fc;
+            border-left: 5px solid #3498db;
+        }
+        
+        .cpm-section {
+            background-color: #e8f8f5;
+            border-left: 5px solid #2ecc71;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .highlight {
+            background-color: #fffde7;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        .key-difference {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-left: 4px solid #e74c3c;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .visual-comparison {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .method-steps {
+            background-color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        
+        .use-case {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .interactive-quiz {
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-card {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Difference Between PERT and CPM</h1>
+        <p>Understanding Two Fundamental Project Scheduling Techniques</p>
+    </header>
+
+    <div class="method-steps">
+        <h2>Introduction</h2>
+        <p>PERT (Program Evaluation and Review Technique) and CPM (Critical Path Method) are both network-based project scheduling techniques, but they were developed for different purposes and have distinct characteristics.</p>
+    </div>
+
+    <div class="comparison-card">
+        <div class="pert-section">
+            <h3>PERT Overview</h3>
+            <p><span class="highlight">PERT</span> was developed by the U.S. Navy in 1958 for the Polaris submarine missile program to manage uncertain activity times.</p>
+            <ul>
+                <li>Probabilistic approach</li>
+                <li>Focuses on time estimation</li>
+                <li>Uses three time estimates (optimistic, pessimistic, most likely)</li>
+                <li>Best for R&D projects with uncertainty</li>
+            </ul>
+        </div>
+        
+        <div class="cpm-section">
+            <h3>CPM Overview</h3>
+            <p><span class="highlight">CPM</span> was developed by DuPont and Remington Rand in 1957 for chemical plant construction projects with well-defined activities.</p>
+            <ul>
+                <li>Deterministic approach</li>
+                <li>Focuses on time-cost tradeoffs</li>
+                <li>Uses single time estimates</li>
+                <li>Best for construction and industrial projects</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Key Differences</h2>
+    
+    <table class="comparison-table">
+        <tr>
+            <th>Parameter</th>
+            <th>PERT</th>
+            <th>CPM</th>
+        </tr>
+        <tr>
+            <td><strong>Nature</strong></td>
+            <td>Probabilistic model</td>
+            <td>Deterministic model</td>
+        </tr>
+        <tr>
+            <td><strong>Time Estimation</strong></td>
+            <td>Three time estimates (optimistic, pessimistic, most likely)</td>
+            <td>Single time estimate</td>
+        </tr>
+        <tr>
+            <td><strong>Focus</strong></td>
+            <td>Time-oriented (minimizing time)</td>
+            <td>Time-cost tradeoff (cost optimization)</td>
+        </tr>
+        <tr>
+            <td><strong>Critical Path</strong></td>
+            <td>Focuses on critical path for time management</td>
+            <td>Focuses on critical path for cost reduction</td>
+        </tr>
+        <tr>
+            <td><strong>Best For</strong></td>
+            <td>Research & development, non-routine projects</td>
+            <td>Construction, manufacturing, routine projects</td>
+        </tr>
+        <tr>
+            <td><strong>Crashing</strong></td>
+            <td>Not typically used</td>
+            <td>Commonly used to reduce project duration</td>
+        </tr>
+        <tr>
+            <td><strong>Flexibility</strong></td>
+            <td>More flexible with uncertain activities</td>
+            <td>Less flexible, requires well-defined activities</td>
+        </tr>
+    </table>
+
+    <div class="visual-comparison">
+        <h3>Visual Comparison</h3>
+        <p><strong>PERT Diagram:</strong> Emphasizes probability distributions for activity durations</p>
+        <p><strong>CPM Diagram:</strong> Focuses on identifying the critical path for cost optimization</p>
+        <!-- Space for actual diagrams would go here -->
+    </div>
+
+    <div class="key-difference">
+        <h3>Most Significant Difference</h3>
+        <p>The fundamental difference lies in their approach to time estimation: PERT uses probabilistic time estimates to handle uncertainty, while CPM uses deterministic time estimates for predictable activities with a focus on cost optimization.</p>
+    </div>
+
+    <h2>When to Use Each Method</h2>
+    
+    <div class="use-case">
+        <h3>Use PERT When:</h3>
+        <ul>
+            <li>Project activities have uncertain durations</li>
+            <li>You're dealing with research or development projects</li>
+            <li>Time estimation is more critical than cost optimization</li>
+            <li>You need to calculate probability of meeting deadlines</li>
+        </ul>
+    </div>
+    
+    <div class="use-case">
+        <h3>Use CPM When:</h3>
+        <ul>
+            <li>Project activities have well-known durations</li>
+            <li>You're working on construction or manufacturing projects</li>
+            <li>Cost optimization is as important as time management</li>
+            <li>You need to analyze time-cost tradeoffs (crashing)</li>
+        </ul>
+    </div>
+
+    <div class="interactive-quiz">
+        <h3>Knowledge Check</h3>
+        <p><strong>Scenario 1:</strong> A software company is developing a new AI product with many uncertain research components. Which method would be more appropriate?</p>
+        <p><strong>Scenario 2:</strong> A construction firm is building a standard office building with well-defined activities and wants to optimize costs. Which method should they use?</p>
+        <p><strong>Question:</strong> Can PERT and CPM be used together in hybrid projects? Why or why not?</p>
+    </div>
+
+    <h2>Modern Applications</h2>
+    <p>Today, many project management software tools incorporate elements of both PERT and CPM, allowing project managers to:</p>
+    <ul>
+        <li>Use probabilistic estimates for uncertain activities (PERT aspect)</li>
+        <li>Perform time-cost tradeoff analysis (CPM aspect)</li>
+        <li>Visualize critical paths with Gantt chart integrations</li>
+        <li>Calculate float/slack for non-critical activities</li>
+    </ul>
+
+    <footer>
+        <p>© 2023 IT Project Management Course | Module: Project Scheduling and Cost Control</p>
+        <p>Next Topic: Float Calculation and Its Importance</p>
+    </footer>
+</body>
+</html>
