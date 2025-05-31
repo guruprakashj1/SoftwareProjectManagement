@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Office PM Simulation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .game-container {
+            background: #ecf0f1;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-header {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .score-display {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .main-game-area {
+            flex: 1;
+            margin-right: 280px;
+            background: #ecf0f1;
+            position: relative;
+        }
+
+        #gameCanvas {
+            display: block;
+            background: #ecf0f1;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .game-sidebar {
+            position: fixed;
+            top: 70px;
+            right: 0;
+            width: 280px;
+            height: calc(100vh - 70px);
+            background: linear-gradient(180deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            z-index: 20;
+        }
+
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ecf0f1;
+            border-bottom: 1px solid #7f8c8d;
+            padding-bottom: 5px;
+        }
+
+        .team-member-card {
+            background: rgba(52, 73, 94, 0.8);
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            border-left: 3px solid #3498db;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .team-member-card:hover {
+            background: rgba(41, 128, 185, 0.3);
+            transform: translateX(3px);
+        }
+
+        .team-member-card.has-question {
+            border-left-color: #f1c40f;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 5px rgba(241, 196, 15, 0.5); }
+            to { box-shadow: 0 0 15px rgba(241, 196, 15, 0.8); }
+        }
+
+        .member-name {
+            font-weight: bold;
+            color: #ecf0f1;
+        }
+
+        .member-role {
+            color: #bdc3c7;
+            font-size: 10px;
+            margin-top: 2px;
+        }
+
+        .status-indicator {
+            float: right;
+            font-size: 12px;
+        }
+
+        .controls-panel {
+            background: rgba(44, 62, 80, 0.9);
+            color: #ecf0f1;
+            padding: 10px;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .question-modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            max-width: 500px;
+            z-index: 100;
+            display: none;
+            border: 3px solid #3498db;
+        }
+
+        .question-modal h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .question-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #34495e;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+
+        .options li {
+            background: linear-gradient(135deg, #ecf0f1, #bdc3c7);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .options li:before {
+            content: "○";
+            position: absolute;
+            left: 15px;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+
+        .options li {
+            padding-left: 40px;
+        }
+
+        .options li:hover {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .options li:hover:before {
+            content: "●";
+            color: white;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+            line-height: 1.5;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border-left: 4px solid #1e8449;
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border-left: 4px solid #922b21;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 15px;
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f1c40f, #f39c12);
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <div class="header-left">
+                🏢 <strong>IT Office Project Management Simulation</strong>
+            </div>
+            <div class="header-right">
+                <div class="score-display">
+                    Score: <span id="score">0</span>
+                </div>
+                <div class="score-display">
+                    Progress: <span id="questionsAnswered">0</span>/15
+                </div>
+            </div>
+        </div>
+
+        <div style="flex: 1; display: flex;">
+            <div class="main-game-area" style="flex: 1; margin-right: 280px;">
+                <canvas id="gameCanvas" style="width: 100%; height: 100%; display: block;"></canvas>
+            </div>
+            
+            <div class="game-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-title">🎯 Your Mission</div>
+                    <p style="font-size: 11px; line-height: 1.4; color: #bdc3c7;">
+                        Navigate the office and consult with team members about project management challenges. Click on glowing team members to answer questions!
+                    </p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">👥 Team Members</div>
+                    <div id="teamMembersList"></div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-title">🎮 Controls</div>
+                    <div class="controls-panel">
+                        <strong>Movement:</strong><br>
+                        • Arrow Keys / WASD<br>
+                        • Click to move<br><br>
+                        <strong>Interaction:</strong><br>
+                        • Space Bar<br>
+                        • Click team members<br><br>
+                        <strong>Goal:</strong><br>
+                        Answer all 15 questions to complete the simulation!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="question-modal" id="questionModal">
+            <h3 id="characterName">Team Member</h3>
+            <div class="question-text" id="questionText"></div>
+            <ul class="options" id="options"></ul>
+            <div class="feedback" id="feedback"></div>
+            <button class="next-btn" id="nextBtn">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        class AdvancedOfficeSimulation {
+            constructor() {
+                this.canvas = document.getElementById('gameCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.score = 0;
+                this.questionsAnswered = 0;
+                this.currentQuestion = null;
+                
+                // Set up responsive canvas
+                this.setupCanvas();
+                window.addEventListener('resize', () => this.setupCanvas());
+                
+                // Player setup with better graphics
+                this.player = {
+                    x: this.canvas.width * 0.5,
+                    y: this.canvas.height * 0.8,
+                    width: 24,
+                    height: 24,
+                    speed: 3,
+                    sprite: '🧑‍💼'
+                };
+
+                // Enhanced team members with detailed sprites and positions
+                this.setupTeamMembers();
+                this.setupFurniture();
+
+                this.keys = {};
+                this.pathfinding = [];
+                this.updateSidebar();
+                this.bindEvents();
+                this.gameLoop();
+            }
+
+            setupCanvas() {
+                const rect = this.canvas.getBoundingClientRect();
+                this.canvas.width = rect.width;
+                this.canvas.height = rect.height;
+                
+                // Update player and team positions when canvas resizes
+                if (this.player) {
+                    this.player.x = Math.min(this.player.x, this.canvas.width - this.player.width - 50);
+                    this.player.y = Math.min(this.player.y, this.canvas.height - this.player.height - 50);
+                }
+                
+                if (this.teamMembers) {
+                    this.setupTeamMembers();
+                    this.setupFurniture();
+                }
+            }
+
+            setupTeamMembers() {
+                this.teamMembers = [
+                    {
+                        name: "Sarah Chen",
+                        role: "Business Analyst",
+                        x: this.canvas.width * 0.15, y: this.canvas.height * 0.2, 
+                        width: 30, height: 30,
+                        sprite: '👩‍💼',
+                        color: '#e74c3c',
+                        hasQuestion: true,
+                        department: "Requirements",
+                        questions: this.getBAQuestions()
+                    },
+                    {
+                        name: "Alex Rodriguez", 
+                        role: "UI/UX Designer",
+                        x: this.canvas.width * 0.4, y: this.canvas.height * 0.2, 
+                        width: 30, height: 30,
+                        sprite: '🎨',
+                        color: '#9b59b6',
+                        hasQuestion: true,
+                        department: "Design",
+                        questions: this.getDesignerQuestions()
+                    },
+                    {
+                        name: "Mike Johnson",
+                        role: "Frontend Developer",
+                        x: this.canvas.width * 0.65, y: this.canvas.height * 0.2, 
+                        width: 30, height: 30,
+                        sprite: '💻',
+                        color: '#3498db',
+                        hasQuestion: true,
+                        department: "Development",
+                        questions: this.getFrontendQuestions()
+                    },
+                    {
+                        name: "Lisa Wang",
+                        role: "Backend Developer",
+                        x: this.canvas.width * 0.15, y: this.canvas.height * 0.5, 
+                        width: 30, height: 30,
+                        sprite: '⚙️',
+                        color: '#2ecc71',
+                        hasQuestion: true,
+                        department: "Development",
+                        questions: this.getBackendQuestions()
+                    },
+                    {
+                        name: "David Kumar",
+                        role: "QA Engineer",
+                        x: this.canvas.width * 0.4, y: this.canvas.height * 0.5, 
+                        width: 30, height: 30,
+                        sprite: '🔍',
+                        color: '#f39c12',
+                        hasQuestion: true,
+                        department: "Quality",
+                        questions: this.getQAQuestions()
+                    },
+                    {
+                        name: "Emma Foster",
+                        role: "DevOps Engineer",
+                        x: this.canvas.width * 0.65, y: this.canvas.height * 0.5, 
+                        width: 30, height: 30,
+                        sprite: '🔧',
+                        color: '#e67e22',
+                        hasQuestion: true,
+                        department: "Operations",
+                        questions: this.getDevOpsQuestions()
+                    }
+                ];
+            }
+
+            setupFurniture() {
+                // Enhanced office furniture with realistic layout - responsive to canvas size
+                this.furniture = [
+                    // Workstation desks
+                    { x: this.canvas.width * 0.08, y: this.canvas.height * 0.15, width: this.canvas.width * 0.15, height: this.canvas.height * 0.12, color: '#8B4513', type: 'workstation', label: 'BA Desk' },
+                    { x: this.canvas.width * 0.32, y: this.canvas.height * 0.15, width: this.canvas.width * 0.15, height: this.canvas.height * 0.12, color: '#8B4513', type: 'workstation', label: 'Design Desk' },
+                    { x: this.canvas.width * 0.56, y: this.canvas.height * 0.15, width: this.canvas.width * 0.15, height: this.canvas.height * 0.12, color: '#8B4513', type: 'workstation', label: 'Frontend' },
+                    { x: this.canvas.width * 0.08, y: this.canvas.height * 0.42, width: this.canvas.width * 0.15, height: this.canvas.height * 0.12, color: '#8B4513', type: 'workstation', label: 'Backend' },
+                    { x: this.canvas.width * 0.32, y: this.canvas.height * 0.42, width: this.canvas.width * 0.15, height: this.canvas.height * 0.12, color: '#8B4513', type: 'workstation', label: 'QA Station' },
+                    { x: this.canvas.width * 0.56, y: this.canvas.height * 0.42, width: this.canvas.width * 0.15, height: this.canvas.height * 0.12, color: '#8B4513', type: 'workstation', label: 'DevOps' },
+                    
+                    // Meeting areas
+                    { x: this.canvas.width * 0.25, y: this.canvas.height * 0.32, width: this.canvas.width * 0.25, height: this.canvas.height * 0.08, color: '#654321', type: 'meeting-table', label: 'Conference Table' },
+                    
+                    // Office amenities
+                    { x: this.canvas.width * 0.02, y: this.canvas.height * 0.7, width: this.canvas.width * 0.12, height: this.canvas.height * 0.18, color: '#228B22', type: 'break-area', label: 'Break Area' },
+                    { x: this.canvas.width * 0.75, y: this.canvas.height * 0.7, width: this.canvas.width * 0.12, height: this.canvas.height * 0.18, color: '#2F4F4F', type: 'server-rack', label: 'Server Room' },
+                    { x: this.canvas.width * 0.25, y: this.canvas.height * 0.7, width: this.canvas.width * 0.2, height: this.canvas.height * 0.12, color: '#4169E1', type: 'collaboration', label: 'Collaboration Zone' },
+                    
+                    // Office walls/barriers
+                    { x: 0, y: 0, width: this.canvas.width * 0.75, height: 20, color: '#95a5a6', type: 'wall', label: '' },
+                    { x: 0, y: this.canvas.height - 20, width: this.canvas.width * 0.75, height: 20, color: '#95a5a6', type: 'wall', label: '' },
+                    { x: 0, y: 0, width: 20, height: this.canvas.height, color: '#95a5a6', type: 'wall', label: '' }
+                ];
+            }
+
+            updateSidebar() {
+                const teamList = document.getElementById('teamMembersList');
+                teamList.innerHTML = '';
+                
+                this.teamMembers.forEach(member => {
+                    const card = document.createElement('div');
+                    card.className = `team-member-card ${member.hasQuestion ? 'has-question' : ''}`;
+                    card.innerHTML = `
+                        <div class="member-name">${member.sprite} ${member.name}</div>
+                        <div class="member-role">${member.role} • ${member.department}</div>
+                        <div class="status-indicator">${member.hasQuestion ? '❓' : '✅'}</div>
+                    `;
+                    card.addEventListener('click', () => {
+                        if (member.hasQuestion) {
+                            this.interactWithMember(member);
+                        }
+                    });
+                    teamList.appendChild(card);
+                });
+            }
+
+            // Question methods remain the same as before
+            getBAQuestions() {
+                return [
+                    {
+                        question: "As a Project Manager, what's the most important activity during requirements gathering?",
+                        options: [
+                            "Writing detailed technical specifications",
+                            "Facilitating stakeholder communication and resolving conflicts",
+                            "Creating project timelines",
+                            "Assigning tasks to developers"
+                        ],
+                        correct: 1,
+                        explanation: "Project Managers should focus on stakeholder communication and conflict resolution during requirements gathering."
+                    },
+                    {
+                        question: "In Agile methodology, who is responsible for defining 'Definition of Done'?",
+                        options: [
+                            "Product Owner only",
+                            "Scrum Master only", 
+                            "Development Team only",
+                            "Entire Scrum Team collaboratively"
+                        ],
+                        correct: 3,
+                        explanation: "The Definition of Done should be defined collaboratively by the entire Scrum team."
+                    },
+                    {
+                        question: "What's the primary purpose of user stories in Agile development?",
+                        options: [
+                            "To provide detailed technical documentation",
+                            "To capture requirements from user's perspective",
+                            "To estimate project costs",
+                            "To create test cases"
+                        ],
+                        correct: 1,
+                        explanation: "User stories capture requirements from the end user's perspective, focusing on value delivery."
+                    }
+                ];
+            }
+
+            getDesignerQuestions() {
+                return [
+                    {
+                        question: "How should a PM handle design changes requested late in the development cycle?",
+                        options: [
+                            "Immediately approve all changes",
+                            "Reject all late changes",
+                            "Assess impact on scope, time, and budget before deciding",
+                            "Let the design team decide"
+                        ],
+                        correct: 2,
+                        explanation: "PMs should assess the impact of design changes on the project triangle (scope, time, budget) before making decisions."
+                    },
+                    {
+                        question: "What's the best approach for managing design iterations in Agile projects?",
+                        options: [
+                            "Complete all designs before development starts",
+                            "Design sprint by sprint, staying ahead of development",
+                            "Design and develop simultaneously without planning",
+                            "Design only after development is complete"
+                        ],
+                        correct: 1,
+                        explanation: "Design should stay 1-2 sprints ahead of development to provide clarity while remaining flexible."
+                    }
+                ];
+            }
+
+            getFrontendQuestions() {
+                return [
+                    {
+                        question: "How should you estimate story points for frontend development tasks?",
+                        options: [
+                            "Based on lines of code to be written",
+                            "Using complexity, effort, and uncertainty factors",
+                            "Only considering the time needed",
+                            "Based on similar tasks from other projects"
+                        ],
+                        correct: 1,
+                        explanation: "Story points should consider complexity, effort, and uncertainty, not just time or lines of code."
+                    },
+                    {
+                        question: "What's the most effective way to handle technical debt in frontend development?",
+                        options: [
+                            "Ignore it until the project is complete",
+                            "Dedicate entire sprints to fixing technical debt",
+                            "Allocate 10-20% of sprint capacity for technical debt",
+                            "Fix technical debt only when bugs are reported"
+                        ],
+                        correct: 2,
+                        explanation: "Allocating 10-20% of sprint capacity helps manage technical debt proactively without stopping feature development."
+                    }
+                ];
+            }
+
+            getBackendQuestions() {
+                return [
+                    {
+                        question: "In project planning, how should database design dependencies be managed?",
+                        options: [
+                            "Complete all database design before any development",
+                            "Start with minimal viable schema and evolve iteratively",
+                            "Let each developer design their own database structure",
+                            "Copy database design from similar projects"
+                        ],
+                        correct: 1,
+                        explanation: "Starting with a minimal viable schema and evolving iteratively aligns with Agile principles and reduces risk."
+                    },
+                    {
+                        question: "What's the best approach for handling API versioning in project planning?",
+                        options: [
+                            "Never change APIs once created",
+                            "Plan for backward compatibility and deprecation strategy",
+                            "Create new APIs for every change",
+                            "Let the frontend team handle version differences"
+                        ],
+                        correct: 1,
+                        explanation: "Planning for backward compatibility and deprecation strategy is essential for sustainable API management."
+                    }
+                ];
+            }
+
+            getQAQuestions() {
+                return [
+                    {
+                        question: "When should testing activities be planned in Agile projects?",
+                        options: [
+                            "Only at the end of each sprint",
+                            "Throughout the sprint, integrated with development",
+                            "After all development is complete",
+                            "Before development starts"
+                        ],
+                        correct: 1,
+                        explanation: "In Agile, testing should be integrated throughout the sprint, not left until the end."
+                    },
+                    {
+                        question: "How should a PM handle bug reports found during sprint execution?",
+                        options: [
+                            "Fix all bugs immediately",
+                            "Add all bugs to the next sprint",
+                            "Triage bugs based on severity and sprint capacity",
+                            "Ignore bugs until sprint review"
+                        ],
+                        correct: 2,
+                        explanation: "Bugs should be triaged based on severity, and critical bugs may need immediate attention while others can be prioritized for future sprints."
+                    }
+                ];
+            }
+
+            getDevOpsQuestions() {
+                return [
+                    {
+                        question: "How should deployment planning be integrated into sprint planning?",
+                        options: [
+                            "Plan deployments only at project end",
+                            "Include deployment tasks and time in sprint planning",
+                            "Let DevOps handle deployments independently",
+                            "Deploy manually whenever features are ready"
+                        ],
+                        correct: 1,
+                        explanation: "Deployment tasks and time should be included in sprint planning to ensure realistic sprint commitments."
+                    },
+                    {
+                        question: "What's the PM's role in establishing CI/CD pipelines?",
+                        options: [
+                            "Write the pipeline code personally",
+                            "Ensure pipeline requirements are defined and prioritized",
+                            "Avoid involvement in technical infrastructure decisions",
+                            "Only focus on deployment schedules"
+                        ],
+                        correct: 1,
+                        explanation: "PMs should ensure CI/CD requirements are properly defined, prioritized, and allocated time in sprint planning."
+                    }
+                ];
+            }
+
+            bindEvents() {
+                // Keyboard controls
+                document.addEventListener('keydown', (e) => {
+                    this.keys[e.key] = true;
+                    if (e.key === ' ') {
+                        e.preventDefault();
+                        this.checkInteraction();
+                    }
+                });
+
+                document.addEventListener('keyup', (e) => {
+                    this.keys[e.key] = false;
+                });
+
+                // Mouse/touch controls
+                this.canvas.addEventListener('click', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const clickY = e.clientY - rect.top;
+                    
+                    // Check if clicked on team member
+                    for (let member of this.teamMembers) {
+                        if (clickX >= member.x - 10 && clickX <= member.x + member.width + 10 &&
+                            clickY >= member.y - 10 && clickY <= member.y + member.height + 10) {
+                            if (member.hasQuestion) {
+                                this.interactWithMember(member);
+                                return;
+                            }
+                        }
+                    }
+                    
+                    // Move player towards click
+                    this.movePlayerTowards(clickX, clickY);
+                });
+
+                // Question modal events
+                document.getElementById('nextBtn').addEventListener('click', () => {
+                    this.closeQuestionModal();
+                });
+            }
+
+            movePlayerTowards(targetX, targetY) {
+                const dx = targetX - (this.player.x + this.player.width/2);
+                const dy = targetY - (this.player.y + this.player.height/2);
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                if (distance > 5) {
+                    const moveX = (dx / distance) * this.player.speed;
+                    const moveY = (dy / distance) * this.player.speed;
+                    
+                    let newX = this.player.x + moveX;
+                    let newY = this.player.y + moveY;
+                    
+                    // Check collision before moving
+                    if (!this.checkCollision(newX, newY, this.player.width, this.player.height)) {
+                        this.player.x = newX;
+                        this.player.y = newY;
+                    }
+                    
+                    // Keep player in bounds
+                    this.player.x = Math.max(25, Math.min(this.canvas.width * 0.75 - this.player.width - 5, this.player.x));
+                    this.player.y = Math.max(25, Math.min(this.canvas.height - this.player.height - 25, this.player.y));
+                }
+            }
+
+            updatePlayer() {
+                let newX = this.player.x;
+                let newY = this.player.y;
+
+                if (this.keys['ArrowLeft'] || this.keys['a']) newX -= this.player.speed;
+                if (this.keys['ArrowRight'] || this.keys['d']) newX += this.player.speed;
+                if (this.keys['ArrowUp'] || this.keys['w']) newY -= this.player.speed;
+                if (this.keys['ArrowDown'] || this.keys['s']) newY += this.player.speed;
+
+                // Check boundaries
+                newX = Math.max(25, Math.min(this.canvas.width * 0.75 - this.player.width - 5, newX));
+                newY = Math.max(25, Math.min(this.canvas.height - this.player.height - 25, newY));
+
+                // Check furniture collision
+                if (!this.checkCollision(newX, newY, this.player.width, this.player.height)) {
+                    this.player.x = newX;
+                    this.player.y = newY;
+                }
+            }
+
+            checkCollision(x, y, width, height) {
+                for (let furniture of this.furniture) {
+                    if (x < furniture.x + furniture.width &&
+                        x + width > furniture.x &&
+                        y < furniture.y + furniture.height &&
+                        y + height > furniture.y) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            checkInteraction() {
+                for (let member of this.teamMembers) {
+                    const distance = Math.sqrt(
+                        Math.pow(this.player.x - member.x, 2) + 
+                        Math.pow(this.player.y - member.y, 2)
+                    );
+                    
+                    if (distance < 60 && member.hasQuestion) {
+                        this.interactWithMember(member);
+                        break;
+                    }
+                }
+            }
+
+            interactWithMember(member) {
+                if (!member.hasQuestion || member.questions.length === 0) return;
+                
+                const question = member.questions.shift();
+                this.currentQuestion = question;
+                this.showQuestionModal(member, question);
+                
+                if (member.questions.length === 0) {
+                    member.hasQuestion = false;
+                    this.updateSidebar();
+                }
+            }
+
+            showQuestionModal(member, question) {
+                const modal = document.getElementById('questionModal');
+                const nameEl = document.getElementById('characterName');
+                const questionEl = document.getElementById('questionText');
+                const optionsEl = document.getElementById('options');
+                const feedbackEl = document.getElementById('feedback');
+                const nextBtn = document.getElementById('nextBtn');
+
+                nameEl.textContent = `${member.sprite} ${member.name} - ${member.role}`;
+                questionEl.textContent = question.question;
+                
+                optionsEl.innerHTML = '';
+                question.options.forEach((option, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = option;
+                    li.addEventListener('click', () => this.selectAnswer(index, question));
+                    optionsEl.appendChild(li);
+                });
+
+                feedbackEl.style.display = 'none';
+                nextBtn.style.display = 'none';
+                modal.style.display = 'block';
+            }
+
+            selectAnswer(selectedIndex, question) {
+                const optionsEl = document.getElementById('options');
+                const feedbackEl = document.getElementById('feedback');
+                const nextBtn = document.getElementById('nextBtn');
+
+                // Disable all options
+                Array.from(optionsEl.children).forEach((li, index) => {
+                    li.style.pointerEvents = 'none';
+                    if (index === question.correct) {
+                        li.style.background = 'linear-gradient(135deg, #2ecc71, #27ae60)';
+                        li.style.color = 'white';
+                    } else if (index === selectedIndex && index !== question.correct) {
+                        li.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                        li.style.color = 'white';
+                    }
+                });
+
+                // Show feedback
+                if (selectedIndex === question.correct) {
+                    feedbackEl.textContent = '✅ Correct! ' + question.explanation;
+                    feedbackEl.className = 'feedback correct';
+                    this.score += 10;
+                } else {
+                    feedbackEl.textContent = '❌ Incorrect. ' + question.explanation;
+                    feedbackEl.className = 'feedback incorrect';
+                }
+
+                feedbackEl.style.display = 'block';
+                nextBtn.style.display = 'block';
+                
+                this.questionsAnswered++;
+                this.updateUI();
+            }
+
+            closeQuestionModal() {
+                document.getElementById('questionModal').style.display = 'none';
+            }
+
+            updateUI() {
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('questionsAnswered').textContent = this.questionsAnswered;
+                
+                const progress = (this.questionsAnswered / 15) * 100;
+                document.getElementById('progressFill').style.width = progress + '%';
+                
+                if (this.questionsAnswered >= 15) {
+                    setTimeout(() => {
+                        alert(`🎉 Congratulations! You've mastered IT Project Management!\n\nFinal Score: ${this.score}/150\nAccuracy: ${Math.round((this.score/150)*100)}%\n\nYou've successfully consulted with all team members and learned essential PM skills!`);
+                    }, 1000);
+                }
+            }
+
+            draw() {
+                // Clear canvas with office floor pattern
+                this.ctx.fillStyle = '#ecf0f1';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+                // Draw office floor tiles
+                this.ctx.strokeStyle = '#bdc3c7';
+                this.ctx.lineWidth = 0.5;
+                const tileSize = Math.min(this.canvas.width, this.canvas.height) * 0.05;
+                for (let x = 0; x <= this.canvas.width * 0.75; x += tileSize) {
+                    for (let y = 0; y <= this.canvas.height; y += tileSize) {
+                        this.ctx.strokeRect(x, y, tileSize, tileSize);
+                    }
+                }
+
+                // Draw furniture with enhanced graphics
+                this.furniture.forEach(item => {
+                    // Shadow effect
+                    this.ctx.fillStyle = 'rgba(0,0,0,0.1)';
+                    this.ctx.fillRect(item.x + 2, item.y + 2, item.width, item.height);
+                    
+                    // Main furniture
+                    this.ctx.fillStyle = item.color;
+                    this.ctx.fillRect(item.x, item.y, item.width, item.height);
+                    
+                    // Furniture border
+                    this.ctx.strokeStyle = '#34495e';
+                    this.ctx.lineWidth = 1;
+                    this.ctx.strokeRect(item.x, item.y, item.width, item.height);
+                    
+                    // Labels
+                    if (item.label) {
+                        this.ctx.fillStyle = 'white';
+                        this.ctx.font = `bold ${Math.max(10, this.canvas.width * 0.012)}px Arial`;
+                        this.ctx.textAlign = 'center';
+                        this.ctx.fillText(
+                            item.label, 
+                            item.x + item.width/2, 
+                            item.y + item.height/2 + 3
+                        );
+                    }
+                });
+
+                // Draw team members with enhanced sprites
+                this.teamMembers.forEach(member => {
+                    // Shadow
+                    this.ctx.fillStyle = 'rgba(0,0,0,0.2)';
+                    this.ctx.beginPath();
+                    this.ctx.arc(
+                        member.x + member.width/2 + 2, 
+                        member.y + member.height/2 + 2, 
+                        member.width/2 + 2, 
+                        0, 
+                        2 * Math.PI
+                    );
+                    this.ctx.fill();
+
+                    // Member circle background
+                    this.ctx.fillStyle = member.color;
+                    this.ctx.beginPath();
+                    this.ctx.arc(
+                        member.x + member.width/2, 
+                        member.y + member.height/2, 
+                        member.width/2, 
+                        0, 
+                        2 * Math.PI
+                    );
+                    this.ctx.fill();
+
+                    // Emoji sprite
+                    this.ctx.font = `${Math.max(20, this.canvas.width * 0.025)}px Arial`;
+                    this.ctx.textAlign = 'center';
+                    this.ctx.fillText(
+                        member.sprite, 
+                        member.x + member.width/2, 
+                        member.y + member.height/2 + 6
+                    );
+
+                    // Question indicator with animation
+                    if (member.hasQuestion) {
+                        const time = Date.now() * 0.005;
+                        const bounce = Math.sin(time) * 3;
+                        
+                        this.ctx.fillStyle = '#f1c40f';
+                        this.ctx.beginPath();
+                        this.ctx.arc(
+                            member.x + member.width - 5, 
+                            member.y + 5 + bounce, 
+                            8, 
+                            0, 
+                            2 * Math.PI
+                        );
+                        this.ctx.fill();
+                        
+                        this.ctx.fillStyle = '#2c3e50';
+                        this.ctx.font = `bold ${Math.max(12, this.canvas.width * 0.015)}px Arial`;
+                        this.ctx.textAlign = 'center';
+                        this.ctx.fillText('?', member.x + member.width - 5, member.y + 10 + bounce);
+                    }
+
+                    // Name label with background
+                    this.ctx.fillStyle = 'rgba(44, 62, 80, 0.8)';
+                    this.ctx.fillRect(member.x - 10, member.y + member.height + 5, member.width + 20, 16);
+                    
+                    this.ctx.fillStyle = 'white';
+                    this.ctx.font = `bold ${Math.max(9, this.canvas.width * 0.011)}px Arial`;
+                    this.ctx.textAlign = 'center';
+                    this.ctx.fillText(
+                        member.name.split(' ')[0], 
+                        member.x + member.width/2, 
+                        member.y + member.height + 16
+                    );
+                });
+
+                // Draw player with enhanced graphics
+                // Shadow
+                this.ctx.fillStyle = 'rgba(0,0,0,0.3)';
+                this.ctx.beginPath();
+                this.ctx.arc(
+                    this.player.x + this.player.width/2 + 1, 
+                    this.player.y + this.player.height/2 + 1, 
+                    this.player.width/2 + 1, 
+                    0, 
+                    2 * Math.PI
+                );
+                this.ctx.fill();
+
+                // Player circle
+                this.ctx.fillStyle = '#e74c3c';
+                this.ctx.beginPath();
+                this.ctx.arc(
+                    this.player.x + this.player.width/2, 
+                    this.player.y + this.player.height/2, 
+                    this.player.width/2, 
+                    0, 
+                    2 * Math.PI
+                );
+                this.ctx.fill();
+
+                // Player sprite
+                this.ctx.font = `${Math.max(18, this.canvas.width * 0.022)}px Arial`;
+                this.ctx.textAlign = 'center';
+                this.ctx.fillText(
+                    this.player.sprite, 
+                    this.player.x + this.player.width/2, 
+                    this.player.y + this.player.height/2 + 5
+                );
+
+                // Player label
+                this.ctx.fillStyle = 'rgba(231, 76, 60, 0.9)';
+                this.ctx.fillRect(this.player.x - 8, this.player.y + this.player.height + 5, this.player.width + 16, 16);
+                
+                this.ctx.fillStyle = 'white';
+                this.ctx.font = `bold ${Math.max(10, this.canvas.width * 0.012)}px Arial`;
+                this.ctx.textAlign = 'center';
+                this.ctx.fillText('Project Manager', this.player.x + this.player.width/2, this.player.y + this.player.height + 16);
+            }
+
+            gameLoop() {
+                this.updatePlayer();
+                this.draw();
+                requestAnimationFrame(() => this.gameLoop());
+            }
+        }
+
+        // Start the enhanced game
+        window.addEventListener('load', () => {
+            new AdvancedOfficeSimulation();
+        });
+    </script>
+</body>
+</html>
