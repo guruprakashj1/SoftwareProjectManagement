@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Project Management - Risk Analysis</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #f5f7fa;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.2em;
+            color: white;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #2980b9;
+        }
+        .module-info {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .interactive-demo {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        .risk-matrix {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .risk-matrix div {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .risk-matrix div:hover {
+            transform: scale(1.05);
+        }
+        .low-risk { background-color: #d4edda; }
+        .medium-risk { background-color: #fff3cd; }
+        .high-risk { background-color: #f8d7da; }
+        .quiz-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .quiz-question {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .quiz-options label {
+            display: block;
+            margin: 8px 0;
+            padding: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .quiz-options label:hover {
+            background-color: #dee2e6;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .nav-button {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .nav-button:hover {
+            background-color: #2980b9;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <header>
+         <h1>Project Management Features: Risk Analysis</h1>
+    </header>
+
+    <div class="module-info">
+        <p><strong>Course Code:</strong> CSE4033 | <strong>Module 3.1</strong> | <strong>Duration:</strong> <span class="duration">1.5 Hours</span></p>
+        <p>This section focuses on identifying, assessing, and managing risks in IT projects to ensure successful project outcomes.</p>
+    </div>
+
+    <div class="card">
+        <h2>Understanding Project Risk Analysis</h2>
+        <p>Risk analysis is the process of identifying and assessing factors that may jeopardize the success of a project or prevent it from achieving its objectives. It includes:</p>
+        <ul>
+            <li><strong>Risk Identification:</strong> Recognizing potential risks before they occur</li>
+            <li><strong>Risk Assessment:</strong> Evaluating the probability and impact of identified risks</li>
+            <li><strong>Risk Prioritization:</strong> Determining which risks need immediate attention</li>
+            <li><strong>Risk Response Planning:</strong> Developing strategies to address risks</li>
+            <li><strong>Risk Monitoring:</strong> Tracking identified risks and identifying new ones</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Risk Analysis Process</h2>
+        <h3>1. Risk Identification</h3>
+        <p>Common techniques include:</p>
+        <ul>
+            <li>Brainstorming sessions with project team</li>
+            <li>Expert interviews</li>
+            <li>Checklist analysis</li>
+            <li>SWOT analysis (Strengths, Weaknesses, Opportunities, Threats)</li>
+            <li>Review of historical project data</li>
+        </ul>
+
+        <h3>2. Risk Assessment</h3>
+        <p>Evaluate each risk based on:</p>
+        <ul>
+            <li><strong>Probability:</strong> Likelihood of the risk occurring (Low, Medium, High)</li>
+            <li><strong>Impact:</strong> Effect on project objectives if risk occurs (Low, Medium, High)</li>
+        </ul>
+
+        <h3>3. Risk Matrix</h3>
+        <p>A visual tool to prioritize risks based on their probability and impact:</p>
+        <div class="interactive-demo">
+            <h3>Interactive Risk Matrix</h3>
+            <p>Click on cells to see risk response strategies:</p>
+            <div class="risk-matrix" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center;">
+                <div style="grid-column: 1; grid-row: 1; font-weight: bold;">Impact →<br>Probability ↓</div>
+                <div style="grid-column: 2; grid-row: 1; font-weight: bold;">Low</div>
+                <div style="grid-column: 3; grid-row: 1; font-weight: bold;">Medium</div>
+                <div style="grid-column: 4; grid-row: 1; font-weight: bold;">High</div>
+                
+                <div style="grid-column: 1; grid-row: 2; font-weight: bold;">High</div>
+                <div class="medium-risk" style="background-color: #ffd700; padding: 10px; cursor: pointer;" onclick="showRiskResponse('Medium risk - Monitor')">M</div>
+                <div class="high-risk" style="background-color: #ffa500; padding: 10px; cursor: pointer;" onclick="showRiskResponse('High risk - Mitigate immediately')">H</div>
+                <div class="high-risk" style="background-color: #ff4500; padding: 10px; cursor: pointer;" onclick="showRiskResponse('Critical risk - Avoid or escalate')">C</div>
+                
+                <div style="grid-column: 1; grid-row: 3; font-weight: bold;">Medium</div>
+                <div class="low-risk" style="background-color: #90ee90; padding: 10px; cursor: pointer;" onclick="showRiskResponse('Low risk - Accept')">L</div>
+                <div class="medium-risk" style="background-color: #ffd700; padding: 10px; cursor: pointer;" onclick="showRiskResponse('Medium risk - Monitor')">M</div>
+                <div class="high-risk" style="background-color: #ffa500; padding: 10px; cursor: pointer;" onclick="showRiskResponse('High risk - Mitigate')">H</div>
+                
+                <div style="grid-column: 1; grid-row: 4; font-weight: bold;">Low</div>
+                <div class="low-risk" style="background-color: #90ee90; padding: 10px; cursor: pointer;" onclick="showRiskResponse('Very low risk - Accept')">VL</div>
+                <div class="low-risk" style="background-color: #90ee90; padding: 10px; cursor: pointer;" onclick="showRiskResponse('Low risk - Accept or transfer')">L</div>
+                <div class="medium-risk" style="background-color: #ffd700; padding: 10px; cursor: pointer;" onclick="showRiskResponse('Medium risk - Monitor')">M</div>
+            </div>
+            <div id="riskResponse" style="margin-top: 15px; padding: 10px; background-color: #e9ecef; border-radius: 4px; display: none;"></div>
+        </div>
+
+        <h3>4. Risk Response Strategies</h3>
+        <ul>
+            <li><strong>Avoid:</strong> Change plans to eliminate the risk</li>
+            <li><strong>Mitigate:</strong> Reduce probability or impact</li>
+            <li><strong>Transfer:</strong> Shift risk to third party (e.g., insurance)</li>
+            <li><strong>Accept:</strong> Acknowledge risk without action</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Extended Learning Video</h2>
+        <p>Watch this video from Project Management Institute on risk management:</p>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/JRP2vim6tEw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Case Study: Software Development Project</h2>
+        <p><strong>Scenario:</strong> Your team is developing a new mobile banking app with a 6-month deadline. Key risks identified:</p>
+        <ol>
+            <li>Third-party payment gateway API might not be ready on time (Probability: Medium, Impact: High)</li>
+            <li>New security regulations might be introduced (Probability: Low, Impact: High)</li>
+            <li>Key developer might leave the project (Probability: Medium, Impact: Medium)</li>
+            <li>App store approval might take longer than expected (Probability: High, Impact: Low)</li>
+        </ol>
+        <p><strong>Exercise:</strong> For each risk, suggest appropriate response strategies.</p>
+    </div>
+
+    <div class="card">
+        <h2>Test Yourself: Risk Analysis Quiz</h2>
+        <div class="quiz-container">
+            <div class="quiz-question">
+                <p>1. What is the first step in risk analysis?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> Risk assessment</label>
+                    <label><input type="radio" name="q1" value="b"> Risk identification</label>
+                    <label><input type="radio" name="q1" value="c"> Risk mitigation</label>
+                    <label><input type="radio" name="q1" value="d"> Risk monitoring</label>
+                </div>
+                <div id="feedback1" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p>2. Which risk response strategy involves purchasing insurance?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> Avoid</label>
+                    <label><input type="radio" name="q2" value="b"> Mitigate</label>
+                    <label><input type="radio" name="q2" value="c"> Transfer</label>
+                    <label><input type="radio" name="q2" value="d"> Accept</label>
+                </div>
+                <div id="feedback2" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p>3. In a risk matrix, what color would typically represent a high probability/high impact risk?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Green</label>
+                    <label><input type="radio" name="q3" value="b"> Yellow</label>
+                    <label><input type="radio" name="q3" value="c"> Red</label>
+                    <label><input type="radio" name="q3" value="d"> Blue</label>
+                </div>
+                <div id="feedback3" class="feedback"></div>
+            </div>
+
+            <button onclick="checkQuiz()">Check Answers</button>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="#" class="nav-button">← Previous: Project Scheduling</a>
+        <a href="#" class="nav-button">Next: Project Control →</a>
+    </div>
+
+    <script>
+        // Interactive Risk Matrix
+        function showRiskResponse(response) {
+            const responseDiv = document.getElementById('riskResponse');
+            responseDiv.style.display = 'block';
+            responseDiv.textContent = "Recommended Action: " + response;
+            responseDiv.style.backgroundColor = '#d4edda';
+        }
+
+        // Quiz Checking
+        function checkQuiz() {
+            // Question 1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const feedback1 = document.getElementById('feedback1');
+            if (q1 && q1.value === 'b') {
+                feedback1.textContent = "Correct! Risk identification is the first step.";
+                feedback1.className = "feedback correct";
+            } else {
+                feedback1.textContent = "Incorrect. The correct answer is: Risk identification.";
+                feedback1.className = "feedback incorrect";
+            }
+            feedback1.style.display = 'block';
+
+            // Question 2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const feedback2 = document.getElementById('feedback2');
+            if (q2 && q2.value === 'c') {
+                feedback2.textContent = "Correct! Transfer involves shifting risk to a third party like an insurance company.";
+                feedback2.className = "feedback correct";
+            } else {
+                feedback2.textContent = "Incorrect. The correct answer is: Transfer.";
+                feedback2.className = "feedback incorrect";
+            }
+            feedback2.style.display = 'block';
+
+            // Question 3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const feedback3 = document.getElementById('feedback3');
+            if (q3 && q3.value === 'c') {
+                feedback3.textContent = "Correct! High probability/high impact risks are typically shown in red.";
+                feedback3.className = "feedback correct";
+            } else {
+                feedback3.textContent = "Incorrect. The correct answer is: Red.";
+                feedback3.className = "feedback incorrect";
+            }
+            feedback3.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

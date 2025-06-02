@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management - Project Audit</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.2em;
+            color: white;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+        }
+        
+        .module-info {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .interactive-demo {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        
+        .audit-checklist {
+            margin: 20px 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.3);
+        }
+        
+        .checklist-item.completed {
+            background-color: #e8f5e9;
+        }
+        
+        .audit-findings {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .finding-card {
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .finding-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .finding-card.critical {
+            border-left: 4px solid var(--danger-color);
+        }
+        
+        .finding-card.major {
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .finding-card.minor {
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .severity-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .critical-severity {
+            background-color: var(--danger-color);
+        }
+        
+        .major-severity {
+            background-color: var(--warning-color);
+        }
+        
+        .minor-severity {
+            background-color: var(--secondary-color);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        
+        .quiz-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .quiz-question {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .quiz-options label {
+            display: block;
+            margin: 8px 0;
+            padding: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .quiz-options label:hover {
+            background-color: #dee2e6;
+        }
+        
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .nav-button {
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .scenario {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            margin: 15px 0;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: #e9ecef;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 15px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .audit-process {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        
+        .process-step {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+        }
+        
+        .process-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+      
+        <h1>Project Management Features: Project Audit</h1>
+    </header>
+
+    <div class="module-info">
+        <p><strong>Course Code:</strong> CSE4033 | <strong>Module 3.3</strong> | <strong>Duration:</strong> <span style="color: var(--accent-color); font-weight: bold;">1.5 Hours</span></p>
+        <p>This section focuses on the systematic examination of project processes, documentation, and performance to ensure compliance and identify areas for improvement.</p>
+    </div>
+
+    <div class="card">
+        <h2>Understanding Project Audit</h2>
+        <p>A project audit is an independent examination of project processes and deliverables to assess compliance with standards, identify issues, and recommend improvements.</p>
+        
+        <div class="audit-process">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h4>Planning</h4>
+                <p>Define scope, objectives, and methodology</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h4>Data Collection</h4>
+                <p>Review documents and interview stakeholders</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h4>Analysis</h4>
+                <p>Evaluate findings against criteria</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h4>Reporting</h4>
+                <p>Document findings and recommendations</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">5</div>
+                <h4>Follow-up</h4>
+                <p>Monitor implementation of recommendations</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Types of Project Audits</h2>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="openTab(event, 'process-audit')">Process Audit</div>
+            <div class="tab" onclick="openTab(event, 'compliance-audit')">Compliance Audit</div>
+            <div class="tab" onclick="openTab(event, 'performance-audit')">Performance Audit</div>
+        </div>
+        
+        <div id="process-audit" class="tab-content active">
+            <h3>Process Audit</h3>
+            <p>Examines whether project activities are being performed according to established procedures and methodologies.</p>
+            <ul>
+                <li>Focuses on how work is being done</li>
+                <li>Evaluates efficiency of processes</li>
+                <li>Identifies bottlenecks and waste</li>
+                <li>Recommends process improvements</li>
+            </ul>
+        </div>
+        
+        <div id="compliance-audit" class="tab-content">
+            <h3>Compliance Audit</h3>
+            <p>Verifies adherence to organizational policies, industry standards, and regulatory requirements.</p>
+            <ul>
+                <li>Checks against contractual obligations</li>
+                <li>Validates regulatory compliance</li>
+                <li>Ensures proper documentation</li>
+                <li>Identifies compliance gaps</li>
+            </ul>
+        </div>
+        
+        <div id="performance-audit" class="tab-content">
+            <h3>Performance Audit</h3>
+            <p>Assesses whether project outcomes meet objectives and deliver expected benefits.</p>
+            <ul>
+                <li>Evaluates effectiveness of deliverables</li>
+                <li>Measures achievement of objectives</li>
+                <li>Assesses value for money</li>
+                <li>Identifies lessons learned</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Interactive Audit Simulation</h2>
+        
+        <div class="interactive-demo">
+            <h3>Software Development Project Audit</h3>
+            <p>You are conducting an audit of a 6-month software development project that is currently at month 4. Complete the audit checklist below:</p>
+            
+            <div class="audit-checklist">
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1" onchange="toggleCompletion(this)">
+                    <label for="check1">Review project charter and scope documents</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2" onchange="toggleCompletion(this)">
+                    <label for="check2">Verify requirements traceability matrix</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check3" onchange="toggleCompletion(this)">
+                    <label for="check3">Assess change control process implementation</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check4" onchange="toggleCompletion(this)">
+                    <label for="check4">Review test plans and quality assurance processes</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check5" onchange="toggleCompletion(this)">
+                    <label for="check5">Evaluate risk management implementation</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check6" onchange="toggleCompletion(this)">
+                    <label for="check6">Verify stakeholder communication plan execution</label>
+                </div>
+            </div>
+            
+            <button onclick="completeAudit()">Complete Audit</button>
+            <div id="auditResult" style="margin-top: 15px; padding: 15px; border-radius: 5px; display: none;"></div>
+        </div>
+        
+        <h3>Audit Findings</h3>
+        <p>Based on your review, document the following findings:</p>
+        
+        <div class="audit-findings">
+            <div class="finding-card critical" onclick="showFindingDetails('Requirements documentation is incomplete for 3 key modules')">
+                <span class="severity-indicator critical-severity"></span>
+                <strong>Critical Finding</strong>
+                <p>Requirements documentation incomplete</p>
+            </div>
+            <div class="finding-card major" onclick="showFindingDetails('Change requests are being implemented without proper impact analysis')">
+                <span class="severity-indicator major-severity"></span>
+                <strong>Major Finding</strong>
+                <p>Change control issues</p>
+            </div>
+            <div class="finding-card minor" onclick="showFindingDetails('Risk register hasn't been updated in the last 3 weeks')">
+                <span class="severity-indicator minor-severity"></span>
+                <strong>Minor Finding</strong>
+                <p>Risk register outdated</p>
+            </div>
+        </div>
+        
+        <div id="findingDetails" style="margin-top: 15px; padding: 15px; background-color: white; border-radius: 5px; display: none;"></div>
+    </div>
+
+    <div class="card">
+        <h2>Extended Learning Video</h2>
+        <p>Watch this video on conducting effective project audits from the Project Management Institute:</p>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/9Jz8Y9KdH4Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Case Study: ERP Implementation Audit</h2>
+        <div class="scenario">
+            <p><strong>Scenario:</strong> You are auditing an ERP implementation project with the following characteristics:</p>
+            <ul>
+                <li>Budget: $1.2 million</li>
+                <li>Duration: 9 months (currently at month 7)</li>
+                <li>Scope: Finance, HR, and Inventory modules</li>
+                <li>Issues reported: Multiple change requests, some modules behind schedule</li>
+            </ul>
+        </div>
+        <p><strong>Exercise:</strong> Develop an audit plan including:</p>
+        <ol>
+            <li>Key areas to examine</li>
+            <li>Documents to review</li>
+            <li>Stakeholders to interview</li>
+            <li>Potential risks to highlight</li>
+            <li>Recommended audit approach</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>Test Yourself: Project Audit Quiz</h2>
+        <div class="quiz-container">
+            <div class="quiz-question">
+                <p>1. What is the primary purpose of a project audit?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> To assign blame for project problems</label>
+                    <label><input type="radio" name="q1" value="b"> To systematically examine project processes and performance</label>
+                    <label><input type="radio" name="q1" value="c"> To reduce the project budget</label>
+                    <label><input type="radio" name="q1" value="d"> To replace the project manager</label>
+                </div>
+                <div id="feedback1" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p>2. Which type of audit would verify if the project is following organizational change management procedures?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> Performance audit</label>
+                    <label><input type="radio" name="q2" value="b"> Compliance audit</label>
+                    <label><input type="radio" name="q2" value="c"> Financial audit</label>
+                    <label><input type="radio" name="q2" value="d"> Process audit</label>
+                </div>
+                <div id="feedback2" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p>3. When should project audits typically be conducted?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Only at project completion</label>
+                    <label><input type="radio" name="q3" value="b"> At major milestones and when problems are suspected</label>
+                    <label><input type="radio" name="q3" value="c"> Only when requested by senior management</label>
+                    <label><input type="radio" name="q3" value="d"> Weekly throughout the project</label>
+                </div>
+                <div id="feedback3" class="feedback"></div>
+            </div>
+
+            <button onclick="checkQuiz()">Check Answers</button>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="#" class="nav-button">← Previous: Project Control</a>
+        <a href="#" class="nav-button">Next: Project Termination →</a>
+    </div>
+
+    <script>
+        // Tab System
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Checklist Interaction
+        function toggleCompletion(checkbox) {
+            const item = checkbox.parentElement;
+            if (checkbox.checked) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
+        }
+        
+        function completeAudit() {
+            const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+            let checkedCount = 0;
+            
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) checkedCount++;
+            });
+            
+            const resultDiv = document.getElementById('auditResult');
+            resultDiv.style.display = 'block';
+            
+            if (checkedCount === checkboxes.length) {
+                resultDiv.textContent = "Great job! You completed a thorough audit. The project has some issues but nothing critical that can't be addressed.";
+                resultDiv.style.backgroundColor = '#d4edda';
+            } else if (checkedCount >= checkboxes.length / 2) {
+                resultDiv.textContent = "Partial audit completed. Some important areas were examined, but the audit should be more comprehensive.";
+                resultDiv.style.backgroundColor = '#fff3cd';
+            } else {
+                resultDiv.textContent = "Limited audit completed. Many critical areas were not examined. The audit needs to be more thorough.";
+                resultDiv.style.backgroundColor = '#f8d7da';
+            }
+        }
+
+        // Findings Interaction
+        function showFindingDetails(finding) {
+            const detailsDiv = document.getElementById('findingDetails');
+            detailsDiv.style.display = 'block';
+            detailsDiv.innerHTML = `
+                <h4>Finding Details</h4>
+                <p>${finding}</p>
+                <h5>Recommendations:</h5>
+                <ul>
+                    <li>Document specific corrective actions</li>
+                    <li>Assign responsibility for implementation</li>
+                    <li>Set timeline for resolution</li>
+                    <li>Plan follow-up verification</li>
+                </ul>
+                <button onclick="document.getElementById('findingDetails').style.display='none'">Close</button>
+            `;
+        }
+
+        // Quiz Checking
+        function checkQuiz() {
+            // Question 1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const feedback1 = document.getElementById('feedback1');
+            if (q1 && q1.value === 'b') {
+                feedback1.textContent = "Correct! The primary purpose is to systematically examine project processes and performance.";
+                feedback1.className = "feedback correct";
+            } else {
+                feedback1.textContent = "Incorrect. The correct answer is: To systematically examine project processes and performance.";
+                feedback1.className = "feedback incorrect";
+            }
+            feedback1.style.display = 'block';
+
+            // Question 2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const feedback2 = document.getElementById('feedback2');
+            if (q2 && q2.value === 'b') {
+                feedback2.textContent = "Correct! A compliance audit would verify adherence to organizational procedures.";
+                feedback2.className = "feedback correct";
+            } else {
+                feedback2.textContent = "Incorrect. The correct answer is: Compliance audit.";
+                feedback2.className = "feedback incorrect";
+            }
+            feedback2.style.display = 'block';
+
+            // Question 3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const feedback3 = document.getElementById('feedback3');
+            if (q3 && q3.value === 'b') {
+                feedback3.textContent = "Correct! Audits are typically conducted at major milestones and when problems are suspected.";
+                feedback3.className = "feedback correct";
+            } else {
+                feedback3.textContent = "Incorrect. The correct answer is: At major milestones and when problems are suspected.";
+                feedback3.className = "feedback incorrect";
+            }
+            feedback3.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

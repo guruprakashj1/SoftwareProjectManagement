@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management - Project Termination</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-bg: #f5f7fa;
+            --card-bg: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.2em;
+            color: white;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+        }
+        
+        .module-info {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .interactive-demo {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        
+        .termination-types {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .type-card {
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .type-card.critical {
+            border-left-color: var(--danger-color);
+        }
+        
+        .termination-checklist {
+            margin: 20px 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.3);
+        }
+        
+        .checklist-item.completed {
+            background-color: #e8f5e9;
+        }
+        
+        .termination-scenario {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            margin: 15px 0;
+        }
+        
+        .decision-points {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .decision-card {
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .decision-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .decision-card.selected {
+            background-color: #e8f4f8;
+            border: 2px solid var(--secondary-color);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        
+        .quiz-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .quiz-question {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .quiz-options label {
+            display: block;
+            margin: 8px 0;
+            padding: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .quiz-options label:hover {
+            background-color: #dee2e6;
+        }
+        
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .nav-button {
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background-color: #e9ecef;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 15px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .termination-process {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        
+        .process-step {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+        }
+        
+        .process-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .consequences {
+            margin: 20px 0;
+        }
+        
+        .consequence-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--secondary-color);
+            background-color: white;
+        }
+        
+        .consequence-item.negative {
+            border-left-color: var(--danger-color);
+        }
+        
+        .consequence-item.positive {
+            border-left-color: var(--success-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Project Management Features: Project Termination</h1>
+        
+    </header>
+
+    <div class="module-info">
+        <p><strong>Course Code:</strong> CSE4033 | <strong>Module 3.4</strong> | <strong>Duration:</strong> <span style="color: var(--accent-color); font-weight: bold;">1.5 Hours</span></p>
+        <p>This section focuses on the systematic process of formally closing a project, including administrative closure, contract completion, and post-project evaluation.</p>
+    </div>
+
+    <div class="card">
+        <h2>Understanding Project Termination</h2>
+        <p>Project termination is the process of formally closing a project after its completion or when it's determined the project should end prematurely. Proper termination ensures:</p>
+        <ul>
+            <li>All project objectives are met or properly addressed</li>
+            <li>Resources are released appropriately</li>
+            <li>Organizational learning is captured</li>
+            <li>Stakeholders are properly informed</li>
+            <li>Contracts and legal obligations are fulfilled</li>
+        </ul>
+        
+        <div class="termination-process">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h4>Decision</h4>
+                <p>Determine if/when to terminate</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h4>Planning</h4>
+                <p>Develop termination plan</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h4>Execution</h4>
+                <p>Implement termination activities</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h4>Evaluation</h4>
+                <p>Conduct post-project review</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">5</div>
+                <h4>Transition</h4>
+                <p>Handover to operations</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Types of Project Termination</h2>
+        
+        <div class="termination-types">
+            <div class="type-card">
+                <h3>Natural Termination</h3>
+                <p>Project completes all objectives and deliverables as planned.</p>
+                <ul>
+                    <li>Most desirable outcome</li>
+                    <li>Follows planned closure process</li>
+                    <li>Includes final acceptance by client</li>
+                </ul>
+            </div>
+            
+            <div class="type-card">
+                <h3>Premature Termination</h3>
+                <p>Project ends before completion due to various reasons.</p>
+                <ul>
+                    <li>May be strategic or forced</li>
+                    <li>Requires careful documentation</li>
+                    <li>Needs stakeholder communication</li>
+                </ul>
+            </div>
+            
+            <div class="type-card">
+                <h3>Perpetual Termination</h3>
+                <p>Project continues indefinitely without clear completion.</p>
+                <ul>
+                    <li>Common in research projects</li>
+                    <li>May need formal closure decision</li>
+                    <li>Risk of "zombie projects"</li>
+                </ul>
+            </div>
+            
+            <div class="type-card critical">
+                <h3>Failed Termination</h3>
+                <p>Project cannot meet objectives and is terminated.</p>
+                <ul>
+                    <li>Requires root cause analysis</li>
+                    <li>Important for lessons learned</li>
+                    <li>May have contractual implications</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Interactive Termination Scenario</h2>
+        
+        <div class="interactive-demo">
+            <h3>Software Implementation Project</h3>
+            
+            <div class="termination-scenario">
+                <p><strong>Scenario:</strong> Your 8-month ERP implementation project is at month 6 with the following status:</p>
+                <ul>
+                    <li>Budget: $500,000 (Actual spend: $450,000)</li>
+                    <li>Schedule: 4 weeks behind critical path</li>
+                    <li>Scope: 3 of 5 modules implemented</li>
+                    <li>Key issues: Vendor delays, requirements gaps</li>
+                    <li>Client satisfaction: Declining</li>
+                </ul>
+            </div>
+            
+            <h3>Termination Decision Points</h3>
+            <p>Select the most appropriate action based on the scenario:</p>
+            
+            <div class="decision-points">
+                <div class="decision-card" onclick="selectDecision(this, 'Continue with revised plan')">
+                    <h4>Continue with Revised Plan</h4>
+                    <p>Adjust scope, extend timeline, request additional budget</p>
+                </div>
+                
+                <div class="decision-card" onclick="selectDecision(this, 'Terminate and restart')">
+                    <h4>Terminate and Restart</h4>
+                    <p>Formally close current project and initiate new one</p>
+                </div>
+                
+                <div class="decision-card" onclick="selectDecision(this, 'Complete minimum viable product')">
+                    <h4>Complete MVP</h4>
+                    <p>Deliver core functionality and terminate remaining work</p>
+                </div>
+                
+                <div class="decision-card" onclick="selectDecision(this, 'Transfer to another vendor')">
+                    <h4>Transfer to Another Vendor</h4>
+                    <p>Terminate current vendor contract and transition</p>
+                </div>
+                
+                <div class="decision-card" onclick="selectDecision(this, 'Complete as planned')">
+                    <h4>Complete as Planned</h4>
+                    <p>Continue with original scope and timeline</p>
+                </div>
+                
+                <div class="decision-card" onclick="selectDecision(this, 'Immediate termination')">
+                    <h4>Immediate Termination</h4>
+                    <p>Stop all work and close project immediately</p>
+                </div>
+            </div>
+            
+            <div id="decisionFeedback" style="margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 5px; display: none;"></div>
+            
+            <h3 style="margin-top: 30px;">Termination Checklist</h3>
+            <p>For your selected approach, complete these termination tasks:</p>
+            
+            <div class="termination-checklist">
+                <div class="checklist-item">
+                    <input type="checkbox" id="term1" onchange="toggleCompletion(this)">
+                    <label for="term1">Document reasons for termination</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="term2" onchange="toggleCompletion(this)">
+                    <label for="term2">Notify all stakeholders</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="term3" onchange="toggleCompletion(this)">
+                    <label for="term3">Finalize all contractual obligations</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="term4" onchange="toggleCompletion(this)">
+                    <label for="term4">Conduct lessons learned session</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="term5" onchange="toggleCompletion(this)">
+                    <label for="term5">Archive project documentation</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="term6" onchange="toggleCompletion(this)">
+                    <label for="term6">Release project resources</label>
+                </div>
+            </div>
+            
+            <button onclick="evaluateTermination()">Evaluate Termination Plan</button>
+            <div id="terminationResult" style="margin-top: 15px; padding: 15px; border-radius: 5px; display: none;"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Termination Consequences Analysis</h2>
+        
+        <div class="consequences">
+            <div class="consequence-item positive">
+                <h4>Positive Consequences</h4>
+                <p>Resources can be allocated to more valuable projects</p>
+            </div>
+            
+            <div class="consequence-item negative">
+                <h4>Negative Consequences</h4>
+                <p>Sunk costs may not be recoverable</p>
+            </div>
+            
+            <div class="consequence-item">
+                <h4>Organizational Impact</h4>
+                <p>Team morale may be affected by project failure</p>
+            </div>
+            
+            <div class="consequence-item positive">
+                <h4>Learning Opportunities</h4>
+                <p>Valuable lessons can improve future projects</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Extended Learning Video</h2>
+        <p>Watch this video on proper project closure from the Project Management Institute:</p>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/3V5W7QzqB1Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Test Yourself: Project Termination Quiz</h2>
+        <div class="quiz-container">
+            <div class="quiz-question">
+                <p>1. Which of the following is NOT typically part of project termination?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> Conducting lessons learned sessions</label>
+                    <label><input type="radio" name="q1" value="b"> Releasing project resources</label>
+                    <label><input type="radio" name="q1" value="c"> Starting a new unrelated project</label>
+                    <label><input type="radio" name="q1" value="d"> Finalizing contractual obligations</label>
+                </div>
+                <div id="feedback1" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p>2. What is the primary purpose of a lessons learned session?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> To assign blame for project failures</label>
+                    <label><input type="radio" name="q2" value="b"> To identify improvements for future projects</label>
+                    <label><input type="radio" name="q2" value="c"> To determine team bonuses</label>
+                    <label><input type="radio" name="q2" value="d"> To create personal performance reviews</label>
+                </div>
+                <div id="feedback2" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p>3. When might premature project termination be appropriate?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> When the project no longer aligns with organizational strategy</label>
+                    <label><input type="radio" name="q3" value="b"> When the project is slightly over budget</label>
+                    <label><input type="radio" name="q3" value="c"> When team members request different assignments</label>
+                    <label><input type="radio" name="q3" value="d"> When the project manager wants to start a new project</label>
+                </div>
+                <div id="feedback3" class="feedback"></div>
+            </div>
+
+            <button onclick="checkQuiz()">Check Answers</button>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="#" class="nav-button">← Previous: Project Audit</a>
+        <a href="#" class="nav-button">Next Module →</a>
+    </div>
+
+    <script>
+        // Decision Selection
+        function selectDecision(card, decision) {
+            const cards = document.querySelectorAll('.decision-card');
+            cards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            
+            const feedbackDiv = document.getElementById('decisionFeedback');
+            feedbackDiv.style.display = 'block';
+            
+            let feedbackText = "";
+            let bgColor = "";
+            
+            switch(decision) {
+                case "Continue with revised plan":
+                    feedbackText = "This may be appropriate if core business needs are still met and stakeholders agree to changes.";
+                    bgColor = "#fff3cd";
+                    break;
+                case "Terminate and restart":
+                    feedbackText = "Consider this if fundamental flaws exist in current approach but business need remains.";
+                    bgColor = "#f8d7da";
+                    break;
+                case "Complete minimum viable product":
+                    feedbackText = "Good option when core functionality delivers most value and remaining features have low ROI.";
+                    bgColor = "#d4edda";
+                    break;
+                case "Transfer to another vendor":
+                    feedbackText = "Appropriate if vendor performance is primary issue and alternatives exist.";
+                    bgColor = "#d1ecf1";
+                    break;
+                case "Complete as planned":
+                    feedbackText = "Unlikely to succeed given current trajectory without significant changes.";
+                    bgColor = "#f8d7da";
+                    break;
+                case "Immediate termination":
+                    feedbackText = "Only consider if project is no longer aligned with business strategy or is legally/ethically problematic.";
+                    bgColor = "#f8d7da";
+                    break;
+            }
+            
+            feedbackDiv.innerHTML = `<strong>Selected:</strong> ${decision}<br><br>${feedbackText}`;
+            feedbackDiv.style.backgroundColor = bgColor;
+        }
+
+        // Checklist Interaction
+        function toggleCompletion(checkbox) {
+            const item = checkbox.parentElement;
+            if (checkbox.checked) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
+        }
+        
+        function evaluateTermination() {
+            const checkboxes = document.querySelectorAll('.termination-checklist input[type="checkbox"]');
+            let checkedCount = 0;
+            
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) checkedCount++;
+            });
+            
+            const resultDiv = document.getElementById('terminationResult');
+            resultDiv.style.display = 'block';
+            
+            if (checkedCount === checkboxes.length) {
+                resultDiv.textContent = "Comprehensive termination plan. All critical aspects have been addressed.";
+                resultDiv.style.backgroundColor = '#d4edda';
+            } else if (checkedCount >= checkboxes.length / 2) {
+                resultDiv.textContent = "Partial termination plan. Some important aspects still need attention.";
+                resultDiv.style.backgroundColor = '#fff3cd';
+            } else {
+                resultDiv.textContent = "Incomplete termination plan. Many critical aspects have not been addressed.";
+                resultDiv.style.backgroundColor = '#f8d7da';
+            }
+        }
+
+        // Quiz Checking
+        function checkQuiz() {
+            // Question 1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const feedback1 = document.getElementById('feedback1');
+            if (q1 && q1.value === 'c') {
+                feedback1.textContent = "Correct! Starting a new unrelated project is not part of project termination.";
+                feedback1.className = "feedback correct";
+            } else {
+                feedback1.textContent = "Incorrect. The correct answer is: Starting a new unrelated project.";
+                feedback1.className = "feedback incorrect";
+            }
+            feedback1.style.display = 'block';
+
+            // Question 2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const feedback2 = document.getElementById('feedback2');
+            if (q2 && q2.value === 'b') {
+                feedback2.textContent = "Correct! The primary purpose is to identify improvements for future projects.";
+                feedback2.className = "feedback correct";
+            } else {
+                feedback2.textContent = "Incorrect. The correct answer is: To identify improvements for future projects.";
+                feedback2.className = "feedback incorrect";
+            }
+            feedback2.style.display = 'block';
+
+            // Question 3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const feedback3 = document.getElementById('feedback3');
+            if (q3 && q3.value === 'a') {
+                feedback3.textContent = "Correct! Premature termination may be appropriate when the project no longer aligns with strategy.";
+                feedback3.className = "feedback correct";
+            } else {
+                feedback3.textContent = "Incorrect. The correct answer is: When the project no longer aligns with organizational strategy.";
+                feedback3.className = "feedback incorrect";
+            }
+            feedback3.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

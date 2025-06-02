@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management - Project Control</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f5f7fa;
+            --card-bg: #ffffff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--light-bg);
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.2em;
+            color: white;
+        }
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: var(--secondary-color);
+        }
+        .module-info {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .interactive-demo {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        .control-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .control-card {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .control-card:hover {
+            transform: translateY(-5px);
+        }
+        .control-card h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .progress-bar {
+            height: 20px;
+            border-radius: 5px;
+            background-color: var(--secondary-color);
+            width: 0%;
+            transition: width 1s;
+        }
+        .evm-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .metric {
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .quiz-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .quiz-question {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .quiz-options label {
+            display: block;
+            margin: 8px 0;
+            padding: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .quiz-options label:hover {
+            background-color: #dee2e6;
+        }
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .nav-button {
+            padding: 12px 25px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: #2980b9;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .scenario {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            margin: 15px 0;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background-color: #e9ecef;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        .tab.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        .tab-content {
+            display: none;
+            padding: 15px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        
+        <h1>Project Management Features: Project Control</h1>
+    </header>
+
+    <div class="module-info">
+        <p><strong>Course Code:</strong> CSE4033 | <strong>Module 3.2</strong> | <strong>Duration:</strong> <span style="color: var(--accent-color); font-weight: bold;">1.5 Hours</span></p>
+        <p>This section focuses on monitoring and controlling project execution to ensure objectives are met within constraints.</p>
+    </div>
+
+    <div class="card">
+        <h2>Understanding Project Control</h2>
+        <p>Project control involves tracking, reviewing, and regulating progress to meet performance objectives. Key aspects include:</p>
+        <ul>
+            <li><strong>Performance Measurement:</strong> Comparing actual performance against the project plan</li>
+            <li><strong>Change Control:</strong> Managing modifications to project scope, schedule, or budget</li>
+            <li><strong>Quality Control:</strong> Ensuring deliverables meet requirements</li>
+            <li><strong>Risk Control:</strong> Monitoring identified risks and identifying new ones</li>
+            <li><strong>Reporting:</strong> Communicating project status to stakeholders</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Project Control Techniques</h2>
+        
+        <h3>1. Earned Value Management (EVM)</h3>
+        <p>A systematic approach integrating scope, schedule, and cost to measure project performance:</p>
+        
+        <div class="interactive-demo">
+            <h3>Interactive EVM Dashboard</h3>
+            <p>Adjust the sliders to see how project performance metrics change:</p>
+            
+            <div class="evm-metrics">
+                <div class="metric">
+                    <h4>Planned Value (PV)</h4>
+                    <div class="metric-value" id="pv-value">$50,000</div>
+                    <input type="range" min="0" max="100000" value="50000" step="1000" id="pv-slider">
+                </div>
+                <div class="metric">
+                    <h4>Earned Value (EV)</h4>
+                    <div class="metric-value" id="ev-value">$40,000</div>
+                    <input type="range" min="0" max="100000" value="40000" step="1000" id="ev-slider">
+                </div>
+                <div class="metric">
+                    <h4>Actual Cost (AC)</h4>
+                    <div class="metric-value" id="ac-value">$45,000</div>
+                    <input type="range" min="0" max="100000" value="45000" step="1000" id="ac-slider">
+                </div>
+            </div>
+            
+            <div class="evm-metrics">
+                <div class="metric">
+                    <h4>Schedule Performance Index (SPI)</h4>
+                    <div class="metric-value" id="spi-value">0.80</div>
+                    <p id="spi-interpretation">Behind schedule (SPI < 1)</p>
+                </div>
+                <div class="metric">
+                    <h4>Cost Performance Index (CPI)</h4>
+                    <div class="metric-value" id="cpi-value">0.89</div>
+                    <p id="cpi-interpretation">Over budget (CPI < 1)</p>
+                </div>
+                <div class="metric">
+                    <h4>Estimate at Completion (EAC)</h4>
+                    <div class="metric-value" id="eac-value">$112,500</div>
+                    <p>Based on current CPI</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>2. Progress Tracking</h3>
+        <div class="progress-container">
+            <div class="progress-bar" id="project-progress" style="width: 65%"></div>
+        </div>
+        <p>Project Completion: <span id="progress-percent">65</span>%</p>
+        <button onclick="updateProgress()">Update Progress (+5%)</button>
+        <button onclick="setBackProgress()">Setback Progress (-5%)</button>
+
+        <h3>3. Change Control Process</h3>
+        <div class="tabs">
+            <div class="tab active" onclick="openTab(event, 'change-request')">Change Request</div>
+            <div class="tab" onclick="openTab(event, 'impact-analysis')">Impact Analysis</div>
+            <div class="tab" onclick="openTab(event, 'approval')">Approval</div>
+            <div class="tab" onclick="openTab(event, 'implementation')">Implementation</div>
+        </div>
+        
+        <div id="change-request" class="tab-content active">
+            <p><strong>Change Request:</strong> Document the requested change including:</p>
+            <ul>
+                <li>Description of change</li>
+                <li>Reason for change</li>
+                <li>Requested by</li>
+                <li>Date requested</li>
+            </ul>
+        </div>
+        
+        <div id="impact-analysis" class="tab-content">
+            <p><strong>Impact Analysis:</strong> Assess the effect on:</p>
+            <ul>
+                <li>Project scope</li>
+                <li>Schedule</li>
+                <li>Budget</li>
+                <li>Resources</li>
+                <li>Quality</li>
+                <li>Risks</li>
+            </ul>
+        </div>
+        
+        <div id="approval" class="tab-content">
+            <p><strong>Approval Process:</strong></p>
+            <ul>
+                <li>Review by Change Control Board</li>
+                <li>Decision to approve, reject, or defer</li>
+                <li>Documentation of decision</li>
+                <li>Communication to stakeholders</li>
+            </ul>
+        </div>
+        
+        <div id="implementation" class="tab-content">
+            <p><strong>Implementation:</strong></p>
+            <ul>
+                <li>Update project plans</li>
+                <li>Assign implementation tasks</li>
+                <li>Monitor implementation</li>
+                <li>Verify completion</li>
+                <li>Update documentation</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Extended Learning Video</h2>
+        <p>Watch this video on project control techniques from the Project Management Institute:</p>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/5J6yN-8GZ5I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Case Study: Website Development Project</h2>
+        <div class="scenario">
+            <p><strong>Scenario:</strong> Your team is developing a corporate website with the following details:</p>
+            <ul>
+                <li>Budget: $100,000</li>
+                <li>Duration: 12 weeks</li>
+                <li>Current status: Week 6</li>
+                <li>Planned value at this point: $50,000</li>
+                <li>Earned value: $40,000</li>
+                <li>Actual cost: $55,000</li>
+            </ul>
+        </div>
+        <p><strong>Exercise:</strong> Calculate the following and interpret the results:</p>
+        <ol>
+            <li>Schedule Variance (SV) and Schedule Performance Index (SPI)</li>
+            <li>Cost Variance (CV) and Cost Performance Index (CPI)</li>
+            <li>Estimate at Completion (EAC) assuming current trends continue</li>
+            <li>Recommended corrective actions</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>Test Yourself: Project Control Quiz</h2>
+        <div class="quiz-container">
+            <div class="quiz-question">
+                <p>1. What does SPI (Schedule Performance Index) measure?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q1" value="a"> The efficiency of cost utilization</label>
+                    <label><input type="radio" name="q1" value="b"> The efficiency of schedule performance</label>
+                    <label><input type="radio" name="q1" value="c"> The total budget allocated to the project</label>
+                    <label><input type="radio" name="q1" value="d"> The quality of project deliverables</label>
+                </div>
+                <div id="feedback1" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p>2. If CPI (Cost Performance Index) is 0.85, what does this indicate?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q2" value="a"> The project is under budget</label>
+                    <label><input type="radio" name="q2" value="b"> The project is on budget</label>
+                    <label><input type="radio" name="q2" value="c"> The project is over budget</label>
+                    <label><input type="radio" name="q2" value="d"> The project quality is 85%</label>
+                </div>
+                <div id="feedback2" class="feedback"></div>
+            </div>
+
+            <div class="quiz-question">
+                <p>3. Which of the following is NOT typically part of the change control process?</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="q3" value="a"> Impact analysis</label>
+                    <label><input type="radio" name="q3" value="b"> Formal approval</label>
+                    <label><input type="radio" name="q3" value="c"> Immediate implementation without review</label>
+                    <label><input type="radio" name="q3" value="d"> Documentation updates</label>
+                </div>
+                <div id="feedback3" class="feedback"></div>
+            </div>
+
+            <button onclick="checkQuiz()">Check Answers</button>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <a href="#" class="nav-button">← Previous: Risk Analysis</a>
+        <a href="#" class="nav-button">Next: Project Audit →</a>
+    </div>
+
+    <script>
+        // EVM Calculator
+        const pvSlider = document.getElementById('pv-slider');
+        const evSlider = document.getElementById('ev-slider');
+        const acSlider = document.getElementById('ac-slider');
+        
+        pvSlider.addEventListener('input', updateEVMMetrics);
+        evSlider.addEventListener('input', updateEVMMetrics);
+        acSlider.addEventListener('input', updateEVMMetrics);
+        
+        function updateEVMMetrics() {
+            const pv = parseInt(pvSlider.value);
+            const ev = parseInt(evSlider.value);
+            const ac = parseInt(acSlider.value);
+            
+            document.getElementById('pv-value').textContent = '$' + pv.toLocaleString();
+            document.getElementById('ev-value').textContent = '$' + ev.toLocaleString();
+            document.getElementById('ac-value').textContent = '$' + ac.toLocaleString();
+            
+            // Calculate metrics
+            const spi = ev / pv;
+            const cpi = ev / ac;
+            const eac = (pv / cpi).toFixed(0);
+            
+            document.getElementById('spi-value').textContent = spi.toFixed(2);
+            document.getElementById('cpi-value').textContent = cpi.toFixed(2);
+            document.getElementById('eac-value').textContent = '$' + parseInt(eac).toLocaleString();
+            
+            // Interpret SPI
+            const spiInterpretation = document.getElementById('spi-interpretation');
+            if (spi > 1) {
+                spiInterpretation.textContent = "Ahead of schedule (SPI > 1)";
+                spiInterpretation.style.color = "green";
+            } else if (spi < 1) {
+                spiInterpretation.textContent = "Behind schedule (SPI < 1)";
+                spiInterpretation.style.color = "red";
+            } else {
+                spiInterpretation.textContent = "On schedule (SPI = 1)";
+                spiInterpretation.style.color = "blue";
+            }
+            
+            // Interpret CPI
+            const cpiInterpretation = document.getElementById('cpi-interpretation');
+            if (cpi > 1) {
+                cpiInterpretation.textContent = "Under budget (CPI > 1)";
+                cpiInterpretation.style.color = "green";
+            } else if (cpi < 1) {
+                cpiInterpretation.textContent = "Over budget (CPI < 1)";
+                cpiInterpretation.style.color = "red";
+            } else {
+                cpiInterpretation.textContent = "On budget (CPI = 1)";
+                cpiInterpretation.style.color = "blue";
+            }
+        }
+
+        // Progress Tracking
+        function updateProgress() {
+            const progressBar = document.getElementById('project-progress');
+            const progressPercent = document.getElementById('progress-percent');
+            let currentWidth = parseInt(progressBar.style.width);
+            
+            if (currentWidth < 100) {
+                currentWidth += 5;
+                progressBar.style.width = currentWidth + '%';
+                progressPercent.textContent = currentWidth;
+            }
+        }
+        
+        function setBackProgress() {
+            const progressBar = document.getElementById('project-progress');
+            const progressPercent = document.getElementById('progress-percent');
+            let currentWidth = parseInt(progressBar.style.width);
+            
+            if (currentWidth > 0) {
+                currentWidth -= 5;
+                progressBar.style.width = currentWidth + '%';
+                progressPercent.textContent = currentWidth;
+            }
+        }
+
+        // Tab System
+        function openTab(evt, tabName) {
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Quiz Checking
+        function checkQuiz() {
+            // Question 1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const feedback1 = document.getElementById('feedback1');
+            if (q1 && q1.value === 'b') {
+                feedback1.textContent = "Correct! SPI measures schedule efficiency (EV/PV).";
+                feedback1.className = "feedback correct";
+            } else {
+                feedback1.textContent = "Incorrect. The correct answer is: The efficiency of schedule performance.";
+                feedback1.className = "feedback incorrect";
+            }
+            feedback1.style.display = 'block';
+
+            // Question 2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const feedback2 = document.getElementById('feedback2');
+            if (q2 && q2.value === 'c') {
+                feedback2.textContent = "Correct! CPI < 1 indicates the project is over budget.";
+                feedback2.className = "feedback correct";
+            } else {
+                feedback2.textContent = "Incorrect. The correct answer is: The project is over budget.";
+                feedback2.className = "feedback incorrect";
+            }
+            feedback2.style.display = 'block';
+
+            // Question 3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const feedback3 = document.getElementById('feedback3');
+            if (q3 && q3.value === 'c') {
+                feedback3.textContent = "Correct! Changes should never be implemented without proper review.";
+                feedback3.className = "feedback correct";
+            } else {
+                feedback3.textContent = "Incorrect. The correct answer is: Immediate implementation without review.";
+                feedback3.className = "feedback incorrect";
+            }
+            feedback3.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
