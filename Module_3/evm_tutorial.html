@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earned Value Management (EVM) Interactive Tutorial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            background: rgba(0,0,0,0.2);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .tutorial-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            color: white;
+        }
+
+        .tutorial-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .tutorial-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 3px solid #4ECDC4;
+            padding-bottom: 10px;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .concept-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #4ECDC4;
+            transition: transform 0.3s;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .concept-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .dashboard {
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            color: white;
+        }
+
+        .dashboard-title {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: rgba(255,255,255,0.15);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-3px);
+        }
+
+        .metric-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .metric-status {
+            font-size: 0.9em;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .status-good {
+            background: rgba(40, 167, 69, 0.8);
+        }
+
+        .status-warning {
+            background: rgba(255, 193, 7, 0.8);
+        }
+
+        .status-danger {
+            background: rgba(220, 53, 69, 0.8);
+        }
+
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        .slider-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.3);
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ECDC4;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4ECDC4;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .example-project {
+            background: linear-gradient(145deg, #f093fb, #f5576c);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            color: white;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            z-index: 1;
+        }
+
+        .timeline-item {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            flex: 1;
+            margin: 0 10px;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(5px);
+        }
+
+        .progress-chart {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        .bar {
+            position: absolute;
+            bottom: 0;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            padding: 10px 5px;
+        }
+
+        .pv-bar {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            left: 10%;
+            width: 20%;
+        }
+
+        .ev-bar {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            left: 35%;
+            width: 20%;
+        }
+
+        .ac-bar {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            left: 60%;
+            width: 20%;
+        }
+
+        .calculation-box {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .formula {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .step-box {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .inference-box {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .inference-box h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4ECDC4, #44A08D);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .quiz-container {
+            background: linear-gradient(145deg, #ff7b7b, #667eea);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            color: white;
+        }
+
+        .quiz-question {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .quiz-option {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .quiz-option:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .quiz-option.selected {
+            border-color: #4ECDC4;
+            background: rgba(78, 205, 196, 0.3);
+        }
+
+        .quiz-option.correct {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.3);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.3);
+        }
+
+        .explanation {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(5px);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tutorial-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Earned Value Management (EVM)</h1>
+            <p>Interactive Tutorial - Master Project Control Through Real-World Examples</p>
+        </div>
+
+        <div class="tutorial-nav">
+            <button class="nav-btn active" onclick="showSection('introduction')">Introduction</button>
+            <button class="nav-btn" onclick="showSection('concepts')">Key Concepts</button>
+            <button class="nav-btn" onclick="showSection('calculations')">Calculations</button>
+            <button class="nav-btn" onclick="showSection('dashboard')">Interactive Dashboard</button>
+            <button class="nav-btn" onclick="showSection('example')">Real Project Example</button>
+            <button class="nav-btn" onclick="showSection('quiz')">Knowledge Check</button>
+        </div>
+
+        <!-- Introduction Section -->
+        <div id="introduction" class="tutorial-section active">
+            <h2 class="section-title">🎯 What is Earned Value Management?</h2>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>🎯 Purpose</h3>
+                    <p>EVM integrates scope, schedule, and cost to measure project performance and predict future outcomes. It answers: "How much work should be done, how much is actually done, and what did it cost?"</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>📈 Benefits</h3>
+                    <p>• Early warning system for project issues<br>
+                    • Objective performance measurement<br>
+                    • Reliable forecasting<br>
+                    • Better decision-making support</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>🔧 Applications</h3>
+                    <p>Used in construction, software development, manufacturing, aerospace, and any project where you need to track progress against budget and schedule.</p>
+                </div>
+            </div>
+
+            <div class="example-project">
+                <h3>🏗️ Tutorial Project: Office Building Construction</h3>
+                <p><strong>Project Details:</strong></p>
+                <ul style="margin: 15px 0; line-height: 1.8;">
+                    <li>Total Budget: $100,000</li>
+                    <li>Duration: 10 weeks</li>
+                    <li>Current Status: Week 6 completed</li>
+                    <li>Planned Work Value: $76,000 (76% of project)</li>
+                    <li>Actual Work Completed: $74,000 worth</li>
+                    <li>Money Spent: $69,000</li>
+                </ul>
+                <p>We'll use this project throughout the tutorial to demonstrate EVM concepts.</p>
+            </div>
+        </div>
+
+        <!-- Key Concepts Section -->
+        <div id="concepts" class="tutorial-section">
+            <h2 class="section-title">📚 Key EVM Metrics</h2>
+            
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>📅 Planned Value (PV)</h3>
+                    <p><strong>What it is:</strong> The budgeted cost of work scheduled to be completed by a specific date.</p>
+                    <p><strong>Example:</strong> By week 6, we planned to complete $76,000 worth of work.</p>
+                    <div class="formula">PV = Planned % Complete × Total Budget</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>✅ Earned Value (EV)</h3>
+                    <p><strong>What it is:</strong> The budgeted cost of work actually completed.</p>
+                    <p><strong>Example:</strong> We actually completed $74,000 worth of work by week 6.</p>
+                    <div class="formula">EV = Actual % Complete × Total Budget</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>💰 Actual Cost (AC)</h3>
+                    <p><strong>What it is:</strong> The total cost incurred for the work completed.</p>
+                    <p><strong>Example:</strong> We spent $69,000 to complete the work.</p>
+                    <div class="formula">AC = All costs incurred to date</div>
+                </div>
+            </div>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>📊 Schedule Performance Index (SPI)</h3>
+                    <p><strong>What it is:</strong> Measures schedule efficiency.</p>
+                    <p><strong>Interpretation:</strong><br>
+                    • SPI > 1.0 = Ahead of schedule<br>
+                    • SPI = 1.0 = On schedule<br>
+                    • SPI < 1.0 = Behind schedule</p>
+                    <div class="formula">SPI = EV ÷ PV</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>💵 Cost Performance Index (CPI)</h3>
+                    <p><strong>What it is:</strong> Measures cost efficiency.</p>
+                    <p><strong>Interpretation:</strong><br>
+                    • CPI > 1.0 = Under budget<br>
+                    • CPI = 1.0 = On budget<br>
+                    • CPI < 1.0 = Over budget</p>
+                    <div class="formula">CPI = EV ÷ AC</div>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>🎯 Estimate at Completion (EAC)</h3>
+                    <p><strong>What it is:</strong> Predicted final project cost based on current performance.</p>
+                    <p><strong>Use:</strong> Helps forecast if project will exceed budget.</p>
+                    <div class="formula">EAC = Total Budget ÷ CPI</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculations Section -->
+        <div id="calculations" class="tutorial-section">
+            <h2 class="section-title">🧮 Step-by-Step Calculations</h2>
+            
+            <div class="step-box">
+                <h3>Step 1: Calculate Schedule Performance Index (SPI)</h3>
+                <div class="calculation-box">
+                    <p><strong>Given:</strong></p>
+                    <ul>
+                        <li>Planned Value (PV) = $76,000</li>
+                        <li>Earned Value (EV) = $74,000</li>
+                    </ul>
+                    <div class="formula">SPI = EV ÷ PV = $74,000 ÷ $76,000 = 0.97</div>
+                    <p><strong>Schedule Variance:</strong> (1.0 - 0.97) × 100 = 3% behind schedule</p>
+                    <p><strong>Interpretation:</strong> We achieved 97% of planned schedule performance, so we're 3% behind</p>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h3>Step 2: Calculate Cost Performance Index (CPI)</h3>
+                <div class="calculation-box">
+                    <p><strong>Given:</strong></p>
+                    <ul>
+                        <li>Earned Value (EV) = $74,000</li>
+                        <li>Actual Cost (AC) = $69,000</li>
+                    </ul>
+                    <div class="formula">CPI = EV ÷ AC = $74,000 ÷ $69,000 = 1.07</div>
+                    <p><strong>Cost Efficiency:</strong> (1.07 - 1.0) × 100 = 7% under budget</p>
+                    <p><strong>Interpretation:</strong> We get $1.07 worth of work for every $1.00 spent, so 7% cost efficiency gain</p>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h3>Step 3: Calculate Estimate at Completion (EAC)</h3>
+                <div class="calculation-box">
+                    <p><strong>Given:</strong></p>
+                    <ul>
+                        <li>Total Budget = $100,000</li>
+                        <li>Cost Performance Index (CPI) = 1.07</li>
+                    </ul>
+                    <div class="formula">EAC = Total Budget ÷ CPI = $100,000 ÷ 1.07 = $93,458</div>
+                    <p><strong>Interpretation:</strong> Based on current performance, the project will cost $93,458 instead of $100,000</p>
+                </div>
+            </div>
+
+            <div class="inference-box">
+                <h3>🧮 Understanding Percentage Calculations</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div>
+                        <h4>📅 Schedule Variance Formula</h4>
+                        <div class="formula">Schedule Variance % = (1.0 - SPI) × 100</div>
+                        <p><strong>Example:</strong> (1.0 - 0.97) × 100 = 3%</p>
+                        <p><strong>Logic:</strong> Perfect performance = 1.0, so any difference shows variance</p>
+                    </div>
+                    <div>
+                        <h4>💰 Cost Efficiency Formula</h4>
+                        <div class="formula">Cost Efficiency % = (CPI - 1.0) × 100</div>
+                        <p><strong>Example:</strong> (1.07 - 1.0) × 100 = 7%</p>
+                        <p><strong>Logic:</strong> Values above 1.0 show positive efficiency</p>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <h4>🎯 Quick Reference:</h4>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>SPI = 0.90:</strong> (1.0 - 0.90) × 100 = 10% behind schedule</li>
+                        <li><strong>SPI = 1.15:</strong> (1.15 - 1.0) × 100 = 15% ahead of schedule</li>
+                        <li><strong>CPI = 0.85:</strong> (1.0 - 0.85) × 100 = 15% over budget</li>
+                        <li><strong>CPI = 1.20:</strong> (1.20 - 1.0) × 100 = 20% under budget</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="inference-box">
+                <h3>🎯 Key Inferences from Our Analysis</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div>
+                        <h4>⏱️ Schedule Status</h4>
+                        <p>The project is 3% behind schedule (SPI = 0.97). This might require accelerating work or adjusting timeline.</p>
+                    </div>
+                    <div>
+                        <h4>💰 Cost Status</h4>
+                        <p>The project is performing 7% better than planned cost-wise (CPI = 1.07). This is positive news!</p>
+                    </div>
+                    <div>
+                        <h4>🔮 Forecast</h4>
+                        <p>If current trends continue, the project will finish $6,542 under budget but potentially late.</p>
+                    </div>
+                    <div>
+                        <h4>🎯 Action Items</h4>
+                        <p>Focus on schedule recovery while maintaining cost efficiency. Consider resource reallocation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Dashboard Section -->
+        <div id="dashboard" class="tutorial-section">
+            <div class="dashboard">
+                <h2 class="dashboard-title">🎛️ Interactive EVM Dashboard</h2>
+                <p style="text-align: center; margin-bottom: 30px; opacity: 0.9;">
+                    Adjust the sliders below to see how different values affect project performance metrics in real-time!
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 30px;">
+                    <div class="slider-container">
+                        <label class="slider-label">Planned Value (PV): $<span id="pv-display">76000</span></label>
+                        <input type="range" class="slider" id="pv-slider" min="50000" max="100000" value="76000" step="1000">
+                    </div>
+                    
+                    <div class="slider-container">
+                        <label class="slider-label">Earned Value (EV): $<span id="ev-display">74000</span></label>
+                        <input type="range" class="slider" id="ev-slider" min="40000" max="100000" value="74000" step="1000">
+                    </div>
+                    
+                    <div class="slider-container">
+                        <label class="slider-label">Actual Cost (AC): $<span id="ac-display">69000</span></label>
+                        <input type="range" class="slider" id="ac-slider" min="40000" max="120000" value="69000" step="1000">
+                    </div>
+                </div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Schedule Performance Index</div>
+                        <div class="metric-value" id="spi-value">0.97</div>
+                        <div class="metric-status" id="spi-status">Behind Schedule</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-label">Cost Performance Index</div>
+                        <div class="metric-value" id="cpi-value">1.07</div>
+                        <div class="metric-status" id="cpi-status">Under Budget</div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-label">Estimate at Completion</div>
+                        <div class="metric-value" id="eac-value">$93,458</div>
+                        <div class="metric-status" id="eac-status">Savings Expected</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-chart">
+                <h3 style="text-align: center; margin-bottom: 20px;">📊 Visual Comparison</h3>
+                <div class="chart-container">
+                    <div class="bar pv-bar" id="pv-bar">
+                        <span>PV<br>$<span id="pv-chart">76,000</span></span>
+                    </div>
+                    <div class="bar ev-bar" id="ev-bar">
+                        <span>EV<br>$<span id="ev-chart">74,000</span></span>
+                    </div>
+                    <div class="bar ac-bar" id="ac-bar">
+                        <span>AC<br>$<span id="ac-chart">69,000</span></span>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-around; margin-top: 10px; text-align: center;">
+                    <div><strong>Planned Value</strong><br>What we planned to achieve</div>
+                    <div><strong>Earned Value</strong><br>What we actually achieved</div>
+                    <div><strong>Actual Cost</strong><br>What we actually spent</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real Project Example Section -->
+        <div id="example" class="tutorial-section">
+            <h2 class="section-title">🏗️ Complete Project Example</h2>
+            
+            <div class="example-project">
+                <h3>📋 Project: Mobile App Development</h3>
+                <p><strong>Scenario:</strong> A software company is developing a mobile banking app.</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div>
+                        <h4>📊 Project Details</h4>
+                        <ul>
+                            <li>Total Budget: $500,000</li>
+                            <li>Duration: 6 months</li>
+                            <li>Current: Month 4 (67% timeline)</li>
+                            <li>Team: 12 developers</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>📈 Current Status</h4>
+                        <ul>
+                            <li>Planned Work: $335,000 (67%)</li>
+                            <li>Completed Work: $310,000 (62%)</li>
+                            <li>Money Spent: $340,000</li>
+                            <li>Features: 155 of 250 complete</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h3>Step-by-Step Analysis</h3>
+                
+                <div class="calculation-box">
+                    <h4>1. Calculate Schedule Performance</h4>
+                    <div class="formula">SPI = EV ÷ PV = $310,000 ÷ $335,000 = 0.93</div>
+                    <p>✅ <strong>Result:</strong> Project is 7% behind schedule</p>
+                </div>
+
+                <div class="calculation-box">
+                    <h4>2. Calculate Cost Performance</h4>
+                    <div class="formula">CPI = EV ÷ AC = $310,000 ÷ $340,000 = 0.91</div>
+                    <p>⚠️ <strong>Result:</strong> Project is 9% over budget</p>
+                </div>
+
+                <div class="calculation-box">
+                    <h4>3. Forecast Final Cost</h4>
+                    <div class="formula">EAC = Budget ÷ CPI = $500,000 ÷ 0.91 = $549,451</div>
+                    <p>🔮 <strong>Result:</strong> Project will likely cost $49,451 more than planned</p>
+                </div>
+            </div>
+
+            <div class="inference-box">
+                <h3>🎯 Project Manager Decisions</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div>
+                        <h4>🚨 Immediate Actions</h4>
+                        <ul>
+                            <li>Review resource allocation</li>
+                            <li>Identify bottlenecks</li>
+                            <li>Consider overtime or additional resources</li>
+                            <li>Reassess scope priorities</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>📊 Stakeholder Communication</h4>
+                        <ul>
+                            <li>Report 7% schedule delay</li>
+                            <li>Inform about 9% cost overrun</li>
+                            <li>Present recovery options</li>
+                            <li>Request additional budget approval</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>🔄 Recovery Strategies</h4>
+                        <ul>
+                            <li>Fast-track critical features</li>
+                            <li>Reduce scope if possible</li>
+                            <li>Improve team efficiency</li>
+                            <li>Negotiate timeline extension</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="tutorial-section">
+            <h2 class="section-title">🧠 Knowledge Check</h2>
+            
+            <div class="quiz-container">
+                <div class="quiz-question" id="quiz-question">
+                    A project has PV = $80,000, EV = $75,000, and AC = $70,000. What is the SPI?
+                </div>
+                
+                <div class="quiz-options" id="quiz-options">
+                    <div class="quiz-option" data-answer="correct" onclick="selectOption(this)">0.94</div>
+                    <div class="quiz-option" data-answer="wrong" onclick="selectOption(this)">1.07</div>
+                    <div class="quiz-option" data-answer="wrong" onclick="selectOption(this)">1.14</div>
+                    <div class="quiz-option" data-answer="wrong" onclick="selectOption(this)">0.88</div>
+                </div>
+                
+                <button class="btn" onclick="checkAnswer()" id="quiz-submit" disabled>Submit Answer</button>
+                
+                <div class="explanation hidden" id="quiz-explanation">
+                    <h4>✅ Correct Answer: 0.94</h4>
+                    <p><strong>Calculation:</strong> SPI = EV ÷ PV = $75,000 ÷ $80,000 = 0.94</p>
+                    <p><strong>Interpretation:</strong> The project is 6% behind schedule since SPI < 1.0</p>
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <h3 style="text-align: center; margin-bottom: 20px;">🎯 Quick Assessment</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div class="concept-card">
+                        <h4>Scenario 1</h4>
+                        <p>SPI = 1.2, CPI = 0.8</p>
+                        <p><strong>Status:</strong> Ahead of schedule but over budget</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>Scenario 2</h4>
+                        <p>SPI = 0.9, CPI = 1.1</p>
+                        <p><strong>Status:</strong> Behind schedule but under budget</p>
+                    </div>
+                    <div class="concept-card">
+                        <h4>Scenario 3</h4>
+                        <p>SPI = 1.0, CPI = 1.0</p>
+                        <p><strong>Status:</strong> Perfect performance - on time and on budget</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inference-box">
+                <h3>🎓 Congratulations! You've Mastered EVM</h3>
+                <p>You now understand how to:</p>
+                <ul style="margin: 15px 0; line-height: 1.8;">
+                    <li>✅ Calculate key EVM metrics (PV, EV, AC, SPI, CPI, EAC)</li>
+                    <li>📊 Interpret performance indicators</li>
+                    <li>🔮 Forecast project outcomes</li>
+                    <li>🎯 Make informed project decisions</li>
+                    <li>📈 Communicate project status effectively</li>
+                </ul>
+                <p style="text-align: center; margin-top: 20px; font-size: 1.2em;">
+                    <strong>Ready to apply EVM in your projects! 🚀</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables for the interactive dashboard
+        let currentPV = 76000;
+        let currentEV = 74000;
+        let currentAC = 69000;
+        const totalBudget = 100000;
+
+        // Quiz state
+        let selectedOption = null;
+
+        // Initialize the tutorial
+        document.addEventListener('DOMContentLoaded', function() {
+            setupSliders();
+            updateDashboard();
+        });
+
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.tutorial-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function setupSliders() {
+            const pvSlider = document.getElementById('pv-slider');
+            const evSlider = document.getElementById('ev-slider');
+            const acSlider = document.getElementById('ac-slider');
+
+            pvSlider.addEventListener('input', function() {
+                currentPV = parseInt(this.value);
+                document.getElementById('pv-display').textContent = currentPV.toLocaleString();
+                updateDashboard();
+            });
+
+            evSlider.addEventListener('input', function() {
+                currentEV = parseInt(this.value);
+                document.getElementById('ev-display').textContent = currentEV.toLocaleString();
+                updateDashboard();
+            });
+
+            acSlider.addEventListener('input', function() {
+                currentAC = parseInt(this.value);
+                document.getElementById('ac-display').textContent = currentAC.toLocaleString();
+                updateDashboard();
+            });
+        }
+
+        function updateDashboard() {
+            // Calculate metrics
+            const spi = currentEV / currentPV;
+            const cpi = currentEV / currentAC;
+            const eac = totalBudget / cpi;
+
+            // Update SPI
+            document.getElementById('spi-value').textContent = spi.toFixed(2);
+            const spiStatus = document.getElementById('spi-status');
+            if (spi > 1.0) {
+                spiStatus.textContent = 'Ahead of Schedule';
+                spiStatus.className = 'metric-status status-good';
+            } else if (spi === 1.0) {
+                spiStatus.textContent = 'On Schedule';
+                spiStatus.className = 'metric-status status-warning';
+            } else {
+                spiStatus.textContent = 'Behind Schedule';
+                spiStatus.className = 'metric-status status-danger';
+            }
+
+            // Update CPI
+            document.getElementById('cpi-value').textContent = cpi.toFixed(2);
+            const cpiStatus = document.getElementById('cpi-status');
+            if (cpi > 1.0) {
+                cpiStatus.textContent = 'Under Budget';
+                cpiStatus.className = 'metric-status status-good';
+            } else if (cpi === 1.0) {
+                cpiStatus.textContent = 'On Budget';
+                cpiStatus.className = 'metric-status status-warning';
+            } else {
+                cpiStatus.textContent = 'Over Budget';
+                cpiStatus.className = 'metric-status status-danger';
+            }
+
+            // Update EAC
+            document.getElementById('eac-value').textContent = '$' + Math.round(eac).toLocaleString();
+            const eacStatus = document.getElementById('eac-status');
+            if (eac < totalBudget) {
+                eacStatus.textContent = 'Savings Expected';
+                eacStatus.className = 'metric-status status-good';
+            } else if (eac === totalBudget) {
+                eacStatus.textContent = 'On Budget';
+                eacStatus.className = 'metric-status status-warning';
+            } else {
+                eacStatus.textContent = 'Over Budget Risk';
+                eacStatus.className = 'metric-status status-danger';
+            }
+
+            // Update chart
+            updateChart();
+        }
+
+        function updateChart() {
+            const maxValue = Math.max(currentPV, currentEV, currentAC);
+            const chartHeight = 250;
+
+            // Update bar heights
+            const pvHeight = (currentPV / maxValue) * chartHeight;
+            const evHeight = (currentEV / maxValue) * chartHeight;
+            const acHeight = (currentAC / maxValue) * chartHeight;
+
+            document.getElementById('pv-bar').style.height = pvHeight + 'px';
+            document.getElementById('ev-bar').style.height = evHeight + 'px';
+            document.getElementById('ac-bar').style.height = acHeight + 'px';
+
+            // Update chart labels
+            document.getElementById('pv-chart').textContent = currentPV.toLocaleString();
+            document.getElementById('ev-chart').textContent = currentEV.toLocaleString();
+            document.getElementById('ac-chart').textContent = currentAC.toLocaleString();
+        }
+
+        function selectOption(option) {
+            // Remove selection from all options
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Select clicked option
+            option.classList.add('selected');
+            selectedOption = option;
+            
+            // Enable submit button
+            document.getElementById('quiz-submit').disabled = false;
+        }
+
+        function checkAnswer() {
+            if (!selectedOption) return;
+            
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                if (option.dataset.answer === 'correct') {
+                    option.classList.add('correct');
+                } else {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Show explanation
+            document.getElementById('quiz-explanation').classList.remove('hidden');
+            
+            // Disable submit button
+            document.getElementById('quiz-submit').disabled = true;
+        }
+    </script>
+</body>
+</html>
