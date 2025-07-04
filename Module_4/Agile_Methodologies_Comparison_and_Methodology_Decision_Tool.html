@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agile Methodologies Comparison & Decision Tool</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --scrum-color: #f39c12;
+            --lean-color: #27ae60;
+            --devops-color: #9b59b6;
+            --itil-color: #34495e;
+            --xp-color: #e74c3c;
+            --fdd-color: #1abc9c;
+            --dsdm-color: #2980b9;
+            --crystal-color: #6a4c93;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+        }
+        
+        .methodology-tag {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-weight: bold;
+            color: white;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .intro {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            padding: 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-radius: 8px 8px 0 0;
+            color: white;
+        }
+        
+        .scrum { background-color: var(--scrum-color); }
+        .lean { background-color: var(--lean-color); }
+        .devops { background-color: var(--devops-color); }
+        .itil { background-color: var(--itil-color); }
+        .xp { background-color: var(--xp-color); }
+        .fdd { background-color: var(--fdd-color); }
+        .dsdm { background-color: var(--dsdm-color); }
+        .crystal { background-color: var(--crystal-color); }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        
+        .tab-container {
+            margin: 2rem 0;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .tab-btn:hover {
+            background: #ddd;
+        }
+        
+        .tab-btn.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .swot-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .swot-box {
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .strengths {
+            background-color: #d4edda;
+            border-left: 5px solid #28a745;
+        }
+        
+        .weaknesses {
+            background-color: #f8d7da;
+            border-left: 5px solid #dc3545;
+        }
+        
+        .opportunities {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .threats {
+            background-color: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+        }
+        
+        .swot-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        /* Decision Tool Styles */
+        .decision-tool {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .progress-container {
+            height: 6px;
+            background-color: #f1f1f1;
+            border-radius: 3px;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 3px;
+            background-color: var(--secondary-color);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .question {
+            display: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .question.active {
+            display: block;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .option {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            border-color: var(--secondary-color);
+            background-color: #f8f9fa;
+        }
+        
+        .option input[type="radio"] {
+            display: none;
+        }
+        
+        .option input[type="radio"]:checked + .option-content {
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 0.5rem;
+        }
+        
+        .option-content {
+            padding-left: 0.9rem;
+        }
+        
+        .option-content small {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .result-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: none;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .alternative-option {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+        }
+        
+        /* Quiz Styles */
+        .quiz-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .quiz-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .quiz-options {
+            margin-left: 1.5rem;
+        }
+        
+        .quiz-option {
+            margin-bottom: 0.5rem;
+        }
+        
+        .quiz-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .swot-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-buttons {
+                flex-direction: column;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Agile Methodologies Comparison & Decision Tool</h1>
+            <p>Compare Scrum, Lean, DevOps, ITIL, XP, FDD, DSDM, and Crystal - then find the best fit for your project</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="intro">
+            <h2>Introduction to Agile Methodologies</h2>
+            <p>This comprehensive resource provides detailed comparisons of eight popular agile methodologies and frameworks used in software development and IT service management. Each approach has unique characteristics, strengths, and ideal use cases. Use the interactive decision tool to find the best methodology for your specific needs.</p>
+            
+            <div class="methodology-tag scrum">Scrum</div>
+            <div class="methodology-tag lean">Lean</div>
+            <div class="methodology-tag devops">DevOps</div>
+            <div class="methodology-tag itil">ITIL</div>
+            <div class="methodology-tag xp">XP</div>
+            <div class="methodology-tag fdd">FDD</div>
+            <div class="methodology-tag dsdm">DSDM</div>
+            <div class="methodology-tag crystal">Crystal</div>
+        </section>
+        
+        <section class="tab-container">
+            <h2>Methodology Comparison</h2>
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="openTab(event, 'overview')">Overview</button>
+                <button class="tab-btn" onclick="openTab(event, 'swot')">SWOT Analysis</button>
+                <button class="tab-btn" onclick="openTab(event, 'categorization')">Categorization</button>
+                <button class="tab-btn" onclick="openTab(event, 'comparison')">Feature Comparison</button>
+            </div>
+            
+            <div id="overview" class="tab-content active">
+                <h3>Methodology Overviews</h3>
+                
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header scrum">Scrum</div>
+                        <p><strong>Focus:</strong> Process framework for managing complex work</p>
+                        <p><strong>Key Features:</strong> Sprints, Scrum Master, Product Owner, Daily Stand-ups</p>
+                        <p><strong>Best For:</strong> Projects with rapidly changing requirements</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header lean">Lean</div>
+                        <p><strong>Focus:</strong> Eliminating waste and maximizing value</p>
+                        <p><strong>Key Features:</strong> Value stream mapping, continuous improvement, just-in-time</p>
+                        <p><strong>Best For:</strong> Process optimization and efficiency</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header devops">DevOps</div>
+                        <p><strong>Focus:</strong> Bridging development and operations</p>
+                        <p><strong>Key Features:</strong> CI/CD, automation, infrastructure as code</p>
+                        <p><strong>Best For:</strong> Frequent releases and operational stability</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header itil">ITIL</div>
+                        <p><strong>Focus:</strong> IT service management best practices</p>
+                        <p><strong>Key Features:</strong> Service lifecycle, incident management, SLAs</p>
+                        <p><strong>Best For:</strong> IT service delivery and support</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header xp">XP (Extreme Programming)</div>
+                        <p><strong>Focus:</strong> Engineering excellence in software development</p>
+                        <p><strong>Key Features:</strong> Pair programming, TDD, continuous integration</p>
+                        <p><strong>Best For:</strong> Quality-critical software projects</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header fdd">FDD (Feature-Driven Development)</div>
+                        <p><strong>Focus:</strong> Feature-centric development</p>
+                        <p><strong>Key Features:</strong> Domain modeling, feature lists, ownership</p>
+                        <p><strong>Best For:</strong> Large-scale object-oriented projects</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header dsdm">DSDM (Dynamic Systems Development)</div>
+                        <p><strong>Focus:</strong> Full project lifecycle framework</p>
+                        <p><strong>Key Features:</strong> Timeboxing, MoSCoW prioritization, iterative development</p>
+                        <p><strong>Best For:</strong> Business-critical projects with fixed deadlines</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header crystal">Crystal</div>
+                        <p><strong>Focus:</strong> People-centric adaptive methodology</p>
+                        <p><strong>Key Features:</strong> Color-coded methods, osmotic communication, frequent delivery</p>
+                        <p><strong>Best For:</strong> Projects needing flexibility based on team size/criticality</p>
+                    </div>
+                </div>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Z9QbYZh1YXY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div id="swot" class="tab-content">
+                <h3>SWOT Analysis</h3>
+                
+                <div class="card">
+                    <div class="card-header scrum">Scrum</div>
+                    <div class="swot-container">
+                        <div class="swot-box strengths">
+                            <div class="swot-title">Strengths</div>
+                            <ul>
+                                <li>Simple to understand</li>
+                                <li>Highly adaptable to change</li>
+                                <li>Clear roles and responsibilities</li>
+                                <li>Regular feedback cycles</li>
+                            </ul>
+                        </div>
+                        <div class="swot-box weaknesses">
+                            <div class="swot-title">Weaknesses</div>
+                            <ul>
+                                <li>Can be too rigid if not properly implemented</li>
+                                <li>Requires experienced Scrum Master</li>
+                                <li>Not ideal for very small or very large teams</li>
+                            </ul>
+                        </div>
+                        <div class="swot-box opportunities">
+                            <div class="swot-title">Opportunities</div>
+                            <ul>
+                                <li>Widely adopted with large community</li>
+                                <li>Easy to combine with other methods (e.g., XP)</li>
+                                <li>Scalable with frameworks like SAFe</li>
+                            </ul>
+                        </div>
+                        <div class="swot-box threats">
+                            <div class="swot-title">Threats</div>
+                            <ul>
+                                <li>Often implemented superficially ("ScrumBut")</li>
+                                <li>Can become process-heavy if misapplied</li>
+                                <li>Competition from newer frameworks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header lean">Lean</div>
+                    <div class="swot-container">
+                        <div class="swot-box strengths">
+                            <div class="swot-title">Strengths</div>
+                            <ul>
+                                <li>Focus on value and waste elimination</li>
+                                <li>Applicable beyond software development</li>
+                                <li>Continuous improvement mindset</li>
+                            </ul>
+                        </div>
+                        <div class="swot-box weaknesses">
+                            <div class="swot-title">Weaknesses</div>
+                            <ul>
+                                <li>Less prescriptive than other methods</li>
+                                <li>Requires cultural transformation</li>
+                                <li>Can be difficult to measure impact</li>
+                            </ul>
+                        </div>
+                        <div class="swot-box opportunities">
+                            <div class="swot-title">Opportunities</div>
+                            <ul>
+                                <li>Can be combined with other agile methods</li>
+                                <li>Growing interest in operational efficiency</li>
+                                <li>Applicable to entire organization</li>
+                            </ul>
+                        </div>
+                        <div class="swot-box threats">
+                            <div class="swot-title">Threats</div>
+                            <ul>
+                                <li>Can be seen as "just common sense"</li>
+                                <li>Requires long-term commitment</li>
+                                <li>May conflict with traditional management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header devops">DevOps</div>
+                    <div class="swot-container">
+                        <div class="swot-box strengths">
+                            <div class="swot-title">Strengths</div>
+                            <ul>
+                                <li>Breaks down silos between dev and ops</li>
+                                <li>Enables faster, more reliable releases</li>
+                                <li>Strong focus on automation</li>
+                            </ul>
+                        </div>
+                        <div class="swot-box weaknesses">
+                            <div class="swot-title">Weaknesses</div>
+                            <ul>
+                                <li>Requires significant tooling investment</li>
+                                <li>Cultural change can be challenging</li>
+                                <li>Security concerns if not properly implemented</li>
+                            </ul>
+                        </div>
+                        <div class="swot-box opportunities">
+                            <div class="swot-title">Opportunities</div>
+                            <ul>
+                                <li>Growing demand for DevOps skills</li>
+                                <li>Cloud adoption accelerates DevOps benefits</li>
+                                <li>Can be combined with SRE practices</li>
+                            </ul>
+                        </div>
+                        <div class="swot-box threats">
+                            <div class="swot-title">Threats</div>
+                            <ul>
+                                <li>Tool proliferation can be overwhelming</li>
+                                <li>May be seen as just automation</li>
+                                <li>Requires cross-functional skills</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/XU0llRltyFM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div id="categorization" class="tab-content">
+                <h3>Methodology Categorization</h3>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Methodology</th>
+                            <th>Type</th>
+                            <th>Team Size</th>
+                            <th>Criticality</th>
+                            <th>Primary Focus</th>
+                            <th>Flexibility</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="methodology-tag scrum">Scrum</span></td>
+                            <td>Framework</td>
+                            <td>3-9 (per team)</td>
+                            <td>Low-Moderate</td>
+                            <td>Process</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td><span class="methodology-tag lean">Lean</span></td>
+                            <td>Philosophy</td>
+                            <td>Any</td>
+                            <td>Any</td>
+                            <td>Value/Waste</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td><span class="methodology-tag devops">DevOps</span></td>
+                            <td>Culture/Practice</td>
+                            <td>Any</td>
+                            <td>Moderate-High</td>
+                            <td>Delivery Pipeline</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td><span class="methodology-tag itil">ITIL</span></td>
+                            <td>Framework</td>
+                            <td>Any</td>
+                            <td>High</td>
+                            <td>Service Management</td>
+                            <td>Low</td>
+                        </tr>
+                        <tr>
+                            <td><span class="methodology-tag xp">XP</span></td>
+                            <td>Methodology</td>
+                            <td>1-12</td>
+                            <td>Low-Moderate</td>
+                            <td>Engineering</td>
+                            <td>Low</td>
+                        </tr>
+                        <tr>
+                            <td><span class="methodology-tag fdd">FDD</span></td>
+                            <td>Methodology</td>
+                            <td>Medium-Large</td>
+                            <td>Moderate</td>
+                            <td>Features</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td><span class="methodology-tag dsdm">DSDM</span></td>
+                            <td>Framework</td>
+                            <td>Any</td>
+                            <td>High</td>
+                            <td>Project Delivery</td>
+                            <td>Medium</td>
+                        </tr>
+                        <tr>
+                            <td><span class="methodology-tag crystal">Crystal</span></td>
+                            <td>Family</td>
+                            <td>1-1000+</td>
+                            <td>Any</td>
+                            <td>People</td>
+                            <td>Very High</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="card">
+                    <div class="card-header">Categorization Key</div>
+                    <div class="grid">
+                        <div>
+                            <h4>Type</h4>
+                            <ul>
+                                <li><strong>Framework:</strong> Provides structure but allows adaptation</li>
+                                <li><strong>Philosophy:</strong> Set of principles rather than specific practices</li>
+                                <li><strong>Methodology:</strong> Specific set of practices and processes</li>
+                                <li><strong>Family:</strong> Multiple methodologies for different situations</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Criticality</h4>
+                            <ul>
+                                <li><strong>Low:</strong> Errors cause minor inconvenience</li>
+                                <li><strong>Moderate:</strong> Errors cause financial loss</li>
+                                <li><strong>High:</strong> Errors cause significant damage</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Flexibility</h4>
+                            <ul>
+                                <li><strong>Low:</strong> Prescriptive with little room for adaptation</li>
+                                <li><strong>Medium:</strong> Core practices with some adaptability</li>
+                                <li><strong>High:</strong> Highly adaptable to context</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="comparison" class="tab-content">
+                <h3>Feature Comparison</h3>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Scrum</th>
+                            <th>Lean</th>
+                            <th>DevOps</th>
+                            <th>ITIL</th>
+                            <th>XP</th>
+                            <th>FDD</th>
+                            <th>DSDM</th>
+                            <th>Crystal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Iterations</td>
+                            <td>Sprints (2-4 weeks)</td>
+                            <td>Continuous flow</td>
+                            <td>Continuous delivery</td>
+                            <td>N/A</td>
+                            <td>1-3 weeks</td>
+                            <td>Feature completion</td>
+                            <td>Timeboxes</td>
+                            <td>Optional</td>
+                        </tr>
+                        <tr>
+                            <td>Roles</td>
+                            <td>SM, PO, Team</td>
+                            <td>Minimal</td>
+                            <td>Cross-functional</td>
+                            <td>Service roles</td>
+                            <td>Coach, Customer</td>
+                            <td>Chief Programmer</td>
+                            <td>Multiple roles</td>
+                            <td>Adaptive</td>
+                        </tr>
+                        <tr>
+                            <td>Artifacts</td>
+                            <td>Backlog, Burndown</td>
+                            <td>Value stream maps</td>
+                            <td>Pipelines, metrics</td>
+                            <td>SLAs, docs</td>
+                            <td>User stories</td>
+                            <td>Feature list</td>
+                            <td>Prioritized reqs</td>
+                            <td>Minimal</td>
+                        </tr>
+                        <tr>
+                            <td>Meetings</td>
+                            <td>Daily, reviews</td>
+                            <td>Kaizen events</td>
+                            <td>Blame-free postmortems</td>
+                            <td>CAB meetings</td>
+                            <td>Stand-ups</td>
+                            <td>Planning</td>
+                            <td>Workshops</td>
+                            <td>Reflection</td>
+                        </tr>
+                        <tr>
+                            <td>Quality</td>
+                            <td>Definition of Done</td>
+                            <td>Built-in quality</td>
+                            <td>Automated testing</td>
+                            <td>Incident mgmt</td>
+                            <td>TDD, pairing</td>
+                            <td>Inspections</td>
+                            <td>Quality focus</td>
+                            <td>Agreed standards</td>
+                        </tr>
+                        <tr>
+                            <td>Scaling</td>
+                            <td>SAFe, LeSS</td>
+                            <td>Enterprise-wide</td>
+                            <td>Toolchains</td>
+                            <td>Process integration</td>
+                            <td>Not designed for</td>
+                            <td>By feature teams</td>
+                            <td>By project</td>
+                            <td>Color system</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/2ZQ6_4Y2W-c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        
+        <section class="decision-tool">
+            <h2>Methodology Decision Tool</h2>
+            <p>Answer these questions to get a personalized recommendation for which methodology might suit your project best.</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div id="decision-questions">
+                <!-- Question 1 -->
+                <div class="question active" id="q1">
+                    <h3>1. What is your primary project objective?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="dq1" value="deliver">
+                            <span class="option-content">
+                                <strong>Deliver working software</strong><br>
+                                <small>With changing requirements and frequent releases</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq1" value="optimize">
+                            <span class="option-content">
+                                <strong>Optimize processes</strong><br>
+                                <small>Eliminate waste and improve efficiency</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq1" value="collaborate">
+                            <span class="option-content">
+                                <strong>Improve collaboration</strong><br>
+                                <small>Between development, operations, and business</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq1" value="quality">
+                            <span class="option-content">
+                                <strong>Ensure high quality</strong><br>
+                                <small>With rigorous engineering practices</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq1" value="service">
+                            <span class="option-content">
+                                <strong>Manage IT services</strong><br>
+                                <small>With reliable processes and compliance</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Question 2 -->
+                <div class="question" id="q2">
+                    <h3>2. What is your team size?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="dq2" value="small">
+                            <span class="option-content">
+                                <strong>Small (1-6 people)</strong><br>
+                                <small>Co-located team with direct communication</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq2" value="medium">
+                            <span class="option-content">
+                                <strong>Medium (7-20 people)</strong><br>
+                                <small>Single team or multiple small teams</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq2" value="large">
+                            <span class="option-content">
+                                <strong>Large (21-100 people)</strong><br>
+                                <small>Multiple teams working on related components</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq2" value="xlarge">
+                            <span class="option-content">
+                                <strong>Very large (100+ people)</strong><br>
+                                <small>Enterprise-scale with many dependencies</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Question 3 -->
+                <div class="question" id="q3">
+                    <h3>3. How critical is your project?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="dq3" value="low">
+                            <span class="option-content">
+                                <strong>Low criticality</strong><br>
+                                <small>Errors cause minor inconvenience</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq3" value="moderate">
+                            <span class="option-content">
+                                <strong>Moderate criticality</strong><br>
+                                <small>Errors cause financial loss or reputation damage</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq3" value="high">
+                            <span class="option-content">
+                                <strong>High criticality</strong><br>
+                                <small>Errors cause significant business impact</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq3" value="extreme">
+                            <span class="option-content">
+                                <strong>Extreme criticality</strong><br>
+                                <small>Errors could cause safety issues or loss of life</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Question 4 -->
+                <div class="question" id="q4">
+                    <h3>4. What is your team's experience level with agile?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="dq4" value="novice">
+                            <span class="option-content">
+                                <strong>Novice</strong><br>
+                                <small>New to agile concepts and practices</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq4" value="some">
+                            <span class="option-content">
+                                <strong>Some experience</strong><br>
+                                <small>Familiar with basic agile concepts</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq4" value="experienced">
+                            <span class="option-content">
+                                <strong>Experienced</strong><br>
+                                <small>Comfortable with multiple agile practices</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq4" value="expert">
+                            <span class="option-content">
+                                <strong>Expert</strong><br>
+                                <small>Deep experience with agile transformation</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Question 5 -->
+                <div class="question" id="q5">
+                    <h3>5. What best describes your project constraints?</h3>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="dq5" value="flexible">
+                            <span class="option-content">
+                                <strong>Flexible</strong><br>
+                                <small>Requirements expected to change frequently</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq5" value="fixed-time">
+                            <span class="option-content">
+                                <strong>Fixed deadline</strong><br>
+                                <small>Must deliver by specific date</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq5" value="fixed-scope">
+                            <span class="option-content">
+                                <strong>Fixed scope</strong><br>
+                                <small>Well-defined requirements upfront</small>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="dq5" value="regulated">
+                            <span class="option-content">
+                                <strong>Highly regulated</strong><br>
+                                <small>Must comply with strict standards</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button id="prev-btn" onclick="prevQuestion()" disabled>Previous</button>
+                    <button id="next-btn" onclick="nextQuestion()">Next</button>
+                </div>
+            </div>
+            
+            <div id="result" class="result-box">
+                <h3>Recommended Methodology: <span id="recommendation"></span></h3>
+                <div id="recommendation-details"></div>
+                <div id="alternative-options"></div>
+                <button onclick="resetDecisionTool()">Start Over</button>
+            </div>
+        </section>
+        
+        <section class="quiz-container">
+            <h2>Test Your Knowledge</h2>
+            
+            <div id="quiz">
+                <div class="quiz-question">
+                    <p>1. Which methodology is most focused on engineering practices like pair programming and test-driven development?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz1" id="quiz1a" value="a">
+                            <label for="quiz1a">Scrum</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz1" id="quiz1b" value="b">
+                            <label for="quiz1b">XP (Extreme Programming)</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz1" id="quiz1c" value="c">
+                            <label for="quiz1c">Lean</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz1" id="quiz1d" value="d">
+                            <label for="quiz1d">DSDM</label>
+                        </div>
+                    </div>
+                    <div class="quiz-result" id="quiz-result1"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>2. Which of these is NOT typically considered an agile methodology?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz2" id="quiz2a" value="a">
+                            <label for="quiz2a">ITIL</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz2" id="quiz2b" value="b">
+                            <label for="quiz2b">Scrum</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz2" id="quiz2c" value="c">
+                            <label for="quiz2c">Crystal</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz2" id="quiz2d" value="d">
+                            <label for="quiz2d">FDD</label>
+                        </div>
+                    </div>
+                    <div class="quiz-result" id="quiz-result2"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>3. Which methodology uses a color-coding system to indicate different approaches based on team size and criticality?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz3" id="quiz3a" value="a">
+                            <label for="quiz3a">Lean</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz3" id="quiz3b" value="b">
+                            <label for="quiz3b">Crystal</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz3" id="quiz3c" value="c">
+                            <label for="quiz3c">DSDM</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz3" id="quiz3d" value="d">
+                            <label for="quiz3d">DevOps</label>
+                        </div>
+                    </div>
+                    <div class="quiz-result" id="quiz-result3"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>4. What is the primary focus of the Lean methodology?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz4" id="quiz4a" value="a">
+                            <label for="quiz4a">Eliminating waste and maximizing value</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz4" id="quiz4b" value="b">
+                            <label for="quiz4b">Managing complex projects through sprints</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz4" id="quiz4c" value="c">
+                            <label for="quiz4c">Improving collaboration between dev and ops</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz4" id="quiz4d" value="d">
+                            <label for="quiz4d">Delivering IT services through best practices</label>
+                        </div>
+                    </div>
+                    <div class="quiz-result" id="quiz-result4"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>5. Which methodology would be most appropriate for a large financial institution needing to manage IT services with strict compliance requirements?</p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz5" id="quiz5a" value="a">
+                            <label for="quiz5a">Scrum</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz5" id="quiz5b" value="b">
+                            <label for="quiz5b">ITIL</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz5" id="quiz5c" value="c">
+                            <label for="quiz5c">XP</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="quiz5" id="quiz5d" value="d">
+                            <label for="quiz5d">Crystal</label>
+                        </div>
+                    </div>
+                    <div class="quiz-result" id="quiz-result5"></div>
+                </div>
+                
+                <button onclick="checkQuiz()">Check Answers</button>
+                <button onclick="resetQuiz()">Reset Quiz</button>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2>Additional Resources</h2>
+            <ul>
+                <li><a href="https://www.agilealliance.org" target="_blank">Agile Alliance</a></li>
+                <li><a href="https://www.scrum.org" target="_blank">Scrum.org</a></li>
+                <li><a href="https://www.axelos.com/best-practice-solutions/itil" target="_blank">ITIL Official Site</a></li>
+                <li><a href="https://www.devopsinstitute.com" target="_blank">DevOps Institute</a></li>
+                <li><a href="http://alistair.cockburn.us/Crystal+Methodologies" target="_blank">Crystal Methodologies</a></li>
+                <li><a href="https://www.agilebusiness.org" target="_blank">DSDM Consortium</a></li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Agile Methodologies Comparison Resource | Created for Educational Purposes</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Tab functionality
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabbuttons;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            
+            tabbuttons = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(tabName).className += " active";
+            evt.currentTarget.className += " active";
+        }
+        
+        // Decision tool functionality
+        let currentQuestion = 1;
+        const totalQuestions = 5;
+        const answers = {};
+        const methodologyScores = {
+            scrum: 0,
+            lean: 0,
+            devops: 0,
+            itil: 0,
+            xp: 0,
+            fdd: 0,
+            dsdm: 0,
+            crystal: 0
+        };
+        
+        // Update progress bar
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+        
+        // Show current question
+        function showQuestion(questionNum) {
+            document.querySelectorAll('.question').forEach(q => {
+                q.classList.remove('active');
+            });
+            document.getElementById(`q${questionNum}`).classList.add('active');
+            
+            // Update button states
+            document.getElementById('prev-btn').disabled = (questionNum === 1);
+            document.getElementById('next-btn').textContent = 
+                (questionNum === totalQuestions) ? 'Get Recommendation' : 'Next';
+        }
+        
+        // Next question handler
+        function nextQuestion() {
+            const currentQ = `q${currentQuestion}`;
+            const selectedOption = document.querySelector(`input[name="d${currentQ}"]:checked`);
+            
+            if (!selectedOption) {
+                alert("Please select an option before proceeding.");
+                return;
+            }
+            
+            // Save answer
+            answers[currentQ] = selectedOption.value;
+            
+            // If not last question, show next
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                updateProgress();
+                showQuestion(currentQuestion);
+            } 
+            // If last question, calculate result
+            else {
+                calculateResult();
+            }
+        }
+        
+        // Previous question handler
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                currentQuestion--;
+                updateProgress();
+                showQuestion(currentQuestion);
+            }
+        }
+        
+        // Calculate final recommendation
+        function calculateResult() {
+            // Reset scores
+            Object.keys(methodologyScores).forEach(key => {
+                methodologyScores[key] = 0;
+            });
+            
+            // Scoring rules based on answers
+            // Question 1: Primary objective
+            switch(answers.q1) {
+                case 'deliver': 
+                    methodologyScores.scrum += 3;
+                    methodologyScores.dsdm += 2;
+                    methodologyScores.crystal += 1;
+                    break;
+                case 'optimize':
+                    methodologyScores.lean += 3;
+                    methodologyScores.devops += 1;
+                    break;
+                case 'collaborate':
+                    methodologyScores.devops += 3;
+                    methodologyScores.scrum += 1;
+                    methodologyScores.crystal += 2;
+                    break;
+                case 'quality':
+                    methodologyScores.xp += 3;
+                    methodologyScores.fdd += 2;
+                    break;
+                case 'service':
+                    methodologyScores.itil += 3;
+                    methodologyScores.dsdm += 1;
+                    break;
+            }
+            
+            // Question 2: Team size
+            switch(answers.q2) {
+                case 'small':
+                    methodologyScores.xp += 2;
+                    methodologyScores.crystal += 3;
+                    methodologyScores.scrum += 1;
+                    break;
+                case 'medium':
+                    methodologyScores.scrum += 3;
+                    methodologyScores.fdd += 2;
+                    methodologyScores.dsdm += 1;
+                    break;
+                case 'large':
+                    methodologyScores.dsdm += 3;
+                    methodologyScores.fdd += 2;
+                    methodologyScores.scrum += 1;
+                    break;
+                case 'xlarge':
+                    methodologyScores.itil += 3;
+                    methodologyScores.dsdm += 2;
+                    methodologyScores.lean += 1;
+                    break;
+            }
+            
+            // Question 3: Criticality
+            switch(answers.q3) {
+                case 'low':
+                    methodologyScores.xp += 1;
+                    methodologyScores.crystal += 2;
+                    methodologyScores.scrum += 1;
+                    break;
+                case 'moderate':
+                    methodologyScores.scrum += 2;
+                    methodologyScores.fdd += 1;
+                    methodologyScores.dsdm += 1;
+                    break;
+                case 'high':
+                    methodologyScores.dsdm += 3;
+                    methodologyScores.itil += 2;
+                    methodologyScores.fdd += 1;
+                    break;
+                case 'extreme':
+                    methodologyScores.itil += 3;
+                    methodologyScores.dsdm += 2;
+                    break;
+            }
+            
+            // Question 4: Experience level
+            switch(answers.q4) {
+                case 'novice':
+                    methodologyScores.scrum += 2;
+                    methodologyScores.crystal += 1;
+                    break;
+                case 'some':
+                    methodologyScores.scrum += 1;
+                    methodologyScores.lean += 1;
+                    methodologyScores.devops += 1;
+                    break;
+                case 'experienced':
+                    methodologyScores.xp += 1;
+                    methodologyScores.dsdm += 1;
+                    methodologyScores.fdd += 1;
+                    break;
+                case 'expert':
+                    methodologyScores.crystal += 2;
+                    methodologyScores.lean += 1;
+                    methodologyScores.devops += 1;
+                    break;
+            }
+            
+            // Question 5: Project constraints
+            switch(answers.q5) {
+                case 'flexible':
+                    methodologyScores.scrum += 2;
+                    methodologyScores.crystal += 2;
+                    methodologyScores.xp += 1;
+                    break;
+                case 'fixed-time':
+                    methodologyScores.dsdm += 3;
+                    methodologyScores.scrum += 1;
+                    break;
+                case 'fixed-scope':
+                    methodologyScores.fdd += 3;
+                    methodologyScores.dsdm += 1;
+                    break;
+                case 'regulated':
+                    methodologyScores.itil += 3;
+                    methodologyScores.dsdm += 1;
+                    break;
+            }
+            
+            // Get top 3 methodologies
+            const sortedMethods = Object.entries(methodologyScores)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 3);
+            
+            // Display results
+            displayResults(sortedMethods);
+        }
+        
+        // Display recommendation and alternatives
+        function displayResults(topMethods) {
+            const [primary, secondary, tertiary] = topMethods;
+            
+            // Primary recommendation
+            document.getElementById('recommendation').textContent = getMethodologyName(primary[0]);
+            document.getElementById('recommendation').className = `methodology-tag ${primary[0]}`;
+            
+            // Recommendation details
+            let details = '';
+            switch(primary[0]) {
+                case 'scrum':
+                    details = `
+                        <p><strong>Why Scrum?</strong> Your project characteristics align well with Scrum's iterative approach to delivering working software. Scrum works particularly well for teams that need to adapt to changing requirements while maintaining regular delivery cadence.</p>
+                        <p><strong>Key Benefits:</strong></p>
+                        <ul>
+                            <li>Clear roles and responsibilities</li>
+                            <li>Regular feedback cycles through sprints</li>
+                            <li>Adaptable to changing priorities</li>
+                        </ul>
+                    `;
+                    break;
+                case 'lean':
+                    details = `
+                        <p><strong>Why Lean?</strong> Your focus on process optimization and eliminating waste makes Lean an excellent choice. Lean principles help maximize value while minimizing resources and effort.</p>
+                        <p><strong>Key Benefits:</strong></p>
+                        <ul>
+                            <li>Focus on value stream mapping</li>
+                            <li>Continuous improvement mindset</li>
+                            <li>Reduction of non-value-added activities</li>
+                        </ul>
+                    `;
+                    break;
+                case 'devops':
+                    details = `
+                        <p><strong>Why DevOps?</strong> Your need for improved collaboration between development and operations suggests DevOps would be valuable. DevOps bridges these traditionally separate functions to enable faster, more reliable releases.</p>
+                        <p><strong>Key Benefits:</strong></p>
+                        <ul>
+                            <li>Breaks down silos between teams</li>
+                            <li>Automation of build, test, and deployment</li>
+                            <li>Continuous integration and delivery</li>
+                        </ul>
+                    `;
+                    break;
+                case 'itil':
+                    details = `
+                        <p><strong>Why ITIL?</strong> Your requirements for managing IT services with reliability and compliance make ITIL the most appropriate framework. ITIL provides best practices for aligning IT services with business needs.</p>
+                        <p><strong>Key Benefits:</strong></p>
+                        <ul>
+                            <li>Comprehensive service management framework</li>
+                            <li>Clear incident and problem management</li>
+                            <li>Alignment with business objectives</li>
+                        </ul>
+                    `;
+                    break;
+                case 'xp':
+                    details = `
+                        <p><strong>Why XP (Extreme Programming)?</strong> Your emphasis on engineering quality makes XP an excellent choice. XP's rigorous practices ensure high-quality software through technical excellence.</p>
+                        <p><strong>Key Benefits:</strong></p>
+                        <ul>
+                            <li>Test-driven development</li>
+                            <li>Pair programming</li>
+                            <li>Continuous integration</li>
+                            <li>Simple design</li>
+                        </ul>
+                    `;
+                    break;
+                case 'fdd':
+                    details = `
+                        <p><strong>Why FDD (Feature-Driven Development)?</strong> Your project characteristics align well with FDD's feature-centric approach, especially for larger teams working on object-oriented systems.</p>
+                        <p><strong>Key Benefits:</strong></p>
+                        <ul>
+                            <li>Clear feature prioritization</li>
+                            <li>Domain object modeling</li>
+                            <li>Ownership and accountability</li>
+                        </ul>
+                    `;
+                    break;
+                case 'dsdm':
+                    details = `
+                        <p><strong>Why DSDM (Dynamic Systems Development Method)?</strong> Your project needs match well with DSDM's focus on delivering business solutions on time through its project lifecycle approach.</p>
+                        <p><strong>Key Benefits:</strong></p>
+                        <ul>
+                            <li>Timeboxing for predictable delivery</li>
+                            <li>MoSCoW prioritization</li>
+                            <li>Focus on business need</li>
+                        </ul>
+                    `;
+                    break;
+                case 'crystal':
+                    details = `
+                        <p><strong>Why Crystal?</strong> Your team characteristics and project needs suggest Crystal's people-centric approach would work well. Crystal adapts to your specific context rather than imposing rigid processes.</p>
+                        <p><strong>Key Benefits:</strong></p>
+                        <ul>
+                            <li>Tailored to team size and criticality</li>
+                            <li>Focus on communication and collaboration</li>
+                            <li>Frequent delivery of working software</li>
+                        </ul>
+                    `;
+                    break;
+            }
+            document.getElementById('recommendation-details').innerHTML = details;
+            
+            // Alternative options
+            let alternatives = '<h4>Also consider:</h4>';
+            if (secondary) {
+                alternatives += `
+                    <div class="alternative-option">
+                        <span class="methodology-tag ${secondary[0]}">${getMethodologyName(secondary[0])}</span>
+                        <p>${getMethodologyDescription(secondary[0])}</p>
+                    </div>
+                `;
+            }
+            if (tertiary) {
+                alternatives += `
+                    <div class="alternative-option">
+                        <span class="methodology-tag ${tertiary[0]}">${getMethodologyName(tertiary[0])}</span>
+                        <p>${getMethodologyDescription(tertiary[0])}</p>
+                    </div>
+                `;
+            }
+            document.getElementById('alternative-options').innerHTML = alternatives;
+            
+            // Show results and hide questions
+            document.getElementById('decision-questions').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        // Reset the tool
+        function resetDecisionTool() {
+            currentQuestion = 1;
+            updateProgress();
+            showQuestion(1);
+            
+            // Reset form
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            
+            // Show questions and hide results
+            document.getElementById('decision-questions').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+        }
+        
+        // Quiz functionality
+        function checkQuiz() {
+            const quizAnswers = {
+                quiz1: "b",
+                quiz2: "a",
+                quiz3: "b",
+                quiz4: "a",
+                quiz5: "b"
+            };
+            
+            let score = 0;
+            
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="quiz${i}"]:checked`);
+                const result = document.getElementById(`quiz-result${i}`);
+                
+                if (selected) {
+                    if (selected.value === quizAnswers[`quiz${i}`]) {
+                        result.innerHTML = "Correct!";
+                        result.className = "quiz-result correct";
+                        score++;
+                    } else {
+                        result.innerHTML = "Incorrect. The correct answer is highlighted.";
+                        result.className = "quiz-result incorrect";
+                    }
+                    result.style.display = "block";
+                } else {
+                    result.innerHTML = "Please select an answer.";
+                    result.className = "quiz-result incorrect";
+                    result.style.display = "block";
+                }
+            }
+            
+            alert(`You scored ${score} out of 5!`);
+        }
+        
+        function resetQuiz() {
+            for (let i = 1; i <= 5; i++) {
+                document.querySelectorAll(`input[name="quiz${i}"]`).forEach(radio => {
+                    radio.checked = false;
+                });
+                document.getElementById(`quiz-result${i}`).style.display = "none";
+            }
+        }
+        
+        // Helper functions
+        function getMethodologyName(method) {
+            const names = {
+                scrum: 'Scrum',
+                lean: 'Lean',
+                devops: 'DevOps',
+                itil: 'ITIL',
+                xp: 'Extreme Programming (XP)',
+                fdd: 'Feature-Driven Development (FDD)',
+                dsdm: 'Dynamic Systems Development Method (DSDM)',
+                crystal: 'Crystal'
+            };
+            return names[method] || method;
+        }
+        
+        function getMethodologyDescription(method) {
+            const descriptions = {
+                scrum: 'A framework for managing complex projects with iterative development in sprints.',
+                lean: 'A philosophy focused on eliminating waste and maximizing value in processes.',
+                devops: 'A set of practices that combines software development and IT operations.',
+                itil: 'A framework for IT service management focusing on aligning IT with business needs.',
+                xp: 'A methodology emphasizing technical excellence and frequent releases.',
+                fdd: 'An iterative and incremental approach centered around feature delivery.',
+                dsdm: 'An agile project delivery framework for the full project lifecycle.',
+                crystal: 'A family of methodologies that adapt to team size and project criticality.'
+            };
+            return descriptions[method] || '';
+        }
+        
+        // Initialize
+        updateProgress();
+        showQuestion(1);
+    </script>
+</body>
+</html>

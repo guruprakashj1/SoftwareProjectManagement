@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crystal Methodology Teaching Resource</title>
+    <style>
+        :root {
+            --primary-color: #6a4c93;
+            --secondary-color: #8a5a44;
+            --accent-color: #f79256;
+            --light-color: #f8f1ff;
+            --dark-color: #4a2545;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+        }
+        
+        .intro {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        
+        .tab-container {
+            margin: 2rem 0;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .tab-btn:hover {
+            background: #ddd;
+        }
+        
+        .tab-btn.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .color-system {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .color-box {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .quiz-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .options {
+            margin-left: 1.5rem;
+        }
+        
+        .option {
+            margin-bottom: 0.5rem;
+        }
+        
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            margin-right: 1rem;
+        }
+        
+        button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-buttons {
+                flex-direction: column;
+            }
+            
+            .color-box {
+                width: 100px;
+                height: 100px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Crystal Methodology</h1>
+            <p>A lightweight, human-powered agile framework for software development</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="intro">
+            <h2>Introduction to Crystal</h2>
+            <p>Crystal is a family of agile methodologies developed by Alistair Cockburn in the mid-1990s. It focuses on the people, interactions, community, skills, talents, and communications as first-order effects on performance. Process remains important, but secondary.</p>
+            <p>The Crystal approach recognizes that each project may require a slightly different set of policies, practices, and processes depending on its unique characteristics, particularly its size and criticality.</p>
+        </section>
+        
+        <section class="tab-container">
+            <h2>Crystal Interactive Learning</h2>
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="openTab(event, 'overview')">Overview</button>
+                <button class="tab-btn" onclick="openTab(event, 'principles')">Principles</button>
+                <button class="tab-btn" onclick="openTab(event, 'colors')">Color System</button>
+                <button class="tab-btn" onclick="openTab(event, 'practices')">Practices</button>
+                <button class="tab-btn" onclick="openTab(event, 'comparison')">Comparison</button>
+            </div>
+            
+            <div id="overview" class="tab-content active">
+                <h3>Crystal Overview</h3>
+                <p>Crystal is actually a family of methodologies (Clear, Yellow, Orange, etc.) that vary based on:</p>
+                <ul>
+                    <li><strong>Team size:</strong> From small (2-8 people) to large (up to 1000 people)</li>
+                    <li><strong>Criticality:</strong> From comfort (discomfort = loss of money) to life (defects = loss of life)</li>
+                    <li><strong>Project priorities:</strong> Such as delivery speed, reliability, or user usability</li>
+                </ul>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/goyvg7VvB7A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Key Characteristics</div>
+                    <ul>
+                        <li><strong>People-centric:</strong> Focuses on team interactions rather than processes or tools</li>
+                        <li><strong>Adaptive:</strong> Tailors the methodology to each project's specific needs</li>
+                        <li><strong>Lightweight:</strong> Uses just enough process to achieve project goals</li>
+                        <li><strong>Communication-focused:</strong> Emphasizes osmotic communication (information flow through proximity)</li>
+                        <li><strong>Delivery-oriented:</strong> Prioritizes frequent delivery of working software</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="principles" class="tab-content">
+                <h3>Crystal Principles</h3>
+                <p>Crystal is built on several fundamental principles that guide its implementation:</p>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">1. Frequent Delivery</div>
+                        <p>Deliver working, tested software to real users early and regularly (typically every 1-3 months).</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">2. Reflective Improvement</div>
+                        <p>The team regularly reflects on how to become more effective and adjusts accordingly.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">3. Osmotic Communication</div>
+                        <p>Information flows efficiently in a co-located team through casual conversations and overhearing.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">4. Personal Safety</div>
+                        <p>Team members feel safe to speak their minds without fear of reprisal or ridicule.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">5. Focus</div>
+                        <p>Team members know what to work on and have dedicated time to focus on it.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">6. Easy Access to Expert Users</div>
+                        <p>Developers have direct access to real users for requirements and feedback.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">7. Technical Environment</div>
+                        <p>The team has automated tests, configuration management, and frequent integration.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">8. Tailored Methodology</div>
+                        <p>The process is adjusted to fit the project's size, criticality, and priorities.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="colors" class="tab-content">
+                <h3>Crystal Color System</h3>
+                <p>Crystal methodologies are color-coded based on team size and project criticality:</p>
+                
+                <div class="color-system">
+                    <div class="color-box" style="background-color: #f8f1ff;">
+                        <div>
+                            <h4>Crystal Clear</h4>
+                            <p>1-6 people</p>
+                            <p>Low criticality</p>
+                        </div>
+                    </div>
+                    <div class="color-box" style="background-color: #fffacd;">
+                        <div>
+                            <h4>Crystal Yellow</h4>
+                            <p>7-20 people</p>
+                            <p>Moderate criticality</p>
+                        </div>
+                    </div>
+                    <div class="color-box" style="background-color: #ffd8b1;">
+                        <div>
+                            <h4>Crystal Orange</h4>
+                            <p>21-40 people</p>
+                            <p>Significant criticality</p>
+                        </div>
+                    </div>
+                    <div class="color-box" style="background-color: #ffb3ba;">
+                        <div>
+                            <h4>Crystal Red</h4>
+                            <p>40-80 people</p>
+                            <p>High criticality</p>
+                        </div>
+                    </div>
+                    <div class="color-box" style="background-color: #d8bfd8;">
+                        <div>
+                            <h4>Crystal Maroon</h4>
+                            <p>80-200 people</p>
+                            <p>Very high criticality</p>
+                        </div>
+                    </div>
+                    <div class="color-box" style="background-color: #b19cd9;">
+                        <div>
+                            <h4>Crystal Blue</h4>
+                            <p>200-1000 people</p>
+                            <p>Extreme criticality</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Criticality Levels</div>
+                    <ul>
+                        <li><strong>Comfort (C):</strong> Loss of comfort or discretionary money</li>
+                        <li><strong>Discretionary Money (D):</strong> Loss of money that matters</li>
+                        <li><strong>Essential Money (E):</strong> Loss of significant money</li>
+                        <li><strong>Life (L):</strong> Loss of life</li>
+                    </ul>
+                </div>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/6eQdF8g_vOQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div id="practices" class="tab-content">
+                <h3>Crystal Practices</h3>
+                <p>Crystal methodologies share common practices that vary in formality based on the color:</p>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">Methodology Tailoring Workshop</div>
+                        <p>At project start, the team selects and adapts practices to fit their specific needs.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Incremental Development</div>
+                        <p>Software is developed in small increments with frequent integration.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Continuous Integration</div>
+                        <p>Code changes are integrated and tested frequently (at least daily).</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Reflection Workshops</div>
+                        <p>Regular sessions where the team reflects on their process and makes adjustments.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Blitz Planning</div>
+                        <p>Short, intensive planning sessions to map out the next increment.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">User Viewing</div>
+                        <p>Direct observation of users working with the software.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Expert User Involvement</div>
+                        <p>Having access to real users who understand the domain deeply.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Information Radiators</div>
+                        <p>Visible displays of project status and progress in the team space.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="comparison" class="tab-content">
+                <h3>Crystal vs. Other Agile Methods</h3>
+                <p>How Crystal compares to other popular agile methodologies:</p>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Crystal</th>
+                            <th>Scrum</th>
+                            <th>XP</th>
+                            <th>Kanban</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Primary Focus</td>
+                            <td>People and interactions</td>
+                            <td>Process and roles</td>
+                            <td>Engineering practices</td>
+                            <td>Workflow visualization</td>
+                        </tr>
+                        <tr>
+                            <td>Flexibility</td>
+                            <td>Highly adaptable</td>
+                            <td>Moderate</td>
+                            <td>Low (fixed practices)</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td>Team Size</td>
+                            <td>1-1000+ (varies by color)</td>
+                            <td>Typically 3-9</td>
+                            <td>1-12</td>
+                            <td>Any size</td>
+                        </tr>
+                        <tr>
+                            <td>Iterations</td>
+                            <td>Optional</td>
+                            <td>Fixed-length sprints</td>
+                            <td>1-3 week iterations</td>
+                            <td>Continuous flow</td>
+                        </tr>
+                        <tr>
+                            <td>Criticality Support</td>
+                            <td>All levels</td>
+                            <td>Low to moderate</td>
+                            <td>Low to moderate</td>
+                            <td>All levels</td>
+                        </tr>
+                        <tr>
+                            <td>Best For</td>
+                            <td>Projects needing flexibility</td>
+                            <td>Complex projects</td>
+                            <td>Quality-critical projects</td>
+                            <td>Maintenance/support</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/2HrLkI9Qo7A" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        
+        <section class="quiz-container">
+            <h2>Test Your Crystal Knowledge</h2>
+            
+            <div id="quiz">
+                <div class="question">
+                    <p>1. Who created the Crystal methodology family?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1a" value="a">
+                            <label for="q1a">Ken Schwaber</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1b" value="b">
+                            <label for="q1b">Alistair Cockburn</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1c" value="c">
+                            <label for="q1c">Kent Beck</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1d" value="d">
+                            <label for="q1d">Jeff Sutherland</label>
+                        </div>
+                    </div>
+                    <div class="result" id="result1"></div>
+                </div>
+                
+                <div class="question">
+                    <p>2. What does the Crystal color system primarily represent?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2a" value="a">
+                            <label for="q2a">Team mood and morale</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2b" value="b">
+                            <label for="q2b">Project budget levels</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2c" value="c">
+                            <label for="q2c">Team size and project criticality</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2d" value="d">
+                            <label for="q2d">Programming languages used</label>
+                        </div>
+                    </div>
+                    <div class="result" id="result2"></div>
+                </div>
+                
+                <div class="question">
+                    <p>3. Which Crystal principle refers to information flow through casual conversations in a co-located team?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3a" value="a">
+                            <label for="q3a">Reflective Improvement</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3b" value="b">
+                            <label for="q3b">Osmotic Communication</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3c" value="c">
+                            <label for="q3c">Personal Safety</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3d" value="d">
+                            <label for="q3d">Expert User Access</label>
+                        </div>
+                    </div>
+                    <div class="result" id="result3"></div>
+                </div>
+                
+                <div class="question">
+                    <p>4. Which Crystal methodology would be most appropriate for a 50-person team working on air traffic control software?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4a" value="a">
+                            <label for="q4a">Crystal Clear</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4b" value="b">
+                            <label for="q4b">Crystal Yellow</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4c" value="c">
+                            <label for="q4c">Crystal Orange</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4d" value="d">
+                            <label for="q4d">Crystal Red</label>
+                        </div>
+                    </div>
+                    <div class="result" id="result4"></div>
+                </div>
+                
+                <div class="question">
+                    <p>5. What is the primary distinguishing characteristic of Crystal compared to other agile methods?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5a" value="a">
+                            <label for="q5a">Its focus on people and interactions over processes</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5b" value="b">
+                            <label for="q5b">Its strict engineering practices</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5c" value="c">
+                            <label for="q5c">Its fixed-length iterations</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5d" value="d">
+                            <label for="q5d">Its comprehensive documentation requirements</label>
+                        </div>
+                    </div>
+                    <div class="result" id="result5"></div>
+                </div>
+                
+                <button onclick="checkQuiz()">Check Answers</button>
+                <button onclick="resetQuiz()">Reset Quiz</button>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2>Additional Resources</h2>
+            <ul>
+                <li><a href="http://alistair.cockburn.us/Crystal+Methodologies" target="_blank">Alistair Cockburn's Crystal Page</a></li>
+                <li><a href="https://www.amazon.com/Crystal-Clear-Human-Powered-Methodology-Small/dp/0201699478" target="_blank">Crystal Clear: A Human-Powered Methodology for Small Teams (Book)</a></li>
+                <li><a href="https://www.agilealliance.org/glossary/crystal/" target="_blank">Agile Alliance Crystal Overview</a></li>
+                <li><a href="https://www.youtube.com/playlist?list=PLOspHqNVtKADL_HY1gD7L-bQ6QZ5X4F1f" target="_blank">Crystal Methodology Video Series</a></li>
+                <li><a href="http://alistair.cockburn.us/Characterizing+people+as+non-linear,+first-order+components+in+software+development" target="_blank">Characterizing People as Non-Linear Components (Paper)</a></li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Crystal Methodology Teaching Resource | Created for Educational Purposes</p>
+            <p>This resource is not affiliated with Alistair Cockburn or the Agile Alliance</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Tab functionality
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabbuttons;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            
+            tabbuttons = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(tabName).className += " active";
+            evt.currentTarget.className += " active";
+        }
+        
+        // Quiz functionality
+        function checkQuiz() {
+            var answers = {
+                q1: "b",
+                q2: "c",
+                q3: "b",
+                q4: "d",
+                q5: "a"
+            };
+            
+            var score = 0;
+            
+            for (var i = 1; i <= 5; i++) {
+                var selected = document.querySelector('input[name="q' + i + '"]:checked');
+                var result = document.getElementById('result' + i);
+                
+                if (selected) {
+                    if (selected.value === answers['q' + i]) {
+                        result.innerHTML = "Correct!";
+                        result.className = "result correct";
+                        score++;
+                    } else {
+                        result.innerHTML = "Incorrect. The correct answer is: " + getCorrectAnswerText(i, answers['q' + i]);
+                        result.className = "result incorrect";
+                    }
+                    result.style.display = "block";
+                } else {
+                    result.innerHTML = "Please select an answer.";
+                    result.className = "result incorrect";
+                    result.style.display = "block";
+                }
+            }
+            
+            alert("You scored " + score + " out of 5!");
+        }
+        
+        function getCorrectAnswerText(questionNum, correctValue) {
+            var question = document.getElementById('q' + questionNum + correctValue);
+            return question.nextElementSibling.textContent;
+        }
+        
+        function resetQuiz() {
+            var inputs = document.querySelectorAll('#quiz input[type="radio"]');
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].checked = false;
+            }
+            
+            var results = document.querySelectorAll('.result');
+            for (var i = 0; i < results.length; i++) {
+                results[i].style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

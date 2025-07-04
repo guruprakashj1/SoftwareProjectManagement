@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lean Software Development - IT Project Management</title>
+    <style>
+        :root {
+            --lean-green: #27ae60;
+            --lean-dark: #2c3e50;
+            --lean-accent: #2ecc71;
+            --warning: #f39c12;
+            --light-bg: #f9f9f9;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--lean-green), var(--lean-accent));
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: var(--lean-dark);
+            border-bottom: 2px solid var(--lean-green);
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            color: var(--lean-green);
+            margin-top: 25px;
+        }
+        
+        h4 {
+            color: var(--lean-dark);
+            margin-bottom: 10px;
+        }
+        
+        .card {
+            background-color: white;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .learning-outcomes {
+            background-color: #e8f8f0;
+            border-left: 5px solid var(--lean-green);
+        }
+        
+        .interactive-demo {
+            background-color: #fef9e7;
+            border-left: 5px solid var(--warning);
+        }
+        
+        .quiz-container {
+            background-color: #f5eef8;
+            border-left: 5px solid #9b59b6;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .principle-card {
+            padding: 20px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--lean-green);
+            transition: transform 0.2s;
+        }
+        
+        .principle-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .principle-card h4 {
+            margin-top: 0;
+            color: var(--lean-dark);
+        }
+        
+        .quiz-question {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-option {
+            margin: 10px 0;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+        
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        
+        .waste-elimination {
+            border: 1px solid #ddd;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            background-color: white;
+        }
+        
+        .waste-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .waste-item {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .waste-item:hover {
+            background-color: #e8f8f0;
+            border-color: var(--lean-green);
+        }
+        
+        .waste-item.eliminated {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        
+        .waste-controls {
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            background-color: var(--lean-green);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-right: 10px;
+        }
+        
+        .control-btn:hover {
+            background-color: #219653;
+        }
+        
+        .waste-feedback {
+            margin-top: 20px;
+            padding: 15px;
+            display: none;
+            border-radius: 4px;
+        }
+        
+        .resources {
+            margin-top: 40px;
+        }
+        
+        .resource-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .resource-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .resource-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--lean-green);
+            font-weight: bold;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .waste-item {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Lean Software Development</h1>
+        <p>CSE4033 - IT Project Management | Module 4: Agile Project Management</p>
+    </header>
+
+    <section>
+        <div class="card learning-outcomes">
+            <h3>Learning Outcomes</h3>
+            <p>By the end of this section, you will be able to:</p>
+            <ul>
+                <li>Explain the origins and principles of Lean Software Development</li>
+                <li>Identify the seven types of waste in software development</li>
+                <li>Apply Lean thinking to software project management</li>
+                <li>Understand how Lean complements other Agile methodologies</li>
+                <li>Implement Lean techniques to improve development processes</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>What is Lean Software Development?</h2>
+        <p>Lean Software Development is an adaptation of Lean manufacturing principles to software engineering. It focuses on:</p>
+        <ul>
+            <li><strong>Value:</strong> Delivering what customers actually want</li>
+            <li><strong>Flow:</strong> Optimizing the entire value stream</li>
+            <li><strong>Eliminating Waste:</strong> Removing anything that doesn't add value</li>
+            <li><strong>Continuous Improvement:</strong> Constantly seeking better ways to work</li>
+        </ul>
+        
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/7TN2Z7q8k6Q" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <section>
+        <h2>The Seven Principles of Lean Software Development</h2>
+        
+        <div class="principles-grid">
+            <div class="principle-card">
+                <h4>1. Eliminate Waste</h4>
+                <p>Identify and remove anything that doesn't add value to the customer, including unnecessary code, features, delays, and processes.</p>
+            </div>
+            
+            <div class="principle-card">
+                <h4>2. Amplify Learning</h4>
+                <p>Encourage continuous learning through short feedback loops, experimentation, and iterative development.</p>
+            </div>
+            
+            <div class="principle-card">
+                <h4>3. Decide as Late as Possible</h4>
+                <p>Keep options open by making decisions at the last responsible moment when you have the most information.</p>
+            </div>
+            
+            <div class="principle-card">
+                <h4>4. Deliver as Fast as Possible</h4>
+                <p>Reduce cycle times to get feedback quickly and respond to changing requirements.</p>
+            </div>
+            
+            <div class="principle-card">
+                <h4>5. Empower the Team</h4>
+                <p>Trust and enable team members to make decisions and take ownership of their work.</p>
+            </div>
+            
+            <div class="principle-card">
+                <h4>6. Build Integrity In</h4>
+                <p>Focus on quality throughout the development process rather than inspecting it in at the end.</p>
+            </div>
+            
+            <div class="principle-card">
+                <h4>7. See the Whole</h4>
+                <p>Optimize the entire system rather than individual components to avoid local optimizations.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Interactive: Identifying and Eliminating Waste</h2>
+        
+        <div class="card interactive-demo waste-elimination">
+            <h3>Seven Wastes of Software Development</h3>
+            <p>Click on each type of waste to eliminate it from your development process:</p>
+            
+            <div class="waste-items">
+                <div class="waste-item" onclick="eliminateWaste(this)">Partially Done Work</div>
+                <div class="waste-item" onclick="eliminateWaste(this)">Extra Features</div>
+                <div class="waste-item" onclick="eliminateWaste(this)">Relearning</div>
+                <div class="waste-item" onclick="eliminateWaste(this)">Handoffs</div>
+                <div class="waste-item" onclick="eliminateWaste(this)">Delays</div>
+                <div class="waste-item" onclick="eliminateWaste(this)">Task Switching</div>
+                <div class="waste-item" onclick="eliminateWaste(this)">Defects</div>
+            </div>
+            
+            <div class="waste-controls">
+                <button class="control-btn" onclick="resetWaste()">Reset Waste</button>
+                <button class="control-btn" onclick="showSolutions()">Show Solutions</button>
+            </div>
+            
+            <div class="waste-feedback" id="waste-feedback"></div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Lean in Practice</h2>
+        
+        <div class="card">
+            <h3>Lean Techniques</h3>
+            <p>Common techniques used in Lean Software Development:</p>
+            <ul>
+                <li><strong>Value Stream Mapping:</strong> Visualizing the entire development process to identify waste</li>
+                <li><strong>Kanban:</strong> Visual workflow management to limit work in progress</li>
+                <li><strong>Continuous Integration:</strong> Frequent code integration to detect issues early</li>
+                <li><strong>Set-Based Development:</strong> Exploring multiple solutions before committing</li>
+                <li><strong>Pull Systems:</strong> Work is pulled when capacity is available rather than pushed</li>
+                <li><strong>Root Cause Analysis:</strong> Using techniques like "5 Whys" to solve problems</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h3>Lean vs. Other Agile Methods</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: var(--lean-dark); color: white;">
+                        <th style="padding: 10px; text-align: left;">Aspect</th>
+                        <th style="padding: 10px; text-align: left;">Lean</th>
+                        <th style="padding: 10px; text-align: left;">Scrum</th>
+                        <th style="padding: 10px; text-align: left;">XP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Focus</strong></td>
+                        <td style="padding: 10px;">Eliminating waste</td>
+                        <td style="padding: 10px;">Delivering increments</td>
+                        <td style="padding: 10px;">Engineering practices</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Work Cadence</strong></td>
+                        <td style="padding: 10px;">Continuous flow</td>
+                        <td style="padding: 10px;">Fixed-length sprints</td>
+                        <td style="padding: 10px;">Iterations</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Primary Tool</strong></td>
+                        <td style="padding: 10px;">Value stream map</td>
+                        <td style="padding: 10px;">Product backlog</td>
+                        <td style="padding: 10px;">Pair programming</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;"><strong>Best For</strong></td>
+                        <td style="padding: 10px;">Process improvement</td>
+                        <td style="padding: 10px;">New product development</td>
+                        <td style="padding: 10px;">Quality-critical projects</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2>Test Your Lean Knowledge</h2>
+        
+        <div class="card quiz-container">
+            <h3>Lean Software Development Quiz</h3>
+            
+            <div class="quiz-question">
+                <p>1. Which of these is NOT one of the seven wastes in Lean Software Development?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Partially done work</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Extra features</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 0, true)">Documentation</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Task switching</div>
+                </div>
+                <div class="feedback" id="feedback-0"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>2. What Lean principle suggests making decisions at the last responsible moment?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">Eliminate waste</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">Amplify learning</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 1, true)">Decide as late as possible</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">See the whole</div>
+                </div>
+                <div class="feedback" id="feedback-1"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>3. Which Lean technique helps visualize the entire development process to identify waste?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 2, true)">Value stream mapping</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Burndown charts</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">User story mapping</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Sprint planning</div>
+                </div>
+                <div class="feedback" id="feedback-2"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>4. What is the primary focus of Lean Software Development?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">Following strict processes</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 3, true)">Eliminating anything that doesn't add customer value</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">Creating comprehensive documentation</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">Implementing the latest technologies</div>
+                </div>
+                <div class="feedback" id="feedback-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="resources">
+        <h2>Further Learning Resources</h2>
+        <ul class="resource-list">
+            <li><a href="https://www.lean.org" target="_blank">Lean Enterprise Institute</a> - Original Lean thinking resources</li>
+            <li><a href="https://www.maryandtompoppendieck.com" target="_blank">Poppendieck.com</a> - Lean Software Development pioneers</li>
+            <li><a href="https://www.youtube.com/watch?v=7TN2Z7q8k6Q" target="_blank">Lean Software Development Explained</a> - Video overview</li>
+            <li><a href="https://www.lean.org/BookStore/ProductDetails.cfm?SelectedProductID=88" target="_blank">"Lean Software Development" Book</a> - By Mary and Tom Poppendieck</li>
+            <li><a href="https://kanban.university" target="_blank">Kanban University</a> - Lean workflow management</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>CSE4033 - IT Project Management | Next: DevOps Principles</p>
+        <p>© 2023 Your Institution | Prepared by [Your Name]</p>
+    </footer>
+
+    <script>
+        // Quiz functionality
+        function checkAnswer(element, questionIndex, isCorrect) {
+            const feedback = document.getElementById(`feedback-${questionIndex}`);
+            const allOptions = element.parentElement.querySelectorAll('.quiz-option');
+            
+            // Remove highlights from all options
+            allOptions.forEach(opt => {
+                opt.style.backgroundColor = '';
+                opt.style.borderColor = '#ddd';
+            });
+            
+            // Highlight selected option
+            element.style.backgroundColor = isCorrect ? '#d4edda' : '#f8d7da';
+            element.style.borderColor = isCorrect ? '#c3e6cb' : '#f5c6cb';
+            
+            // Show feedback
+            feedback.style.display = 'block';
+            feedback.textContent = isCorrect ? 
+                '✓ Correct! You understand Lean principles well.' : 
+                '✗ Incorrect. Review the Lean concepts and try again.';
+            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+        }
+        
+        // Waste elimination interactive
+        function eliminateWaste(element) {
+            element.classList.toggle('eliminated');
+        }
+        
+        function resetWaste() {
+            document.querySelectorAll('.waste-item').forEach(item => {
+                item.classList.remove('eliminated');
+            });
+            document.getElementById('waste-feedback').style.display = 'none';
+        }
+        
+        function showSolutions() {
+            const feedback = document.getElementById('waste-feedback');
+            feedback.innerHTML = `
+                <h4>Solutions for Eliminating Waste:</h4>
+                <ul>
+                    <li><strong>Partially Done Work:</strong> Smaller batches, continuous integration</li>
+                    <li><strong>Extra Features:</strong> Minimum viable product (MVP), rigorous prioritization</li>
+                    <li><strong>Relearning:</strong> Documentation, knowledge sharing, pair programming</li>
+                    <li><strong>Handoffs:</strong> Cross-functional teams, reduce specialization</li>
+                    <li><strong>Delays:</strong> Limit work in progress, improve flow</li>
+                    <li><strong>Task Switching:</strong> Focus on completing work, minimize interruptions</li>
+                    <li><strong>Defects:</strong> Test-driven development, continuous testing</li>
+                </ul>
+            `;
+            feedback.style.display = 'block';
+            feedback.style.backgroundColor = '#e8f8f0';
+            feedback.style.borderLeft = '5px solid var(--lean-green)';
+        }
+    </script>
+</body>
+</html>

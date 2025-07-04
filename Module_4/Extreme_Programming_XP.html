@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extreme Programming (XP) - IT Project Management</title>
+    <style>
+        :root {
+            --xp-green: #2ecc71;
+            --xp-dark: #2c3e50;
+            --xp-accent: #27ae60;
+            --warning: #f39c12;
+            --light-bg: #f9f9f9;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--xp-green), var(--xp-accent));
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: var(--xp-dark);
+            border-bottom: 2px solid var(--xp-green);
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            color: var(--xp-green);
+            margin-top: 25px;
+        }
+        
+        h4 {
+            color: var(--xp-dark);
+            margin-bottom: 10px;
+        }
+        
+        .card {
+            background-color: white;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .learning-outcomes {
+            background-color: #e8f8f0;
+            border-left: 5px solid var(--xp-green);
+        }
+        
+        .interactive-demo {
+            background-color: #fef9e7;
+            border-left: 5px solid var(--warning);
+        }
+        
+        .quiz-container {
+            background-color: #f5eef8;
+            border-left: 5px solid #9b59b6;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .value-card {
+            padding: 20px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--xp-green);
+            transition: transform 0.2s;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .value-card h4 {
+            margin-top: 0;
+            color: var(--xp-dark);
+        }
+        
+        .quiz-question {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-option {
+            margin: 10px 0;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+        
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        
+        .practice-simulation {
+            border: 1px solid #ddd;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            background-color: white;
+        }
+        
+        .practice-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .practice-btn {
+            background-color: white;
+            border: 2px solid var(--xp-green);
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+        
+        .practice-btn:hover {
+            background-color: var(--xp-green);
+            color: white;
+        }
+        
+        .practice-btn.active {
+            background-color: var(--xp-green);
+            color: white;
+        }
+        
+        .practice-details {
+            display: none;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .practice-details.active {
+            display: block;
+        }
+        
+        .practice-visual {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .practice-column {
+            width: 48%;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        
+        .practice-column h4 {
+            text-align: center;
+            margin-top: 0;
+            color: var(--xp-dark);
+        }
+        
+        .practice-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .resources {
+            margin-top: 40px;
+        }
+        
+        .resource-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .resource-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .resource-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--xp-green);
+            font-weight: bold;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .practice-visual {
+                flex-direction: column;
+            }
+            
+            .practice-column {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Extreme Programming (XP)</h1>
+        <p>CSE4033 - IT Project Management | Module 4: Agile Project Management</p>
+    </header>
+
+    <section>
+        <div class="card learning-outcomes">
+            <h3>Learning Outcomes</h3>
+            <p>By the end of this section, you will be able to:</p>
+            <ul>
+                <li>Explain the core values and principles of XP</li>
+                <li>Describe key XP practices and their benefits</li>
+                <li>Understand when XP is most appropriate</li>
+                <li>Compare XP with other Agile methodologies</li>
+                <li>Apply XP techniques to software development</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>What is Extreme Programming (XP)?</h2>
+        <p>Extreme Programming is an Agile software development methodology that aims to produce higher quality software and higher quality of life for developers. XP emphasizes:</p>
+        <ul>
+            <li><strong>Technical Excellence:</strong> Rigorous engineering practices</li>
+            <li><strong>Rapid Feedback:</strong> Short iterations and continuous testing</li>
+            <li><strong>Customer Collaboration:</strong> On-site customer involvement</li>
+            <li><strong>Teamwork:</strong> Pair programming and collective ownership</li>
+        </ul>
+        
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/sVVK3yJv0BQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <section>
+        <h2>XP Values and Principles</h2>
+        
+        <div class="values-grid">
+            <div class="value-card">
+                <h4>Communication</h4>
+                <p>Team members communicate continuously through practices like pair programming, daily standups, and informative workspace.</p>
+            </div>
+            
+            <div class="value-card">
+                <h4>Simplicity</h4>
+                <p>Design the simplest solution that works today. Avoid speculative "future-proof" designs that may never be needed.</p>
+            </div>
+            
+            <div class="value-card">
+                <h4>Feedback</h4>
+                <p>Get feedback quickly through practices like continuous integration, test-driven development, and short iterations.</p>
+            </div>
+            
+            <div class="value-card">
+                <h4>Courage</h4>
+                <p>Have the courage to refactor code when needed, to throw away code that isn't working, and to speak up about concerns.</p>
+            </div>
+            
+            <div class="value-card">
+                <h4>Respect</h4>
+                <p>Team members respect each other's contributions, value each other's opinions, and work together effectively.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Interactive XP Practices Explorer</h2>
+        
+        <div class="card interactive-demo practice-simulation">
+            <h3>Key XP Practices</h3>
+            <p>Select a practice to learn more about how it works in XP:</p>
+            
+            <div class="practice-selector">
+                <div class="practice-btn active" onclick="showPractice('pair-programming')">Pair Programming</div>
+                <div class="practice-btn" onclick="showPractice('tdd')">Test-Driven Development</div>
+                <div class="practice-btn" onclick="showPractice('ci')">Continuous Integration</div>
+                <div class="practice-btn" onclick="showPractice('refactoring')">Refactoring</div>
+            </div>
+            
+            <div id="pair-programming-details" class="practice-details active">
+                <h4>Pair Programming</h4>
+                <div class="practice-visual">
+                    <div class="practice-column">
+                        <h4>How It Works</h4>
+                        <div class="practice-item">Two programmers work together at one workstation</div>
+                        <div class="practice-item">One writes code (Driver), one reviews each line (Navigator)</div>
+                        <div class="practice-item">Roles switch frequently</div>
+                        <div class="practice-item">Pairs rotate regularly across the team</div>
+                    </div>
+                    <div class="practice-column">
+                        <h4>Benefits</h4>
+                        <div class="practice-item">Higher code quality</div>
+                        <div class="practice-item">Knowledge sharing</div>
+                        <div class="practice-item">Fewer defects</div>
+                        <div class="practice-item">Better team cohesion</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="tdd-details" class="practice-details">
+                <h4>Test-Driven Development</h4>
+                <div class="practice-visual">
+                    <div class="practice-column">
+                        <h4>How It Works</h4>
+                        <div class="practice-item">1. Write a failing test for new functionality</div>
+                        <div class="practice-item">2. Write minimal code to pass the test</div>
+                        <div class="practice-item">3. Refactor the code while keeping tests passing</div>
+                        <div class="practice-item">Repeat for each small unit of functionality</div>
+                    </div>
+                    <div class="practice-column">
+                        <h4>Benefits</h4>
+                        <div class="practice-item">Comprehensive test coverage</div>
+                        <div class="practice-item">Simpler, focused code</div>
+                        <div class="practice-item">Design emerges from tests</div>
+                        <div class="practice-item">Regression protection</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ci-details" class="practice-details">
+                <h4>Continuous Integration</h4>
+                <div class="practice-visual">
+                    <div class="practice-column">
+                        <h4>How It Works</h4>
+                        <div class="practice-item">Developers integrate code frequently (multiple times per day)</div>
+                        <div class="practice-item">Each integration verified by automated build</div>
+                        <div class="practice-item">Includes running all automated tests</div>
+                        <div class="practice-item">Fast feedback on integration problems</div>
+                    </div>
+                    <div class="practice-column">
+                        <h4>Benefits</h4>
+                        <div class="practice-item">Early detection of integration issues</div>
+                        <div class="practice-item">Reduced integration risk</div>
+                        <div class="practice-item">Always-ready deployable code</div>
+                        <div class="practice-item">Improved team communication</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="refactoring-details" class="practice-details">
+                <h4>Refactoring</h4>
+                <div class="practice-visual">
+                    <div class="practice-column">
+                        <h4>How It Works</h4>
+                        <div class="practice-item">Restructuring existing code without changing behavior</div>
+                        <div class="practice-item">Done in small, safe steps</div>
+                        <div class="practice-item">Supported by comprehensive tests</div>
+                        <div class="practice-item">Performed continuously, not as special project</div>
+                    </div>
+                    <div class="practice-column">
+                        <h4>Benefits</h4>
+                        <div class="practice-item">Improved code readability</div>
+                        <div class="practice-item">Reduced complexity</div>
+                        <div class="practice-item">Easier maintenance</div>
+                        <div class="practice-item">Better architecture emerges</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>XP in Practice</h2>
+        
+        <div class="card">
+            <h3>When to Use XP</h3>
+            <p>XP works best in these situations:</p>
+            <ul>
+                <li><strong>Dynamic Requirements:</strong> When requirements change frequently</li>
+                <li><strong>High Quality Needs:</strong> For systems where quality is critical</li>
+                <li><strong>Small Teams:</strong> Typically 2-12 developers</li>
+                <li><strong>Customer Availability:</strong> When customer can be on-site or highly available</li>
+                <li><strong>Technical Projects:</strong> Particularly for complex or risky technical implementations</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h3>XP vs. Scrum</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: var(--xp-dark); color: white;">
+                        <th style="padding: 10px; text-align: left;">Aspect</th>
+                        <th style="padding: 10px; text-align: left;">XP</th>
+                        <th style="padding: 10px; text-align: left;">Scrum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Focus</strong></td>
+                        <td style="padding: 10px;">Engineering practices</td>
+                        <td style="padding: 10px;">Project management</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Iterations</strong></td>
+                        <td style="padding: 10px;">1-2 weeks</td>
+                        <td style="padding: 10px;">1-4 weeks</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Key Practice</strong></td>
+                        <td style="padding: 10px;">Pair programming</td>
+                        <td style="padding: 10px;">Sprint planning</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Customer Role</strong></td>
+                        <td style="padding: 10px;">On-site customer</td>
+                        <td style="padding: 10px;">Product owner</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;"><strong>Complementary</strong></td>
+                        <td style="padding: 10px;">XP provides engineering practices</td>
+                        <td style="padding: 10px;">Scrum provides management framework</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2>Test Your XP Knowledge</h2>
+        
+        <div class="card quiz-container">
+            <h3>Extreme Programming Quiz</h3>
+            
+            <div class="quiz-question">
+                <p>1. What is the correct order of steps in Test-Driven Development?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Code → Test → Refactor</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 0, true)">Test → Code → Refactor</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Design → Code → Test</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Code → Debug → Test</div>
+                </div>
+                <div class="feedback" id="feedback-0"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>2. Which XP value encourages designing the simplest solution that works today?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">Communication</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">Feedback</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 1, true)">Simplicity</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">Courage</div>
+                </div>
+                <div class="feedback" id="feedback-1"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>3. In pair programming, what is the role of the "navigator"?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Writing all the code</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 2, true)">Reviewing each line of code and thinking strategically</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Documenting the process</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Managing the schedule</div>
+                </div>
+                <div class="feedback" id="feedback-2"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>4. Which of these is NOT a core practice of XP?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">Continuous integration</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">Small releases</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 3, true)">Detailed upfront architecture</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">Collective code ownership</div>
+                </div>
+                <div class="feedback" id="feedback-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="resources">
+        <h2>Further Learning Resources</h2>
+        <ul class="resource-list">
+            <li><a href="http://www.extremeprogramming.org/" target="_blank">ExtremeProgramming.org</a> - Official XP website</li>
+            <li><a href="https://www.youtube.com/watch?v=sVVK3yJv0BQ" target="_blank">XP Explained</a> - Video overview</li>
+            <li><a href="https://ronjeffries.com/xprog/what-is-extreme-programming/" target="_blank">Ron Jeffries on XP</a> - From an XP pioneer</li>
+            <li><a href="https://martinfowler.com/articles/xp2001.html" target="_blank">Martin Fowler on XP</a> - Detailed article</li>
+            <li><a href="https://www.agilealliance.org/glossary/xp/" target="_blank">Agile Alliance XP Guide</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>CSE4033 - IT Project Management | Next: Feature-Driven Development</p>
+        <p>© 2023 Your Institution | Prepared by [Your Name]</p>
+    </footer>
+
+    <script>
+        // Quiz functionality
+        function checkAnswer(element, questionIndex, isCorrect) {
+            const feedback = document.getElementById(`feedback-${questionIndex}`);
+            const allOptions = element.parentElement.querySelectorAll('.quiz-option');
+            
+            // Remove highlights from all options
+            allOptions.forEach(opt => {
+                opt.style.backgroundColor = '';
+                opt.style.borderColor = '#ddd';
+            });
+            
+            // Highlight selected option
+            element.style.backgroundColor = isCorrect ? '#d4edda' : '#f8d7da';
+            element.style.borderColor = isCorrect ? '#c3e6cb' : '#f5c6cb';
+            
+            // Show feedback
+            feedback.style.display = 'block';
+            feedback.textContent = isCorrect ? 
+                '✓ Correct! You understand XP concepts well.' : 
+                '✗ Incorrect. Review the XP principles and try again.';
+            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+        }
+        
+        // Practice selector functionality
+        function showPractice(practice) {
+            // Hide all practice details
+            document.querySelectorAll('.practice-details').forEach(detail => {
+                detail.classList.remove('active');
+            });
+            
+            // Show selected practice
+            document.getElementById(`${practice}-details`).classList.add('active');
+            
+            // Update active button
+            document.querySelectorAll('.practice-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

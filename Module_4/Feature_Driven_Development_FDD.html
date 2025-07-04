@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature-Driven Development (FDD) - IT Project Management</title>
+    <style>
+        :root {
+            --fdd-blue: #4285f4;
+            --fdd-dark: #2c3e50;
+            --fdd-accent: #34a853;
+            --warning: #f39c12;
+            --light-bg: #f9f9f9;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--fdd-blue), var(--fdd-accent));
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: var(--fdd-dark);
+            border-bottom: 2px solid var(--fdd-blue);
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            color: var(--fdd-blue);
+            margin-top: 25px;
+        }
+        
+        h4 {
+            color: var(--fdd-dark);
+            margin-bottom: 10px;
+        }
+        
+        .card {
+            background-color: white;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .learning-outcomes {
+            background-color: #e8f4fc;
+            border-left: 5px solid var(--fdd-blue);
+        }
+        
+        .interactive-demo {
+            background-color: #fef9e7;
+            border-left: 5px solid var(--warning);
+        }
+        
+        .quiz-container {
+            background-color: #f5eef8;
+            border-left: 5px solid #9b59b6;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .process-card {
+            padding: 20px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--fdd-blue);
+            transition: transform 0.2s;
+        }
+        
+        .process-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .process-card h4 {
+            margin-top: 0;
+            color: var(--fdd-dark);
+        }
+        
+        .quiz-question {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-option {
+            margin: 10px 0;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+        
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        
+        .feature-planning {
+            border: 1px solid #ddd;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            background-color: white;
+        }
+        
+        .feature-list {
+            margin: 20px 0;
+        }
+        
+        .feature-item {
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .feature-item:hover {
+            background-color: #e8f4fc;
+            border-color: var(--fdd-blue);
+        }
+        
+        .feature-item.selected {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        
+        .feature-details {
+            padding: 15px;
+            border-radius: 5px;
+            background-color: white;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .feature-controls {
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            background-color: var(--fdd-blue);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-right: 10px;
+        }
+        
+        .control-btn:hover {
+            background-color: #3367d6;
+        }
+        
+        .feature-feedback {
+            margin-top: 20px;
+            padding: 15px;
+            display: none;
+            border-radius: 4px;
+        }
+        
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .role-card {
+            padding: 15px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #ddd;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .resources {
+            margin-top: 40px;
+        }
+        
+        .resource-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .resource-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .resource-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--fdd-blue);
+            font-weight: bold;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .roles-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Feature-Driven Development (FDD)</h1>
+        <p>CSE4033 - IT Project Management | Module 4: Agile Project Management</p>
+    </header>
+
+    <section>
+        <div class="card learning-outcomes">
+            <h3>Learning Outcomes</h3>
+            <p>By the end of this section, you will be able to:</p>
+            <ul>
+                <li>Explain the FDD methodology and its key processes</li>
+                <li>Describe how features are defined and prioritized in FDD</li>
+                <li>Understand FDD roles and reporting mechanisms</li>
+                <li>Compare FDD with other Agile methodologies</li>
+                <li>Apply FDD techniques to software projects</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>What is Feature-Driven Development?</h2>
+        <p>Feature-Driven Development (FDD) is an iterative and incremental Agile software development methodology that focuses on delivering tangible, working software repeatedly in a timely manner. Key characteristics:</p>
+        <ul>
+            <li><strong>Feature-Centric:</strong> Organized around client-valued features</li>
+            <li><strong>Model-Driven:</strong> Starts with creating domain models</li>
+            <li><strong>Process-Oriented:</strong> Well-defined, repeatable processes</li>
+            <li><strong>Scalable:</strong> Works well for larger teams and projects</li>
+            <li><strong>Progress Tracking:</strong> Emphasis on accurate progress reporting</li>
+        </ul>
+        
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/3G2h8OWBn4k" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <section>
+        <h2>The Five Processes of FDD</h2>
+        
+        <div class="process-grid">
+            <div class="process-card">
+                <h4>1. Develop Overall Model</h4>
+                <p>Create a high-level object model of the domain to establish a common understanding. Domain experts and developers collaborate to build class diagrams and sequence diagrams.</p>
+            </div>
+            
+            <div class="process-card">
+                <h4>2. Build Feature List</h4>
+                <p>Identify and categorize features that collectively make up the system. Features are small, client-valued functions expressed as: "action result by object" (e.g., "Calculate total for order").</p>
+            </div>
+            
+            <div class="process-card">
+                <h4>3. Plan by Feature</h4>
+                <p>Prioritize features, assign them to Chief Programmers, and schedule their implementation. Features are grouped into milestones based on business priorities and technical dependencies.</p>
+            </div>
+            
+            <div class="process-card">
+                <h4>4. Design by Feature</h4>
+                <p>For each feature, detailed design work is done by the Chief Programmer with their team. Sequence diagrams are created, and classes/methods are designed.</p>
+            </div>
+            
+            <div class="process-card">
+                <h4>5. Build by Feature</h4>
+                <p>Implement the feature according to the design. Includes coding, unit testing, code inspection, and promotion to the build. Each feature is completed before moving to the next.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Interactive Feature Planning</h2>
+        
+        <div class="card interactive-demo feature-planning">
+            <h3>Feature List Development</h3>
+            <p>Select features to see how they would be developed in FDD:</p>
+            
+            <div class="feature-list">
+                <div class="feature-item" onclick="selectFeature(this, 'feature1')">
+                    <strong>Calculate order total</strong><br>
+                    <small>Action: Calculate, Result: total, Object: order</small>
+                </div>
+                <div class="feature-item" onclick="selectFeature(this, 'feature2')">
+                    <strong>Validate user credentials</strong><br>
+                    <small>Action: Validate, Result: credentials, Object: user</small>
+                </div>
+                <div class="feature-item" onclick="selectFeature(this, 'feature3')">
+                    <strong>Generate monthly report</strong><br>
+                    <small>Action: Generate, Result: report, Object: monthly data</small>
+                </div>
+                <div class="feature-item" onclick="selectFeature(this, 'feature4')">
+                    <strong>Notify shipping department</strong><br>
+                    <small>Action: Notify, Result: notification, Object: shipping department</small>
+                </div>
+            </div>
+            
+            <div class="feature-details" id="feature-details">
+                <h4 id="feature-title">Feature Details</h4>
+                <div id="feature-description"></div>
+                <div id="feature-process"></div>
+            </div>
+            
+            <div class="feature-controls">
+                <button class="control-btn" onclick="planFeature()">Plan This Feature</button>
+                <button class="control-btn" onclick="designFeature()">Design This Feature</button>
+                <button class="control-btn" onclick="buildFeature()">Build This Feature</button>
+            </div>
+            
+            <div class="feature-feedback" id="feature-feedback"></div>
+        </div>
+    </section>
+
+    <section>
+        <h2>FDD Roles and Practices</h2>
+        
+        <div class="card">
+            <h3>Key Roles in FDD</h3>
+            <div class="roles-grid">
+                <div class="role-card">
+                    <h4>Project Manager</h4>
+                    <p>Overall project coordination, reporting, and resource management</p>
+                </div>
+                <div class="role-card">
+                    <h4>Chief Architect</h4>
+                    <p>Responsible for overall design and technical coherence</p>
+                </div>
+                <div class="role-card">
+                    <h4>Development Manager</h4>
+                    <p>Leads the day-to-day development activities</p>
+                </div>
+                <div class="role-card">
+                    <h4>Chief Programmer</h4>
+                    <p>Experienced developers who lead feature teams</p>
+                </div>
+                <div class="role-card">
+                    <h4>Class Owner</h4>
+                    <p>Developers responsible for specific classes</p>
+                </div>
+                <div class="role-card">
+                    <h4>Domain Expert</h4>
+                    <p>Provides business knowledge and requirements</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>FDD vs. Other Agile Methods</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background-color: var(--fdd-dark); color: white;">
+                        <th style="padding: 10px; text-align: left;">Aspect</th>
+                        <th style="padding: 10px; text-align: left;">FDD</th>
+                        <th style="padding: 10px; text-align: left;">Scrum</th>
+                        <th style="padding: 10px; text-align: left;">XP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Primary Focus</strong></td>
+                        <td style="padding: 10px;">Feature delivery</td>
+                        <td style="padding: 10px;">Iterative delivery</td>
+                        <td style="padding: 10px;">Technical excellence</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Team Size</strong></td>
+                        <td style="padding: 10px;">Works well for large teams</td>
+                        <td style="padding: 10px;">Best for small teams</td>
+                        <td style="padding: 10px;">Small co-located teams</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Process Formality</strong></td>
+                        <td style="padding: 10px;">More formal processes</td>
+                        <td style="padding: 10px;">Less formal</td>
+                        <td style="padding: 10px;">Least formal</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;"><strong>Documentation</strong></td>
+                        <td style="padding: 10px;">More documentation</td>
+                        <td style="padding: 10px;">Minimal documentation</td>
+                        <td style="padding: 10px;">Very little documentation</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;"><strong>Best For</strong></td>
+                        <td style="padding: 10px;">Large, complex projects</td>
+                        <td style="padding: 10px;">Projects with changing requirements</td>
+                        <td style="padding: 10px;">Quality-critical projects</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <h2>Test Your FDD Knowledge</h2>
+        
+        <div class="card quiz-container">
+            <h3>Feature-Driven Development Quiz</h3>
+            
+            <div class="quiz-question">
+                <p>1. How are features typically expressed in FDD?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">As user stories</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 0, true)">As "action result by object"</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">As use cases</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">As epics</div>
+                </div>
+                <div class="feedback" id="feedback-0"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>2. Which FDD process involves creating class diagrams and sequence diagrams?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 1, true)">Develop Overall Model</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">Build Feature List</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">Design by Feature</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">Build by Feature</div>
+                </div>
+                <div class="feedback" id="feedback-1"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>3. What is the role of a Chief Programmer in FDD?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Manage the entire project</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 2, true)">Lead a feature team through design and implementation</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Create all the documentation</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Handle customer communications</div>
+                </div>
+                <div class="feedback" id="feedback-2"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>4. Which of these is NOT an advantage of FDD?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">Scalability for large projects</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">Clear progress tracking</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 3, true)">Minimal documentation requirements</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">Client-valued feature focus</div>
+                </div>
+                <div class="feedback" id="feedback-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="resources">
+        <h2>Further Learning Resources</h2>
+        <ul class="resource-list">
+            <li><a href="http://www.nebulon.com/articles/fdd/" target="_blank">Official FDD Resources</a> - From Nebulon</li>
+            <li><a href="https://www.youtube.com/watch?v=3G2h8OWBn4k" target="_blank">FDD Explained</a> - Video overview</li>
+            <li><a href="https://www.agilemodeling.com/essays/fdd.htm" target="_blank">Agile Modeling: FDD</a> - Detailed article</li>
+            <li><a href="https://www.amazon.com/Feature-Driven-Development-Guidelines-Teams-Developers/dp/0130676152" target="_blank">"A Practical Guide to Feature-Driven Development"</a> - Book</li>
+            <li><a href="https://www.agilealliance.org/glossary/fdd/" target="_blank">Agile Alliance FDD Guide</a></li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>CSE4033 - IT Project Management | Next: Crystal Methods</p>
+        <p>© 2023 Your Institution | Prepared by [Your Name]</p>
+    </footer>
+
+    <script>
+        // Quiz functionality
+        function checkAnswer(element, questionIndex, isCorrect) {
+            const feedback = document.getElementById(`feedback-${questionIndex}`);
+            const allOptions = element.parentElement.querySelectorAll('.quiz-option');
+            
+            // Remove highlights from all options
+            allOptions.forEach(opt => {
+                opt.style.backgroundColor = '';
+                opt.style.borderColor = '#ddd';
+            });
+            
+            // Highlight selected option
+            element.style.backgroundColor = isCorrect ? '#d4edda' : '#f8d7da';
+            element.style.borderColor = isCorrect ? '#c3e6cb' : '#f5c6cb';
+            
+            // Show feedback
+            feedback.style.display = 'block';
+            feedback.textContent = isCorrect ? 
+                '✓ Correct! You understand FDD concepts well.' : 
+                '✗ Incorrect. Review the FDD principles and try again.';
+            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+        }
+        
+        // Feature planning interactive
+        let currentFeature = null;
+        const featureData = {
+            'feature1': {
+                title: 'Calculate order total',
+                description: 'This feature calculates the total amount for an order including items, taxes, and discounts.',
+                process: 'Would involve Order class, TaxCalculator class, and DiscountApplier class.'
+            },
+            'feature2': {
+                title: 'Validate user credentials',
+                description: 'Verifies that a user\'s login credentials match stored values.',
+                process: 'Would involve User class, AuthenticationService class, and PasswordHasher class.'
+            },
+            'feature3': {
+                title: 'Generate monthly report',
+                description: 'Creates a summary report of monthly activities and transactions.',
+                process: 'Would involve ReportGenerator class, DataAggregator class, and PDFExporter class.'
+            },
+            'feature4': {
+                title: 'Notify shipping department',
+                description: 'Sends a notification to the shipping department when an order is ready for fulfillment.',
+                process: 'Would involve Order class, NotificationService class, and ShippingDepartment class.'
+            }
+        };
+        
+        function selectFeature(element, featureId) {
+            // Remove selection from all features
+            document.querySelectorAll('.feature-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Select current feature
+            element.classList.add('selected');
+            currentFeature = featureId;
+            
+            // Show feature details
+            const details = document.getElementById('feature-details');
+            const feature = featureData[featureId];
+            
+            document.getElementById('feature-title').textContent = feature.title;
+            document.getElementById('feature-description').innerHTML = `<p><strong>Description:</strong> ${feature.description}</p>`;
+            document.getElementById('feature-process').innerHTML = `<p><strong>Process:</strong> ${feature.process}</p>`;
+            
+            details.style.display = 'block';
+            document.getElementById('feature-feedback').style.display = 'none';
+        }
+        
+        function planFeature() {
+            if (!currentFeature) {
+                alert('Please select a feature first');
+                return;
+            }
+            
+            const feedback = document.getElementById('feature-feedback');
+            feedback.innerHTML = `
+                <p><strong>Planning "${featureData[currentFeature].title}"</strong></p>
+                <p>In FDD, this feature would be:</p>
+                <ul>
+                    <li>Prioritized based on business value</li>
+                    <li>Assigned to a Chief Programmer</li>
+                    <li>Scheduled for implementation</li>
+                    <li>Grouped with related features if appropriate</li>
+                </ul>
+            `;
+            feedback.style.display = 'block';
+            feedback.style.backgroundColor = '#e8f4fc';
+            feedback.style.borderLeft = '5px solid var(--fdd-blue)';
+        }
+        
+        function designFeature() {
+            if (!currentFeature) {
+                alert('Please select a feature first');
+                return;
+            }
+            
+            const feedback = document.getElementById('feature-feedback');
+            feedback.innerHTML = `
+                <p><strong>Designing "${featureData[currentFeature].title}"</strong></p>
+                <p>In FDD, this feature would be:</p>
+                <ul>
+                    <li>Designed by the Chief Programmer with their team</li>
+                    <li>Detailed sequence diagrams created</li>
+                    <li>Classes and methods designed</li>
+                    <li>Design reviewed by domain experts</li>
+                </ul>
+            `;
+            feedback.style.display = 'block';
+            feedback.style.backgroundColor = '#fff3e0';
+            feedback.style.borderLeft = '5px solid var(--warning)';
+        }
+        
+        function buildFeature() {
+            if (!currentFeature) {
+                alert('Please select a feature first');
+                return;
+            }
+            
+            const feedback = document.getElementById('feature-feedback');
+            feedback.innerHTML = `
+                <p><strong>Building "${featureData[currentFeature].title}"</strong></p>
+                <p>In FDD, this feature would be:</p>
+                <ul>
+                    <li>Implemented according to the design</li>
+                    <li>Unit tested thoroughly</li>
+                    <li>Code inspected by team members</li>
+                    <li>Promoted to the main build when complete</li>
+                </ul>
+                <p>This feature would be considered DONE when all these steps are complete.</p>
+            `;
+            feedback.style.display = 'block';
+            feedback.style.backgroundColor = '#e8f8f0';
+            feedback.style.borderLeft = '5px solid var(--fdd-accent)';
+        }
+    </script>
+</body>
+</html>

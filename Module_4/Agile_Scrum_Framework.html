@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agile Scrum - IT Project Management</title>
+    <style>
+        :root {
+            --scrum-blue: #3a7bd5;
+            --scrum-dark: #2c3e50;
+            --scrum-accent: #00d2ff;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light-bg: #f9f9f9;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--scrum-blue), var(--scrum-accent));
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: var(--scrum-dark);
+            border-bottom: 2px solid var(--scrum-blue);
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            color: var(--scrum-blue);
+            margin-top: 25px;
+        }
+        
+        h4 {
+            color: var(--scrum-dark);
+            margin-bottom: 10px;
+        }
+        
+        .card {
+            background-color: white;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .learning-outcomes {
+            background-color: #e8f4fc;
+            border-left: 5px solid var(--scrum-blue);
+        }
+        
+        .interactive-demo {
+            background-color: #fef9e7;
+            border-left: 5px solid var(--warning);
+        }
+        
+        .quiz-container {
+            background-color: #f5eef8;
+            border-left: 5px solid #9b59b6;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .scrum-framework {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .scrum-component {
+            padding: 20px;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--scrum-blue);
+            transition: transform 0.2s;
+        }
+        
+        .scrum-component:hover {
+            transform: translateY(-5px);
+        }
+        
+        .scrum-component h4 {
+            margin-top: 0;
+            color: var(--scrum-dark);
+        }
+        
+        .role-card {
+            background-color: #f0f7ff;
+        }
+        
+        .artifact-card {
+            background-color: #f0fff4;
+        }
+        
+        .event-card {
+            background-color: #fff8f0;
+        }
+        
+        .quiz-question {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-option {
+            margin: 10px 0;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+        
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        
+        .scrum-simulation {
+            border: 1px solid #ddd;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            background-color: white;
+        }
+        
+        .simulation-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .board {
+            flex: 2;
+            min-width: 300px;
+            border: 2px solid var(--scrum-blue);
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #f8fafc;
+        }
+        
+        .board-column {
+            margin-bottom: 20px;
+        }
+        
+        .board-column h4 {
+            padding: 8px;
+            background-color: var(--scrum-blue);
+            color: white;
+            border-radius: 4px;
+        }
+        
+        .user-story {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .user-story:hover {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .controls {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8fafc;
+        }
+        
+        .control-btn {
+            background-color: var(--scrum-blue);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin: 5px 0;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .control-btn:hover {
+            background-color: #2c5aa0;
+        }
+        
+        .sprint-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f4fc;
+            border-radius: 4px;
+        }
+        
+        .resources {
+            margin-top: 40px;
+        }
+        
+        .resource-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .resource-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .resource-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--scrum-blue);
+            font-weight: bold;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .scrum-framework {
+                grid-template-columns: 1fr;
+            }
+            
+            .simulation-area {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Agile Scrum Framework</h1>
+        <p>CSE4033 - IT Project Management | Module 4: Agile Project Management</p>
+    </header>
+
+    <section>
+        <div class="card learning-outcomes">
+            <h3>Learning Outcomes</h3>
+            <p>By the end of this section, you will be able to:</p>
+            <ul>
+                <li>Explain the Scrum framework and its components</li>
+                <li>Identify and describe Scrum roles, artifacts, and events</li>
+                <li>Understand the Scrum workflow and sprint cycle</li>
+                <li>Apply Scrum practices to project scenarios</li>
+                <li>Recognize common Scrum anti-patterns</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>What is Scrum?</h2>
+        <p>Scrum is an Agile framework for developing, delivering, and sustaining complex products. It is:</p>
+        <ul>
+            <li><strong>Lightweight:</strong> Simple to understand but difficult to master</li>
+            <li><strong>Iterative:</strong> Work is organized in fixed-length iterations called sprints</li>
+            <li><strong>Incremental:</strong> Builds products piece by piece, with each piece adding value</li>
+            <li><strong>Empirical:</strong> Based on observation and experimentation rather than detailed upfront planning</li>
+        </ul>
+        
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/9TycLR0TqFA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <section>
+        <h2>The Scrum Framework</h2>
+        <p>Scrum consists of three main components:</p>
+        
+        <div class="scrum-framework">
+            <div class="scrum-component role-card">
+                <h4>Roles</h4>
+                <p><strong>Product Owner:</strong> Maximizes product value and manages the Product Backlog</p>
+                <p><strong>Scrum Master:</strong> Ensures Scrum is understood and enacted, removes impediments</p>
+                <p><strong>Development Team:</strong> Cross-functional group that delivers increments</p>
+            </div>
+            
+            <div class="scrum-component artifact-card">
+                <h4>Artifacts</h4>
+                <p><strong>Product Backlog:</strong> Ordered list of everything needed in the product</p>
+                <p><strong>Sprint Backlog:</strong> Set of Product Backlog items selected for the Sprint</p>
+                <p><strong>Increment:</strong> Sum of all Product Backlog items completed during a Sprint</p>
+            </div>
+            
+            <div class="scrum-component event-card">
+                <h4>Events</h4>
+                <p><strong>Sprint:</strong> Time-boxed iteration (typically 2-4 weeks)</p>
+                <p><strong>Sprint Planning:</strong> Plan work for the upcoming Sprint</p>
+                <p><strong>Daily Scrum:</strong> 15-minute daily coordination meeting</p>
+                <p><strong>Sprint Review:</strong> Demonstrate work to stakeholders</p>
+                <p><strong>Sprint Retrospective:</strong> Reflect on process improvements</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Interactive Scrum Simulation</h2>
+        
+        <div class="card interactive-demo scrum-simulation">
+            <h3>Scrum Sprint Simulation</h3>
+            <p>Experience how Scrum works by simulating a sprint. Move user stories through the workflow:</p>
+            
+            <div class="simulation-area">
+                <div class="board">
+                    <div class="board-column">
+                        <h4>Product Backlog</h4>
+                        <div class="user-story" draggable="true" id="story1">User login functionality</div>
+                        <div class="user-story" draggable="true" id="story2">Password recovery</div>
+                        <div class="user-story" draggable="true" id="story3">User profile page</div>
+                        <div class="user-story" draggable="true" id="story4">Dashboard widgets</div>
+                    </div>
+                    <div class="board-column">
+                        <h4>Sprint Backlog</h4>
+                        <div class="user-story" draggable="true" id="story5">Registration form</div>
+                    </div>
+                    <div class="board-column">
+                        <h4>In Progress</h4>
+                    </div>
+                    <div class="board-column">
+                        <h4>Done</h4>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="control-btn" onclick="startSprint()">Start Sprint Planning</button>
+                    <button class="control-btn" onclick="dailyScrum()">Hold Daily Scrum</button>
+                    <button class="control-btn" onclick="sprintReview()">Conduct Sprint Review</button>
+                    <button class="control-btn" onclick="retrospective()">Hold Retrospective</button>
+                    <button class="control-btn" onclick="addImpediment()">Add Impediment</button>
+                    <button class="control-btn" onclick="resolveImpediment()">Resolve Impediment</button>
+                    
+                    <div class="sprint-info">
+                        <p><strong>Sprint:</strong> <span id="sprint-number">1</span></p>
+                        <p><strong>Day:</strong> <span id="sprint-day">0</span>/14</p>
+                        <p><strong>Impediments:</strong> <span id="impediments">0</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="simulation-feedback" style="margin-top: 20px; padding: 15px; display: none;"></div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Scrum in Depth</h2>
+        
+        <div class="card">
+            <h3>The Sprint Cycle</h3>
+            <p>A Sprint is the heartbeat of Scrum, typically lasting 1-4 weeks. During a Sprint:</p>
+            <ol>
+                <li><strong>Planning:</strong> Team selects items from Product Backlog and creates Sprint Backlog</li>
+                <li><strong>Execution:</strong> Daily Scrums help coordinate work and remove impediments</li>
+                <li><strong>Review:</strong> Team demonstrates completed work to stakeholders</li>
+                <li><strong>Retrospective:</strong> Team reflects on how to improve processes</li>
+            </ol>
+            <p>The cycle then repeats with the next Sprint.</p>
+        </div>
+        
+        <div class="card">
+            <h3>Scrum Values</h3>
+            <p>Successful Scrum teams embody these values:</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; margin: 15px 0;">
+                <div style="flex: 1; min-width: 150px; padding: 15px; background-color: #e8f4fc; border-radius: 5px; text-align: center;">
+                    <strong>Commitment</strong><br>To goals and quality
+                </div>
+                <div style="flex: 1; min-width: 150px; padding: 15px; background-color: #e8f4fc; border-radius: 5px; text-align: center;">
+                    <strong>Courage</strong><br>To do the right thing
+                </div>
+                <div style="flex: 1; min-width: 150px; padding: 15px; background-color: #e8f4fc; border-radius: 5px; text-align: center;">
+                    <strong>Focus</strong><br>On the work of the Sprint
+                </div>
+                <div style="flex: 1; min-width: 150px; padding: 15px; background-color: #e8f4fc; border-radius: 5px; text-align: center;">
+                    <strong>Openness</strong><br>About challenges
+                </div>
+                <div style="flex: 1; min-width: 150px; padding: 15px; background-color: #e8f4fc; border-radius: 5px; text-align: center;">
+                    <strong>Respect</strong><br>For each other
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Test Your Scrum Knowledge</h2>
+        
+        <div class="card quiz-container">
+            <h3>Scrum Framework Quiz</h3>
+            
+            <div class="quiz-question">
+                <p>1. Who is responsible for maximizing the value of the product?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Scrum Master</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 0, true)">Product Owner</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Development Team</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Project Manager</div>
+                </div>
+                <div class="feedback" id="feedback-0"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>2. What is the recommended duration for a Daily Scrum meeting?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">30 minutes</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">1 hour</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 1, true)">15 minutes</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">As long as needed</div>
+                </div>
+                <div class="feedback" id="feedback-1"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>3. Which Scrum artifact contains an ordered list of everything that might be needed in the product?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 2, true)">Product Backlog</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Sprint Backlog</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Increment</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Burndown Chart</div>
+                </div>
+                <div class="feedback" id="feedback-2"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>4. What is the primary purpose of the Sprint Retrospective?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">To demonstrate work to stakeholders</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">To plan the next Sprint's work</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 3, true)">To inspect how the last Sprint went and plan improvements</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 3, false)">To estimate Product Backlog items</div>
+                </div>
+                <div class="feedback" id="feedback-3"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="resources">
+        <h2>Further Learning Resources</h2>
+        <ul class="resource-list">
+            <li><a href="https://www.scrum.org/resources/scrum-guide" target="_blank">The Scrum Guide</a> - Official Scrum framework definition</li>
+            <li><a href="https://www.scrumalliance.org" target="_blank">Scrum Alliance</a> - Scrum education and certifications</li>
+            <li><a href="https://www.mountaingoatsoftware.com/agile/scrum" target="_blank">Mountain Goat Software Scrum Resources</a></li>
+            <li><a href="https://www.youtube.com/watch?v=gy1c4_Yix0Y" target="_blank">Scrum in Under 10 Minutes</a> - Video overview</li>
+            <li><a href="https://www.scrum.org/resources/blog" target="_blank">Scrum.org Blog</a> - Articles on Scrum practices</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>CSE4033 - IT Project Management | Next: Agile Kanban</p>
+        <p>© 2023 Your Institution | Prepared by [Your Name]</p>
+    </footer>
+
+    <script>
+        // Quiz functionality
+        function checkAnswer(element, questionIndex, isCorrect) {
+            const feedback = document.getElementById(`feedback-${questionIndex}`);
+            const allOptions = element.parentElement.querySelectorAll('.quiz-option');
+            
+            // Remove highlights from all options
+            allOptions.forEach(opt => {
+                opt.style.backgroundColor = '';
+                opt.style.borderColor = '#ddd';
+            });
+            
+            // Highlight selected option
+            element.style.backgroundColor = isCorrect ? '#d4edda' : '#f8d7da';
+            element.style.borderColor = isCorrect ? '#c3e6cb' : '#f5c6cb';
+            
+            // Show feedback
+            feedback.style.display = 'block';
+            feedback.textContent = isCorrect ? 
+                '✓ Correct! Your understanding of Scrum is solid.' : 
+                '✗ Incorrect. Review the Scrum framework and try again.';
+            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+        }
+        
+        // Simulation functionality
+        let sprintNumber = 1;
+        let sprintDay = 0;
+        let impediments = 0;
+        
+        function startSprint() {
+            sprintNumber++;
+            sprintDay = 0;
+            updateSimulation();
+            showFeedback("Sprint Planning complete! The team has committed to work for Sprint " + sprintNumber);
+        }
+        
+        function dailyScrum() {
+            if (sprintDay < 14) {
+                sprintDay++;
+                updateSimulation();
+                showFeedback("Daily Scrum held. Team coordinated work for day " + sprintDay);
+                
+                // Randomly move some stories
+                if (Math.random() > 0.5) {
+                    moveRandomStory();
+                }
+            } else {
+                showFeedback("Cannot hold Daily Scrum - sprint is complete!");
+            }
+        }
+        
+        function sprintReview() {
+            if (sprintDay >= 14) {
+                showFeedback("Sprint Review conducted. Stakeholders provided feedback on the increment.");
+            } else {
+                showFeedback("Cannot conduct Sprint Review - sprint is still in progress!");
+            }
+        }
+        
+        function retrospective() {
+            if (sprintDay >= 14) {
+                showFeedback("Retrospective complete. Team identified improvements for next sprint.");
+            } else {
+                showFeedback("Cannot hold Retrospective - sprint is still in progress!");
+            }
+        }
+        
+        function addImpediment() {
+            impediments++;
+            updateSimulation();
+            showFeedback("New impediment added! Scrum Master needs to help resolve this blocker.");
+        }
+        
+        function resolveImpediment() {
+            if (impediments > 0) {
+                impediments--;
+                updateSimulation();
+                showFeedback("Impediment resolved! Team can continue working effectively.");
+            } else {
+                showFeedback("No impediments to resolve!");
+            }
+        }
+        
+        function moveRandomStory() {
+            const columns = document.querySelectorAll('.board-column');
+            if (columns.length >= 3) {
+                const fromColumn = columns[Math.floor(Math.random() * 2)].querySelectorAll('.user-story');
+                const toColumn = columns[Math.floor(Math.random() * 2) + 1];
+                
+                if (fromColumn.length > 0) {
+                    const randomStory = fromColumn[Math.floor(Math.random() * fromColumn.length)];
+                    toColumn.appendChild(randomStory);
+                }
+            }
+        }
+        
+        function updateSimulation() {
+            document.getElementById('sprint-number').textContent = sprintNumber;
+            document.getElementById('sprint-day').textContent = sprintDay;
+            document.getElementById('impediments').textContent = impediments;
+        }
+        
+        function showFeedback(message) {
+            const feedback = document.getElementById('simulation-feedback');
+            feedback.textContent = message;
+            feedback.style.display = 'block';
+            feedback.style.backgroundColor = '#e8f4fc';
+            feedback.style.borderLeft = '5px solid var(--scrum-blue)';
+        }
+        
+        // Make user stories draggable
+        document.addEventListener('DOMContentLoaded', function() {
+            const stories = document.querySelectorAll('.user-story');
+            
+            stories.forEach(story => {
+                story.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                });
+            });
+            
+            const columns = document.querySelectorAll('.board-column');
+            
+            columns.forEach(column => {
+                column.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                });
+                
+                column.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    const id = e.dataTransfer.getData('text/plain');
+                    const draggedElement = document.getElementById(id);
+                    e.target.appendChild(draggedElement);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

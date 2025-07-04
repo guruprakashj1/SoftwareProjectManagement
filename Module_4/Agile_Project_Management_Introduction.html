@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agile Project Management: Introduction</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light-bg: #f9f9f9;
+            --success: #27ae60;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--light-bg);
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+        
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 8px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin-top: 25px;
+        }
+        
+        .info-box {
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .learning-outcomes {
+            background-color: #e8f4fc;
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .key-concepts {
+            background-color: #e8f8f0;
+            border-left: 5px solid var(--success);
+        }
+        
+        .interactive {
+            background-color: #fef9e7;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .quiz-container {
+            background-color: #f5eef8;
+            border-left: 5px solid #9b59b6;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ccc;
+        }
+        
+        .quiz-options {
+            margin-left: 20px;
+        }
+        
+        .quiz-option {
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .quiz-option:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .agile-simulation {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            background-color: white;
+        }
+        
+        .simulation-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .simulation-visual {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .sprint {
+            width: 30%;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        
+        .sprint h4 {
+            text-align: center;
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .user-story {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .completed {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        
+        .resources {
+            margin-top: 40px;
+        }
+        
+        .resource-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .resource-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .resource-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .simulation-visual {
+                flex-direction: column;
+            }
+            
+            .sprint {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Agile Project Management: Introduction</h1>
+        <p>CSE4033 - IT Project Management | Module 4</p>
+    </header>
+
+    <section>
+        <h2>What is Agile Project Management?</h2>
+        <p>Agile Project Management is an iterative approach to planning and guiding project processes that breaks work into small increments with minimal planning, delivering working software frequently. It emphasizes flexibility, collaboration, and customer satisfaction.</p>
+        
+        <div class="info-box learning-outcomes">
+            <h3>Learning Outcomes</h3>
+            <p>By the end of this section, you will be able to:</p>
+            <ul>
+                <li>Define Agile Project Management and explain its core principles</li>
+                <li>Contrast Agile with traditional waterfall project management</li>
+                <li>Understand the Agile Manifesto values and principles</li>
+                <li>Recognize when Agile approaches are most appropriate</li>
+                <li>Identify common Agile methodologies and frameworks</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>The Agile Manifesto</h2>
+        <p>The foundation of Agile is captured in the <a href="http://agilemanifesto.org/" target="_blank">Agile Manifesto</a>, which values:</p>
+        
+        <div class="info-box key-concepts">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                <div style="width: 48%; min-width: 250px;">
+                    <h4>Value More:</h4>
+                    <ul>
+                        <li>Individuals and interactions over processes and tools</li>
+                        <li>Working software over comprehensive documentation</li>
+                        <li>Customer collaboration over contract negotiation</li>
+                        <li>Responding to change over following a plan</li>
+                    </ul>
+                </div>
+                <div style="width: 48%; min-width: 250px;">
+                    <h4>While Still Valuing:</h4>
+                    <ul>
+                        <li>Processes and tools</li>
+                        <li>Documentation</li>
+                        <li>Contract negotiation</li>
+                        <li>Having a plan</li>
+                    </ul>
+                </div>
+            </div>
+            <p><em>The key is that while there is value in the items on the right, Agile practitioners value the items on the left more.</em></p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Interactive Agile Simulation</h2>
+        <p>Experience how Agile works through this simplified simulation of a software development project:</p>
+        
+        <div class="info-box interactive agile-simulation">
+            <div class="simulation-controls">
+                <button id="start-sprint">Start Sprint</button>
+                <button id="complete-task">Complete Task</button>
+                <button id="reset-sim">Reset</button>
+            </div>
+            
+            <div>
+                <p><strong>Product Backlog:</strong> <span id="backlog-count">5</span> user stories remaining</p>
+                <p><strong>Current Sprint:</strong> <span id="sprint-number">1</span></p>
+                <p><strong>Sprint Progress:</strong> <span id="sprint-progress">0</span>/3 tasks completed</p>
+            </div>
+            
+            <div class="simulation-visual">
+                <div class="sprint">
+                    <h4>Sprint 1</h4>
+                    <div class="user-story">Login page implementation</div>
+                    <div class="user-story">User registration flow</div>
+                    <div class="user-story">Password recovery</div>
+                </div>
+                <div class="sprint">
+                    <h4>Sprint 2</h4>
+                    <div class="user-story">Coming soon...</div>
+                </div>
+                <div class="sprint">
+                    <h4>Sprint 3</h4>
+                    <div class="user-story">Coming soon...</div>
+                </div>
+            </div>
+            
+            <div id="sim-feedback" style="margin-top: 15px; font-style: italic;"></div>
+        </div>
+        
+        <p>This simulation demonstrates how Agile breaks work into short iterations (sprints), focuses on delivering working features, and adapts based on feedback and changing priorities.</p>
+    </section>
+
+    <section>
+        <h2>Agile vs. Waterfall</h2>
+        <p>Traditional waterfall project management follows a linear, sequential approach where each phase must be completed before the next begins. Agile takes a different approach:</p>
+        
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Z9QbYZh1YXY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <thead>
+                <tr style="background-color: var(--primary); color: white;">
+                    <th style="padding: 10px; text-align: left;">Aspect</th>
+                    <th style="padding: 10px; text-align: left;">Waterfall</th>
+                    <th style="padding: 10px; text-align: left;">Agile</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 10px;">Approach</td>
+                    <td style="padding: 10px;">Linear and sequential</td>
+                    <td style="padding: 10px;">Iterative and incremental</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 10px;">Flexibility</td>
+                    <td style="padding: 10px;">Changes difficult to accommodate</td>
+                    <td style="padding: 10px;">Embraces changing requirements</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 10px;">Customer Involvement</td>
+                    <td style="padding: 10px;">Mainly at beginning and end</td>
+                    <td style="padding: 10px;">Continuous collaboration</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 10px;">Delivery</td>
+                    <td style="padding: 10px;">Single delivery at end</td>
+                    <td style="padding: 10px;">Frequent small deliveries</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px;">Best For</td>
+                    <td style="padding: 10px;">Projects with clear, fixed requirements</td>
+                    <td style="padding: 10px;">Projects with evolving requirements</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Test Your Knowledge</h2>
+        <p>Check your understanding of Agile fundamentals with this short quiz:</p>
+        
+        <div class="quiz-container">
+            <div class="quiz-question">
+                <p>1. Which of these is NOT one of the four values of the Agile Manifesto?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Individuals and interactions over processes and tools</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Working software over comprehensive documentation</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 0, false)">Customer collaboration over contract negotiation</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 0, true)">Detailed planning over responding to change</div>
+                </div>
+                <div class="feedback" id="feedback-0"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>2. What is the typical duration of a Scrum sprint?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">1-2 days</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 1, true)">1-4 weeks</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">1-3 months</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 1, false)">6 months</div>
+                </div>
+                <div class="feedback" id="feedback-1"></div>
+            </div>
+            
+            <div class="quiz-question">
+                <p>3. Which of these is an advantage of Agile over Waterfall?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">More comprehensive documentation</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Easier to predict final cost</div>
+                    <div class="quiz-option correct-answer" onclick="checkAnswer(this, 2, true)">Better adaptability to changing requirements</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, 2, false)">Less need for customer involvement</div>
+                </div>
+                <div class="feedback" id="feedback-2"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="resources">
+        <h2>Additional Learning Resources</h2>
+        <ul class="resource-list">
+            <li><a href="https://www.agilealliance.org/agile101/" target="_blank">Agile Alliance: Agile 101</a> - Comprehensive introduction to Agile</li>
+            <li><a href="https://www.scrum.org/resources/what-is-scrum" target="_blank">Scrum.org: What is Scrum?</a> - Detailed explanation of the Scrum framework</li>
+            <li><a href="https://www.youtube.com/watch?v=GzzkpAOxHXs" target="_blank">Agile Product Development Video</a> - How Agile works in real product development</li>
+            <li><a href="https://www.mountaingoatsoftware.com/agile" target="_blank">Mountain Goat Software Agile Resources</a> - Articles and presentations on Agile</li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>CSE4033 - IT Project Management | Next: Scrum Methodology</p>
+        <p>© 2023 Your Institution | Prepared by [Your Name]</p>
+    </footer>
+
+    <script>
+        // Quiz functionality
+        function checkAnswer(element, questionIndex, isCorrect) {
+            const feedback = document.getElementById(`feedback-${questionIndex}`);
+            const allOptions = element.parentElement.querySelectorAll('.quiz-option');
+            
+            // Remove highlights from all options
+            allOptions.forEach(opt => {
+                opt.style.backgroundColor = '';
+            });
+            
+            // Highlight selected option
+            element.style.backgroundColor = isCorrect ? '#d4edda' : '#f8d7da';
+            
+            // Show feedback
+            feedback.style.display = 'block';
+            feedback.textContent = isCorrect ? 
+                '✓ Correct! Well done.' : 
+                '✗ Incorrect. Please review the Agile Manifesto values.';
+            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+        }
+        
+        // Simulation functionality
+        let sprintCount = 1;
+        let tasksCompleted = 0;
+        let backlogItems = 5;
+        
+        document.getElementById('start-sprint').addEventListener('click', function() {
+            if (sprintCount < 3 && backlogItems > 0) {
+                sprintCount++;
+                tasksCompleted = 0;
+                updateSimulation();
+                document.getElementById('sim-feedback').textContent = 
+                    `Started Sprint ${sprintCount}! Select tasks to work on.`;
+            } else if (backlogItems <= 0) {
+                document.getElementById('sim-feedback').textContent = 
+                    "All backlog items completed! Project done.";
+            } else {
+                document.getElementById('sim-feedback').textContent = 
+                    "Maximum sprints reached for this simulation.";
+            }
+        });
+        
+        document.getElementById('complete-task').addEventListener('click', function() {
+            if (tasksCompleted < 3 && backlogItems > 0) {
+                tasksCompleted++;
+                if (tasksCompleted === 3) {
+                    backlogItems -= 3;
+                    if (backlogItems < 0) backlogItems = 0;
+                }
+                updateSimulation();
+                
+                if (tasksCompleted === 3) {
+                    document.getElementById('sim-feedback').textContent = 
+                        `Sprint ${sprintCount} completed! ${backlogItems} items remain in backlog.`;
+                } else {
+                    document.getElementById('sim-feedback').textContent = 
+                        `Task completed! ${3-tasksCompleted} tasks remaining in current sprint.`;
+                }
+            } else if (backlogItems <= 0) {
+                document.getElementById('sim-feedback').textContent = 
+                    "All backlog items completed! Project done.";
+            } else {
+                document.getElementById('sim-feedback').textContent = 
+                    "Current sprint tasks already completed. Start a new sprint.";
+            }
+        });
+        
+        document.getElementById('reset-sim').addEventListener('click', function() {
+            sprintCount = 1;
+            tasksCompleted = 0;
+            backlogItems = 5;
+            updateSimulation();
+            document.getElementById('sim-feedback').textContent = 
+                "Simulation reset. Ready to start again!";
+        });
+        
+        function updateSimulation() {
+            document.getElementById('sprint-number').textContent = sprintCount;
+            document.getElementById('sprint-progress').textContent = tasksCompleted;
+            document.getElementById('backlog-count').textContent = backlogItems;
+            
+            // Update sprint visuals
+            const sprints = document.querySelectorAll('.sprint');
+            sprints.forEach((sprint, index) => {
+                const sprintHeader = sprint.querySelector('h4');
+                const userStories = sprint.querySelectorAll('.user-story');
+                
+                if (index+1 < sprintCount) {
+                    sprintHeader.textContent = `Sprint ${index+1} (Done)`;
+                    userStories.forEach(story => story.classList.add('completed'));
+                } else if (index+1 === sprintCount) {
+                    sprintHeader.textContent = `Sprint ${index+1} (In Progress)`;
+                    userStories.forEach((story, i) => {
+                        if (i < tasksCompleted) {
+                            story.classList.add('completed');
+                        } else {
+                            story.classList.remove('completed');
+                        }
+                    });
+                } else {
+                    sprintHeader.textContent = `Sprint ${index+1}`;
+                    userStories.forEach(story => story.classList.remove('completed'));
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSDM Teaching Resource</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+        }
+        
+        .intro {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        
+        .tab-container {
+            margin: 2rem 0;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .tab-btn:hover {
+            background: #ddd;
+        }
+        
+        .tab-btn.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .quiz-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .options {
+            margin-left: 1.5rem;
+        }
+        
+        .option {
+            margin-bottom: 0.5rem;
+        }
+        
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Dynamic Systems Development Method (DSDM)</h1>
+            <p>A comprehensive teaching resource for agile project management</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="intro">
+            <h2>Introduction to DSDM</h2>
+            <p>The Dynamic Systems Development Method (DSDM) is an agile project delivery framework, primarily used as a software development method. DSDM is an iterative and incremental approach that embraces the principles of agile development, including continuous user/customer involvement.</p>
+            <p>Originally developed in 1994, DSDM has evolved to become a mature approach that provides a comprehensive foundation for planning, managing, executing, and scaling agile process and iterative software development projects.</p>
+        </section>
+        
+        <section class="tab-container">
+            <h2>DSDM Interactive Learning</h2>
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="openTab(event, 'overview')">Overview</button>
+                <button class="tab-btn" onclick="openTab(event, 'principles')">Principles</button>
+                <button class="tab-btn" onclick="openTab(event, 'process')">Process</button>
+                <button class="tab-btn" onclick="openTab(event, 'roles')">Roles</button>
+                <button class="tab-btn" onclick="openTab(event, 'techniques')">Techniques</button>
+            </div>
+            
+            <div id="overview" class="tab-content active">
+                <h3>DSDM Overview</h3>
+                <p>DSDM is a proven framework for agile project delivery that:</p>
+                <ul>
+                    <li>Focuses on the full project lifecycle</li>
+                    <li>Provides a best-practice approach for iterative development</li>
+                    <li>Emphasizes frequent delivery of products</li>
+                    <li>Promotes collaboration and cooperation between all stakeholders</li>
+                    <li>Is independent of tools and techniques</li>
+                </ul>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/6FQyCdZx2sA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div id="principles" class="tab-content">
+                <h3>DSDM Principles</h3>
+                <p>DSDM is based on nine key principles that form the foundation of the method:</p>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">1. Focus on the business need</div>
+                        <p>Every decision taken during a project should be viewed in the light of the overriding project goal - to deliver what the business needs to be delivered, when it needs to be delivered.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">2. Deliver on time</div>
+                        <p>Delivering a solution on time is a very desirable outcome for a project and late delivery can often undermine the very rationale for a project.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">3. Collaborate</div>
+                        <p>Teams that work in a spirit of active cooperation and commitment will outperform those that do not. DSDM creates the environment where this can happen.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">4. Never compromise quality</div>
+                        <p>The right level of quality for the deliverable to be fit for purpose should be agreed at the outset and adhered to throughout.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">5. Build incrementally from firm foundations</div>
+                        <p>DSDM advocates an approach whereby a firm foundation is created in terms of both business understanding and technical feasibility.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">6. Develop iteratively</div>
+                        <p>Iterative development allows products to be improved incrementally, enabling feedback and learning from earlier iterations to influence later ones.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">7. Communicate continuously and clearly</div>
+                        <p>Poor communication is often cited as the biggest single cause of project failure. DSDM creates an environment of rich communication.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">8. Demonstrate control</div>
+                        <p>Projects must be executed in a disciplined manner with regular progress checks against the plan and continuous monitoring of risks.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">9. Tailor to suit the project context</div>
+                        <p>DSDM is a framework that must be configured and tuned to suit the specific context of the project.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="process" class="tab-content">
+                <h3>DSDM Process</h3>
+                <p>The DSDM process consists of seven phases grouped into three main stages:</p>
+                
+                <div class="card">
+                    <div class="card-header">Pre-Project</div>
+                    <p>This phase ensures that only the right projects are started and that they are set up correctly.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Project Lifecycle</div>
+                    <ol>
+                        <li><strong>Feasibility Study:</strong> Determines if DSDM is appropriate and establishes the business case</li>
+                        <li><strong>Foundation:</strong> Establishes firm foundations by understanding the business and technical context</li>
+                        <li><strong>Evolutionary Development:</strong> Iterative development of the solution through cycles of:
+                            <ul>
+                                <li>Functional Model Iteration</li>
+                                <li>Design and Build Iteration</li>
+                                <li>Implementation</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Post-Project</div>
+                    <p>This phase ensures the delivered solution continues to meet the business need and identifies opportunities for further enhancement.</p>
+                </div>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/XU0llRltyFM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            
+            <div id="roles" class="tab-content">
+                <h3>DSDM Roles</h3>
+                <p>DSDM defines several key roles that form the project team:</p>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">Business Sponsor</div>
+                        <p>The ultimate decision-maker who champions the project at the highest level within the business.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Business Visionary</div>
+                        <p>Provides the high-level business view of what the project needs to achieve.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Business Ambassador</div>
+                        <p>Represents the business community and is empowered to make decisions on their behalf.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Business Advisor</div>
+                        <p>Provides more detailed business knowledge to supplement the Business Ambassador.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Technical Coordinator</div>
+                        <p>Ensures the system is technically coherent and adheres to architectural standards.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Team Leader</div>
+                        <p>Facilitates the team's progress towards its goals and removes obstacles.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Developer</div>
+                        <p>Creates the solution by developing and testing the deliverables.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Tester</div>
+                        <p>Ensures the solution meets the agreed quality standards.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Workshop Facilitator</div>
+                        <p>Ensures workshops are properly planned and effectively run.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="techniques" class="tab-content">
+                <h3>DSDM Techniques</h3>
+                <p>DSDM employs several key techniques to support its principles:</p>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">Timeboxing</div>
+                        <p>A fixed period of time (typically 2-4 weeks) in which a planned activity must be completed.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">MoSCoW Prioritization</div>
+                        <p>A technique for prioritizing requirements:
+                            <ul>
+                                <li><strong>M</strong>ust have</li>
+                                <li><strong>S</strong>hould have</li>
+                                <li><strong>C</strong>ould have</li>
+                                <li><strong>W</strong>on't have this time</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Modeling</div>
+                        <p>Creating visual representations of the system to aid understanding and communication.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Prototyping</div>
+                        <p>Creating early versions of the solution to gather feedback and validate requirements.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Workshops</div>
+                        <p>Structured collaborative sessions that bring stakeholders together to achieve specific objectives.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Iterative Development</div>
+                        <p>Developing the solution in small increments, with each iteration delivering a working product.</p>
+                    </div>
+                </div>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/9T4LVaKk3mI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        
+        <section class="quiz-container">
+            <h2>Test Your DSDM Knowledge</h2>
+            
+            <div id="quiz">
+                <div class="question">
+                    <p>1. Which of the following is NOT one of DSDM's nine principles?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1a" value="a">
+                            <label for="q1a">Focus on the business need</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1b" value="b">
+                            <label for="q1b">Deliver on time</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1c" value="c">
+                            <label for="q1c">Maximize documentation</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q1" id="q1d" value="d">
+                            <label for="q1d">Never compromise quality</label>
+                        </div>
+                    </div>
+                    <div class="result" id="result1"></div>
+                </div>
+                
+                <div class="question">
+                    <p>2. What does the 'M' stand for in MoSCoW prioritization?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2a" value="a">
+                            <label for="q2a">Major requirements</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2b" value="b">
+                            <label for="q2b">Mandatory requirements</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2c" value="c">
+                            <label for="q2c">Must have requirements</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q2" id="q2d" value="d">
+                            <label for="q2d">Main requirements</label>
+                        </div>
+                    </div>
+                    <div class="result" id="result2"></div>
+                </div>
+                
+                <div class="question">
+                    <p>3. Which DSDM role is responsible for ensuring the system is technically coherent?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3a" value="a">
+                            <label for="q3a">Business Ambassador</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3b" value="b">
+                            <label for="q3b">Technical Coordinator</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3c" value="c">
+                            <label for="q3c">Team Leader</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q3" id="q3d" value="d">
+                            <label for="q3d">Workshop Facilitator</label>
+                        </div>
+                    </div>
+                    <div class="result" id="result3"></div>
+                </div>
+                
+                <div class="question">
+                    <p>4. What is the typical duration of a DSDM timebox?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4a" value="a">
+                            <label for="q4a">1 week</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4b" value="b">
+                            <label for="q4b">2-4 weeks</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4c" value="c">
+                            <label for="q4c">6-8 weeks</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q4" id="q4d" value="d">
+                            <label for="q4d">3-6 months</label>
+                        </div>
+                    </div>
+                    <div class="result" id="result4"></div>
+                </div>
+                
+                <div class="question">
+                    <p>5. Which phase of DSDM establishes firm foundations by understanding the business and technical context?</p>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5a" value="a">
+                            <label for="q5a">Feasibility Study</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5b" value="b">
+                            <label for="q5b">Foundation</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5c" value="c">
+                            <label for="q5c">Evolutionary Development</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q5" id="q5d" value="d">
+                            <label for="q5d">Implementation</label>
+                        </div>
+                    </div>
+                    <div class="result" id="result5"></div>
+                </div>
+                
+                <button onclick="checkQuiz()">Check Answers</button>
+                <button onclick="resetQuiz()">Reset Quiz</button>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2>Additional Resources</h2>
+            <ul>
+                <li><a href="https://www.agilebusiness.org/dsdm-project-framework.html" target="_blank">Official DSDM Website</a></li>
+                <li><a href="https://www.amazon.com/DSDM-Atern-Pocket-Guide-Dynamic-Development/dp/908753501X" target="_blank">DSDM Atern Pocket Guide (Book)</a></li>
+                <li><a href="https://www.agilebusiness.org/resources/dsdm-handbook.html" target="_blank">DSDM Handbook</a></li>
+                <li><a href="https://www.youtube.com/playlist?list=PLOspHqNVtKABAV70XaxAGeJ4JxQ85X1cq" target="_blank">DSDM Video Tutorial Series</a></li>
+                <li><a href="https://www.agilebusiness.org/resources/case-studies.html" target="_blank">DSDM Case Studies</a></li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 DSDM Teaching Resource | Created for Educational Purposes</p>
+            <p>This resource is not affiliated with the Agile Business Consortium or DSDM Consortium</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Tab functionality
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabbuttons;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            
+            tabbuttons = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(tabName).className += " active";
+            evt.currentTarget.className += " active";
+        }
+        
+        // Quiz functionality
+        function checkQuiz() {
+            var answers = {
+                q1: "c",
+                q2: "c",
+                q3: "b",
+                q4: "b",
+                q5: "b"
+            };
+            
+            var score = 0;
+            
+            for (var i = 1; i <= 5; i++) {
+                var selected = document.querySelector('input[name="q' + i + '"]:checked');
+                var result = document.getElementById('result' + i);
+                
+                if (selected) {
+                    if (selected.value === answers['q' + i]) {
+                        result.innerHTML = "Correct!";
+                        result.className = "result correct";
+                        score++;
+                    } else {
+                        result.innerHTML = "Incorrect. The correct answer is: " + getCorrectAnswerText(i, answers['q' + i]);
+                        result.className = "result incorrect";
+                    }
+                    result.style.display = "block";
+                } else {
+                    result.innerHTML = "Please select an answer.";
+                    result.className = "result incorrect";
+                    result.style.display = "block";
+                }
+            }
+            
+            alert("You scored " + score + " out of 5!");
+        }
+        
+        function getCorrectAnswerText(questionNum, correctValue) {
+            var question = document.getElementById('q' + questionNum + correctValue);
+            return question.nextElementSibling.textContent;
+        }
+        
+        function resetQuiz() {
+            var inputs = document.querySelectorAll('#quiz input[type="radio"]');
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].checked = false;
+            }
+            
+            var results = document.querySelectorAll('.result');
+            for (var i = 0; i < results.length; i++) {
+                results[i].style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
