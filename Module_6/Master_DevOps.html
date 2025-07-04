@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master DevOps: From Fundamentals to Implementation</title>
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --secondary: #3498DB;
+            --accent: #E74C3C;
+            --light: #ECF0F1;
+            --dark: #2C3E50;
+            --success: #27AE60;
+            --warning: #F39C12;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin-top: 1.8rem;
+            font-size: 1.4rem;
+        }
+        
+        h4 {
+            color: var(--dark);
+            margin-top: 1.5rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+        
+        .pipeline-container {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        
+        .pipeline {
+            display: flex;
+            min-width: 900px;
+            margin: 1rem 0;
+        }
+        
+        .pipeline-stage {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+        }
+        
+        .pipeline-stage::after {
+            content: "→";
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .pipeline-stage:last-child::after {
+            display: none;
+        }
+        
+        .stage-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        .stage-tools {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        
+        .toolchain {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            border-left-color: var(--accent);
+        }
+        
+        .tool-card h4 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+        
+        .tool-card p {
+            font-size: 0.95rem;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 2.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .quiz-container {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-question {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .quiz-question:last-child {
+            border-bottom: none;
+        }
+        
+        .quiz-options {
+            margin: 1.5rem 0;
+        }
+        
+        .quiz-option {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .quiz-option input {
+            margin-right: 1rem;
+        }
+        
+        .feedback {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+        
+        .incorrect {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--accent);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .simulation-game {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        
+        .game-area {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            border-color: var(--secondary);
+        }
+        
+        .game-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .game-console {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        button:hover {
+            background-color: #2980B9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(41, 128, 185, 0.3);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background-color: #C0392B;
+            box-shadow: 0 4px 8px rgba(192, 57, 43, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .pipeline {
+                flex-direction: column;
+                min-width: auto;
+            }
+            
+            .pipeline-stage {
+                margin-bottom: 2rem;
+            }
+            
+            .pipeline-stage::after {
+                content: "↓";
+                right: 50%;
+                bottom: -20px;
+                top: auto;
+                left: auto;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Master DevOps</h1>
+            <p>From Fundamentals to Implementation: A Comprehensive Learning Journey</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section id="overview">
+            <div class="card">
+                <h2>DevOps Overview</h2>
+                <p>DevOps is a set of practices that combines software development (Dev) and IT operations (Ops) to shorten the systems development life cycle while delivering features, fixes, and updates frequently in close alignment with business objectives.</p>
+                
+                <h3>Key Principles of DevOps</h3>
+                <ul>
+                    <li><strong>Collaboration:</strong> Breaking down silos between development and operations teams</li>
+                    <li><strong>Automation:</strong> Automating repetitive tasks to increase efficiency</li>
+                    <li><strong>Continuous Improvement:</strong> Regularly assessing and improving processes</li>
+                    <li><strong>Customer-Centric Action:</strong> Focusing on delivering value to customers</li>
+                    <li><strong>End-to-End Responsibility:</strong> Teams take ownership from conception to operation</li>
+                </ul>
+                
+                <h3>DevOps Lifecycle Components</h3>
+                <div class="pipeline-container">
+                    <div class="pipeline">
+                        <div class="pipeline-stage">
+                            <div class="stage-icon"><i class="fas fa-code"></i></div>
+                            <h4>Plan</h4>
+                            <p>Define requirements and plan the project</p>
+                            <div class="stage-tools">
+                                <strong>Tools:</strong> Jira, Trello, Azure DevOps
+                            </div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon"><i class="fas fa-file-code"></i></div>
+                            <h4>Code</h4>
+                            <p>Develop the software</p>
+                            <div class="stage-tools">
+                                <strong>Tools:</strong> Git, GitHub, GitLab
+                            </div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon"><i class="fas fa-cubes"></i></div>
+                            <h4>Build</h4>
+                            <p>Compile and package the code</p>
+                            <div class="stage-tools">
+                                <strong>Tools:</strong> Maven, Gradle, npm
+                            </div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon"><i class="fas fa-check-double"></i></div>
+                            <h4>Test</h4>
+                            <p>Automated testing</p>
+                            <div class="stage-tools">
+                                <strong>Tools:</strong> Selenium, JUnit, Jest
+                            </div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon"><i class="fas fa-box"></i></div>
+                            <h4>Release</h4>
+                            <p>Prepare for deployment</p>
+                            <div class="stage-tools">
+                                <strong>Tools:</strong> Docker, Helm, Nexus
+                            </div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon"><i class="fas fa-rocket"></i></div>
+                            <h4>Deploy</h4>
+                            <p>Deploy to production</p>
+                            <div class="stage-tools">
+                                <strong>Tools:</strong> Kubernetes, Ansible, Terraform
+                            </div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon"><i class="fas fa-heartbeat"></i></div>
+                            <h4>Operate</h4>
+                            <p>Manage the infrastructure</p>
+                            <div class="stage-tools">
+                                <strong>Tools:</strong> Prometheus, Grafana, ELK Stack
+                            </div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon"><i class="fas fa-sync-alt"></i></div>
+                            <h4>Monitor</h4>
+                            <p>Monitor performance and usage</p>
+                            <div class="stage-tools">
+                                <strong>Tools:</strong> New Relic, Datadog, Splunk
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="containerization">
+            <div class="card">
+                <h2>Containerization Using Docker</h2>
+                <p>Containerization is a lightweight alternative to full machine virtualization that involves encapsulating an application in a container with its own operating environment.</p>
+                
+                <h3>Key Docker Concepts</h3>
+                <ul>
+                    <li><strong>Docker Images:</strong> Read-only templates used to build containers</li>
+                    <li><strong>Docker Containers:</strong> Runnable instances of Docker images</li>
+                    <li><strong>Dockerfile:</strong> Text document containing commands to assemble an image</li>
+                    <li><strong>Docker Compose:</strong> Tool for defining and running multi-container applications</li>
+                    <li><strong>Docker Hub:</strong> Cloud-based registry service for sharing applications</li>
+                </ul>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/_dfLOzuIg2o" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+                <h3>Docker Commands Cheat Sheet</h3>
+                <div class="toolchain">
+                    <div class="tool-card">
+                        <h4>docker build</h4>
+                        <p>Build an image from a Dockerfile</p>
+                        <code>docker build -t my-image .</code>
+                    </div>
+                    <div class="tool-card">
+                        <h4>docker run</h4>
+                        <p>Run a command in a new container</p>
+                        <code>docker run -d -p 8080:80 my-image</code>
+                    </div>
+                    <div class="tool-card">
+                        <h4>docker ps</h4>
+                        <p>List containers</p>
+                        <code>docker ps -a</code>
+                    </div>
+                    <div class="tool-card">
+                        <h4>docker exec</h4>
+                        <p>Run a command in a running container</p>
+                        <code>docker exec -it my-container bash</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="source-code">
+            <div class="card">
+                <h2>Managing Source Code and Automating Builds</h2>
+                
+                <h3>Version Control Systems</h3>
+                <p>Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later.</p>
+                
+                <div class="toolchain">
+                    <div class="tool-card">
+                        <h4><i class="fab fa-git"></i> Git</h4>
+                        <p>Distributed version control system that allows multiple developers to work on the same codebase</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fab fa-github"></i> GitHub</h4>
+                        <p>Web-based hosting service for Git repositories with collaboration features</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fab fa-gitlab"></i> GitLab</h4>
+                        <p>Complete DevOps platform with built-in version control, CI/CD, and more</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fab fa-bitbucket"></i> Bitbucket</h4>
+                        <p>Git repository management solution with built-in CI/CD</p>
+                    </div>
+                </div>
+                
+                <h3>Build Automation Tools</h3>
+                <div class="toolchain">
+                    <div class="tool-card">
+                        <h4><i class="fas fa-cog"></i> Jenkins</h4>
+                        <p>Open source automation server with hundreds of plugins</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-project-diagram"></i> Maven</h4>
+                        <p>Build automation tool used primarily for Java projects</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-code-branch"></i> Gradle</h4>
+                        <p>Flexible build automation tool that supports multiple languages</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fab fa-npm"></i> npm</h4>
+                        <p>Package manager for JavaScript and build tool for Node.js projects</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="testing">
+            <div class="card">
+                <h2>Automated Testing and Test Driven Development</h2>
+                
+                <h3>Types of Automated Testing</h3>
+                <div class="toolchain">
+                    <div class="tool-card">
+                        <h4><i class="fas fa-vial"></i> Unit Tests</h4>
+                        <p>Test individual components or functions in isolation</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-puzzle-piece"></i> Integration Tests</h4>
+                        <p>Test how different modules or services work together</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-check-circle"></i> Functional Tests</h4>
+                        <p>Test the complete functionality of the system</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-tachometer-alt"></i> Performance Tests</h4>
+                        <p>Test the system's performance under load</p>
+                    </div>
+                </div>
+                
+                <h3>Test Driven Development (TDD)</h3>
+                <p>TDD is a software development approach where tests are written before the code that needs to be implemented.</p>
+                
+                <div class="pipeline-container">
+                    <h4>TDD Cycle</h4>
+                    <div class="pipeline">
+                        <div class="pipeline-stage">
+                            <div class="stage-icon">1</div>
+                            <h4>Write Test</h4>
+                            <p>Write a failing test for a small piece of functionality</p>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon">2</div>
+                            <h4>Run Test</h4>
+                            <p>Verify that the test fails (Red phase)</p>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon">3</div>
+                            <h4>Write Code</h4>
+                            <p>Write minimal code to make the test pass</p>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon">4</div>
+                            <h4>Run Tests</h4>
+                            <p>Verify all tests pass (Green phase)</p>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon">5</div>
+                            <h4>Refactor</h4>
+                            <p>Improve code while keeping tests passing</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="ci-cd">
+            <div class="card">
+                <h2>Continuous Integration and Continuous Deployment</h2>
+                
+                <h3>Continuous Integration (CI)</h3>
+                <p>Practice of merging all developers' working copies to a shared mainline several times a day.</p>
+                
+                <h3>Continuous Deployment (CD)</h3>
+                <p>Software release process that uses automated testing to validate changes are good for production.</p>
+                
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/scEDHsr3APg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+                <h3>CI/CD Tools</h3>
+                <div class="toolchain">
+                    <div class="tool-card">
+                        <h4><i class="fas fa-server"></i> Jenkins</h4>
+                        <p>Open source automation server with extensive plugin ecosystem</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fab fa-github"></i> GitHub Actions</h4>
+                        <p>Automate workflows directly in your GitHub repository</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fab fa-gitlab"></i> GitLab CI/CD</h4>
+                        <p>Built-in continuous integration in GitLab</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fab fa-microsoft"></i> Azure DevOps</h4>
+                        <p>Microsoft's CI/CD solution with end-to-end DevOps capabilities</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="configuration">
+            <div class="card">
+                <h2>Configuration Management</h2>
+                <p>Configuration management is a process for maintaining computer systems, servers, and software in a desired, consistent state.</p>
+                
+                <h3>Infrastructure as Code (IaC)</h3>
+                <p>Managing and provisioning computing infrastructure through machine-readable definition files.</p>
+                
+                <div class="toolchain">
+                    <div class="tool-card">
+                        <h4><i class="fas fa-mountain"></i> Terraform</h4>
+                        <p>Infrastructure as code tool for building, changing, and versioning infrastructure</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-cogs"></i> Ansible</h4>
+                        <p>Simple, agentless IT automation tool</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-utensils"></i> Chef</h4>
+                        <p>Configuration management tool for dealing with machine setup</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-puppet"></i> Puppet</h4>
+                        <p>Configuration management system that automates infrastructure management</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="monitoring">
+            <div class="card">
+                <h2>Automated Monitoring</h2>
+                <p>Monitoring is the process of collecting, analyzing, and using information to track applications and infrastructure.</p>
+                
+                <h3>Monitoring Tools</h3>
+                <div class="toolchain">
+                    <div class="tool-card">
+                        <h4><i class="fas fa-fire"></i> Prometheus</h4>
+                        <p>Open-source systems monitoring and alerting toolkit</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-chart-line"></i> Grafana</h4>
+                        <p>Open platform for beautiful analytics and monitoring</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-search"></i> ELK Stack</h4>
+                        <p>Elasticsearch, Logstash, and Kibana for log analysis</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-heartbeat"></i> New Relic</h4>
+                        <p>Application performance monitoring solution</p>
+                    </div>
+                </div>
+                
+                <h3>Log Management</h3>
+                <div class="toolchain">
+                    <div class="tool-card">
+                        <h4><i class="fas fa-file-alt"></i> Fluentd</h4>
+                        <p>Open source data collector for unified logging layer</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-archive"></i> Splunk</h4>
+                        <p>Platform for searching, monitoring, and analyzing machine data</p>
+                    </div>
+                    <div class="tool-card">
+                        <h4><i class="fas fa-database"></i> Graylog</h4>
+                        <p>Open source log management platform</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz">
+            <div class="card">
+                <h2>Test Your DevOps Knowledge</h2>
+                
+                <div class="quiz-container">
+                    <div class="quiz-question">
+                        <p><strong>1. What is the primary benefit of containerization in DevOps?</strong></p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" name="q1" id="q1a" value="a">
+                                <label for="q1a">Consistent environments across development, testing, and production</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" name="q1" id="q1b" value="b">
+                                <label for="q1b">Faster compilation of source code</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" name="q1" id="q1c" value="c">
+                                <label for="q1c">Reduced need for version control</label>
+                            </div>
+                        </div>
+                        <div id="feedback-q1" class="feedback"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <p><strong>2. Which of these is NOT a phase in the Test Driven Development (TDD) cycle?</strong></p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" name="q2" id="q2a" value="a">
+                                <label for="q2a">Write failing test</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" name="q2" id="q2b" value="b">
+                                <label for="q2b">Write production code</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" name="q2" id="q2c" value="c">
+                                <label for="q2c">Write documentation</label>
+                            </div>
+                        </div>
+                        <div id="feedback-q2" class="feedback"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <p><strong>3. What is the main purpose of Infrastructure as Code (IaC)?</strong></p>
+                        <div class="quiz-options">
+                            <div class="quiz-option">
+                                <input type="radio" name="q3" id="q3a" value="a">
+                                <label for="q3a">To automate the provisioning and management of infrastructure</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" name="q3" id="q3b" value="b">
+                                <label for="q3b">To write operating system kernel code</label>
+                            </div>
+                            <div class="quiz-option">
+                                <input type="radio" name="q3" id="q3c" value="c">
+                                <label for="q3c">To document network architecture diagrams</label>
+                            </div>
+                        </div>
+                        <div id="feedback-q3" class="feedback"></div>
+                    </div>
+                    
+                    <button onclick="checkQuiz()">Check Answers</button>
+                    <button class="btn-outline" onclick="resetQuiz()">Reset Quiz</button>
+                </div>
+            </div>
+        </section>
+        
+        <section id="simulation">
+            <div class="card">
+                <h2>DevOps Pipeline Simulation</h2>
+                <p>Experience a complete DevOps pipeline by making decisions at each stage of the process. You'll guide a team through developing and deploying a web application.</p>
+                
+                <div class="simulation-game">
+                    <h3>Project: Build and Deploy a Weather Forecast Application</h3>
+                    <p>Team Size: 5 developers, 2 operations engineers</p>
+                    <p>Duration: Simulated 4-week sprint</p>
+                    
+                    <div class="game-area">
+                        <div class="game-card" onclick="startSimulation('planning')">
+                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Planning">
+                            <h4>Planning Phase</h4>
+                            <p>Define user stories and acceptance criteria</p>
+                        </div>
+                        
+                        <div class="game-card" onclick="startSimulation('development')">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Development">
+                            <h4>Development</h4>
+                            <p>Set up version control and implement features</p>
+                        </div>
+                        
+                        <div class="game-card" onclick="startSimulation('testing')">
+                            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Testing">
+                            <h4>Testing</h4>
+                            <p>Implement automated tests and CI pipeline</p>
+                        </div>
+                        
+                        <div class="game-card" onclick="startSimulation('deployment')">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Deployment">
+                            <h4>Deployment</h4>
+                            <p>Containerize and deploy to production</p>
+                        </div>
+                        
+                        <div class="game-card" onclick="startSimulation('monitoring')">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Monitoring">
+                            <h4>Monitoring</h4>
+                            <p>Set up logging and performance monitoring</p>
+                        </div>
+                    </div>
+                    
+                    <div class="game-console" id="game-console">
+                        <p>Welcome to the DevOps Pipeline Simulation! Click on any phase to begin your journey.</p>
+                    </div>
+                    
+                    <button class="btn-accent" onclick="completePipeline()">Complete Full Pipeline</button>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 DevOps Mastery Course | Learn Modern Software Delivery Practices</p>
+            <p>Contact: devops@mastery.com | Follow us on <i class="fab fa-twitter"></i> <i class="fab fa-linkedin"></i> <i class="fab fa-github"></i></p>
+        </div>
+    </footer>
+    
+    <script>
+        // Quiz functionality
+        function checkQuiz() {
+            // Question 1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const feedback1 = document.getElementById('feedback-q1');
+            
+            if (q1) {
+                if (q1.value === 'a') {
+                    feedback1.textContent = "Correct! Containerization provides consistent environments across all stages of development and deployment.";
+                    feedback1.className = "feedback correct";
+                    feedback1.style.display = "block";
+                } else {
+                    feedback1.textContent = "Incorrect. The primary benefit of containerization is providing consistent environments, though it may indirectly affect other aspects.";
+                    feedback1.className = "feedback incorrect";
+                    feedback1.style.display = "block";
+                }
+            }
+            
+            // Question 2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const feedback2 = document.getElementById('feedback-q2');
+            
+            if (q2) {
+                if (q2.value === 'c') {
+                    feedback2.textContent = "Correct! Writing documentation is not part of the core TDD cycle, though it's still important in software development.";
+                    feedback2.className = "feedback correct";
+                    feedback2.style.display = "block";
+                } else {
+                    feedback2.textContent = "Incorrect. Both writing failing tests and production code are essential parts of the TDD cycle.";
+                    feedback2.className = "feedback incorrect";
+                    feedback2.style.display = "block";
+                }
+            }
+            
+            // Question 3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const feedback3 = document.getElementById('feedback-q3');
+            
+            if (q3) {
+                if (q3.value === 'a') {
+                    feedback3.textContent = "Correct! Infrastructure as Code (IaC) is all about automating infrastructure provisioning and management.";
+                    feedback3.className = "feedback correct";
+                    feedback3.style.display = "block";
+                } else {
+                    feedback3.textContent = "Incorrect. IaC focuses on infrastructure automation, not kernel development or documentation.";
+                    feedback3.className = "feedback incorrect";
+                    feedback3.style.display = "block";
+                }
+            }
+        }
+        
+        function resetQuiz() {
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => {
+                input.checked = false;
+            });
+            
+            const feedbacks = document.querySelectorAll('.feedback');
+            feedbacks.forEach(feedback => {
+                feedback.textContent = '';
+                feedback.className = "feedback";
+                feedback.style.display = 'none';
+            });
+        }
+        
+        // Simulation game functionality
+        function startSimulation(phase) {
+            const console = document.getElementById('game-console');
+            
+            switch(phase) {
+                case 'planning':
+                    console.innerHTML = `
+                        <h4>Planning Phase</h4>
+                        <p>Your team needs to plan the weather application. Key user stories:</p>
+                        <ul>
+                            <li>As a user, I want to see current weather for my location</li>
+                            <li>As a user, I want a 5-day forecast</li>
+                            <li>As a user, I want to search weather by city</li>
+                        </ul>
+                        <p><strong>Decision Point:</strong> How will you track these requirements?</p>
+                        <button onclick="makeDecision('jira')">Use Jira</button>
+                        <button onclick="makeDecision('github')">Use GitHub Issues</button>
+                        <button onclick="makeDecision('spreadsheet')">Use Spreadsheet</button>
+                    `;
+                    break;
+                    
+                case 'development':
+                    console.innerHTML = `
+                        <h4>Development Phase</h4>
+                        <p>Your team is setting up the development environment:</p>
+                        <ul>
+                            <li>Need to choose a version control system</li>
+                            <li>Set up branching strategy</li>
+                            <li>Configure IDE and development tools</li>
+                        </ul>
+                        <p><strong>Decision Point:</strong> What branching strategy will you use?</p>
+                        <button onclick="makeDecision('gitflow')">GitFlow</button>
+                        <button onclick="makeDecision('trunk')">Trunk-based Development</button>
+                        <button onclick="makeDecision('feature')">Feature Branches</button>
+                    `;
+                    break;
+                    
+                case 'testing':
+                    console.innerHTML = `
+                        <h4>Testing Phase</h4>
+                        <p>Implementing automated testing strategy:</p>
+                        <ul>
+                            <li>Need unit tests for core functions</li>
+                            <li>Integration tests for API calls</li>
+                            <li>UI tests for frontend components</li>
+                        </ul>
+                        <p><strong>Decision Point:</strong> How will you run these tests?</p>
+                        <button onclick="makeDecision('jenkins')">Jenkins Pipeline</button>
+                        <button onclick="makeDecision('github')">GitHub Actions</button>
+                        <button onclick="makeDecision('local')">Local Machine Only</button>
+                    `;
+                    break;
+                    
+                case 'deployment':
+                    console.innerHTML = `
+                        <h4>Deployment Phase</h4>
+                        <p>Preparing to deploy the application:</p>
+                        <ul>
+                            <li>Need to containerize the application</li>
+                            <li>Set up production environment</li>
+                            <li>Configure deployment pipeline</li>
+                        </ul>
+                        <p><strong>Decision Point:</strong> What deployment strategy will you use?</p>
+                        <button onclick="makeDecision('bluegreen')">Blue-Green Deployment</button>
+                        <button onclick="makeDecision('canary')">Canary Release</button>
+                        <button onclick="makeDecision('rolling')">Rolling Update</button>
+                    `;
+                    break;
+                    
+                case 'monitoring':
+                    console.innerHTML = `
+                        <h4>Monitoring Phase</h4>
+                        <p>Setting up monitoring for the production application:</p>
+                        <ul>
+                            <li>Need application performance monitoring</li>
+                            <li>Error tracking and logging</li>
+                            <li>Infrastructure health checks</li>
+                        </ul>
+                        <p><strong>Decision Point:</strong> What monitoring tools will you implement?</p>
+                        <button onclick="makeDecision('prometheus')">Prometheus + Grafana</button>
+                        <button onclick="makeDecision('elk')">ELK Stack</button>
+                        <button onclick="makeDecision('newrelic')">New Relic</button>
+                    `;
+                    break;
+            }
+        }
+        
+        function makeDecision(choice) {
+            const console = document.getElementById('game-console');
+            let feedback = "";
+            
+            switch(choice) {
+                case 'jira':
+                    feedback = "Good choice! Jira provides robust tracking for agile teams with customizable workflows.";
+                    break;
+                case 'github':
+                    feedback = "GitHub Issues works well for smaller teams and keeps everything with your code.";
+                    break;
+                case 'spreadsheet':
+                    feedback = "Not ideal. Spreadsheets lack integration with development workflows and can become outdated.";
+                    break;
+                case 'gitflow':
+                    feedback = "GitFlow provides clear branching structure but can be complex for continuous delivery.";
+                    break;
+                case 'trunk':
+                    feedback = "Excellent for CI/CD! Trunk-based development promotes small, frequent commits.";
+                    break;
+                case 'feature':
+                    feedback = "Feature branches are common but require good merge discipline.";
+                    break;
+                case 'jenkins':
+                    feedback = "Jenkins provides extensive flexibility with its plugin ecosystem.";
+                    break;
+                case 'github':
+                    feedback = "GitHub Actions offers tight integration with your code repository.";
+                    break;
+                case 'local':
+                    feedback = "Local testing only won't help catch integration issues early.";
+                    break;
+                case 'bluegreen':
+                    feedback = "Blue-green reduces risk by maintaining two identical production environments.";
+                    break;
+                case 'canary':
+                    feedback = "Canary releases allow gradual rollout to detect issues early.";
+                    break;
+                case 'rolling':
+                    feedback = "Rolling updates provide zero-downtime deployments.";
+                    break;
+                case 'prometheus':
+                    feedback = "Powerful open-source monitoring with great scalability.";
+                    break;
+                case 'elk':
+                    feedback = "ELK stack excels at log aggregation and analysis.";
+                    break;
+                case 'newrelic':
+                    feedback = "New Relic provides excellent APM with minimal setup.";
+                    break;
+            }
+            
+            console.innerHTML += `<div class="feedback correct" style="display: block; margin-top: 1rem;">${feedback}</div>`;
+        }
+        
+        function completePipeline() {
+            const console = document.getElementById('game-console');
+            console.innerHTML = `
+                <h4>Complete DevOps Pipeline</h4>
+                <p>Congratulations! You've successfully guided your team through a complete DevOps pipeline:</p>
+                <ol>
+                    <li><strong>Planning:</strong> Used Jira for requirement tracking</li>
+                    <li><strong>Development:</strong> Implemented trunk-based development</li>
+                    <li><strong>Testing:</strong> Set up GitHub Actions for CI</li>
+                    <li><strong>Deployment:</strong> Used blue-green deployment strategy</li>
+                    <li><strong>Monitoring:</strong> Implemented Prometheus + Grafana</li>
+                </ol>
+                <p>Key metrics for your deployment:</p>
+                <ul>
+                    <li>Deployment frequency: 10 times per day</li>
+                    <li>Lead time for changes: 2 hours</li>
+                    <li>Change failure rate: 1%</li>
+                    <li>Mean time to recovery: 30 minutes</li>
+                </ul>
+                <div class="feedback correct" style="display: block; margin-top: 1rem;">
+                    Excellent work! These metrics show high-performing DevOps practices.
+                </div>
+                <button onclick="startSimulation('planning')" style="margin-top: 1rem;">Run Simulation Again</button>
+            `;
+        }
+    </script>
+</body>
+</html>
