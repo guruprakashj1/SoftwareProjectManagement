@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrum Mastery: Terminologies, Roles & Best Practices</title>
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --secondary: #50E3C2;
+            --dark: #333333;
+            --light: #F5F7FA;
+            --accent: #F8E71C;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin-top: 1.5rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .interactive-tool {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-left: 5px solid var(--primary);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: #e0e0e0;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+        
+        .quiz-options {
+            margin-left: 1.5rem;
+        }
+        
+        .quiz-option {
+            margin-bottom: 0.5rem;
+        }
+        
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #3a7bc8;
+        }
+        
+        .simulation-game {
+            border: 2px dashed var(--primary);
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .game-area {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .game-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .feedback {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: var(--dark);
+            color: white;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .game-area {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Scrum Mastery Course</h1>
+            <p>Understanding Scrum Terminologies, Roles & Best Practices</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section id="overview">
+            <div class="card">
+                <h2>Course Overview</h2>
+                <p>This comprehensive course covers all aspects of Scrum methodology, including key terminologies, roles, and best practices. Through interactive tools, videos, quizzes, and a simulation game, you'll gain practical understanding of how Scrum works in real-world projects.</p>
+            </div>
+        </section>
+        
+        <section id="terminologies">
+            <div class="card">
+                <h2>Scrum Terminologies</h2>
+                
+                <div class="interactive-tool">
+                    <h3>Interactive Scrum Glossary</h3>
+                    <p>Click on each term to learn more about it:</p>
+                    
+                    <div class="tab-container">
+                        <button class="tab active" onclick="openTerm(event, 'sprint')">Sprint</button>
+                        <button class="tab" onclick="openTerm(event, 'product-backlog')">Product Backlog</button>
+                        <button class="tab" onclick="openTerm(event, 'sprint-backlog')">Sprint Backlog</button>
+                        <button class="tab" onclick="openTerm(event, 'sprint-review')">Sprint Review</button>
+                        <button class="tab" onclick="openTerm(event, 'retrospective')">Retrospective</button>
+                    </div>
+                    
+                    <div id="sprint" class="tab-content active">
+                        <h4>Sprint</h4>
+                        <p>A sprint is a time-boxed iteration in Scrum, typically lasting 1-4 weeks, during which a usable and potentially releasable product increment is created.</p>
+                        <p><strong>Key characteristics:</strong></p>
+                        <ul>
+                            <li>Fixed duration that cannot be shortened or lengthened</li>
+                            <li>Goal is defined at the sprint planning meeting</li>
+                            <li>No changes are made that would endanger the sprint goal</li>
+                            <li>Scope may be clarified and re-negotiated between the Product Owner and Development Team</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="product-backlog" class="tab-content">
+                        <h4>Product Backlog</h4>
+                        <p>An ordered list of everything that is known to be needed in the product, maintained by the Product Owner.</p>
+                        <p><strong>Features:</strong></p>
+                        <ul>
+                            <li>Dynamic and constantly evolving</li>
+                            <li>Prioritized by business value</li>
+                            <li>Contains user stories, features, requirements, enhancements, and fixes</li>
+                            <li>Items at the top are more refined than those at the bottom</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="sprint-backlog" class="tab-content">
+                        <h4>Sprint Backlog</h4>
+                        <p>The set of Product Backlog items selected for the Sprint, plus a plan for delivering them.</p>
+                        <p><strong>Components:</strong></p>
+                        <ul>
+                            <li>Selected Product Backlog items</li>
+                            <li>Tasks needed to deliver those items</li>
+                            <li>At least one process improvement identified in the previous Retrospective</li>
+                            <li>Owned by the Development Team</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="sprint-review" class="tab-content">
+                        <h4>Sprint Review</h4>
+                        <p>A meeting held at the end of the Sprint to inspect the Increment and adapt the Product Backlog if needed.</p>
+                        <p><strong>Purpose:</strong></p>
+                        <ul>
+                            <li>Inspect the work completed during the sprint</li>
+                            <li>Collaborate on what to do next</li>
+                            <li>Adjust the Product Backlog based on feedback</li>
+                            <li>Time-boxed to 1 hour per week of sprint (e.g., 2 hours for a 2-week sprint)</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="retrospective" class="tab-content">
+                        <h4>Retrospective</h4>
+                        <p>An opportunity for the Scrum Team to inspect itself and create a plan for improvements to be enacted during the next Sprint.</p>
+                        <p><strong>Typical agenda:</strong></p>
+                        <ul>
+                            <li>What went well during the sprint?</li>
+                            <li>What could be improved?</li>
+                            <li>Action items for improvement in the next sprint</li>
+                            <li>Time-boxed to 45 minutes per week of sprint (e.g., 1.5 hours for a 2-week sprint)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="roles">
+            <div class="card">
+                <h2>Roles in Scrum</h2>
+                
+                <div class="interactive-tool">
+                    <h3>Scrum Role Explorer</h3>
+                    <p>Click on each role to see responsibilities and characteristics:</p>
+                    
+                    <div class="tab-container">
+                        <button class="tab active" onclick="openRole(event, 'product-owner')">Product Owner</button>
+                        <button class="tab" onclick="openRole(event, 'scrum-master')">Scrum Master</button>
+                        <button class="tab" onclick="openRole(event, 'dev-team')">Development Team</button>
+                    </div>
+                    
+                    <div id="product-owner" class="tab-content active">
+                        <h4>Product Owner</h4>
+                        <p>The Product Owner is responsible for maximizing the value of the product resulting from work of the Development Team.</p>
+                        <p><strong>Key Responsibilities:</strong></p>
+                        <ul>
+                            <li>Clearly expressing Product Backlog items</li>
+                            <li>Ordering the items in the Product Backlog to best achieve goals and missions</li>
+                            <li>Optimizing the value of the work the Development Team performs</li>
+                            <li>Ensuring the Product Backlog is visible, transparent, and clear</li>
+                            <li>Ensuring the Development Team understands items in the Product Backlog</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="scrum-master" class="tab-content">
+                        <h4>Scrum Master</h4>
+                        <p>The Scrum Master is responsible for promoting and supporting Scrum as defined in the Scrum Guide.</p>
+                        <p><strong>Key Responsibilities:</strong></p>
+                        <ul>
+                            <li>Ensuring Scrum is understood and enacted</li>
+                            <li>Removing impediments to the Development Team's progress</li>
+                            <li>Facilitating Scrum events when needed</li>
+                            <li>Coaching the Development Team in self-organization</li>
+                            <li>Helping the Product Owner with techniques for effective Product Backlog management</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="dev-team" class="tab-content">
+                        <h4>Development Team</h4>
+                        <p>The Development Team consists of professionals who do the work of delivering a potentially releasable Increment of "Done" product at the end of each Sprint.</p>
+                        <p><strong>Characteristics:</strong></p>
+                        <ul>
+                            <li>Self-organizing - no one tells them how to turn Product Backlog items into Increments</li>
+                            <li>Cross-functional - collectively have all skills needed to create a product Increment</li>
+                            <li>No titles - no sub-teams, regardless of domains needing to be addressed</li>
+                            <li>Accountable as a whole for delivering work each Sprint</li>
+                            <li>Typically 3-9 members</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>Scrum Team Dynamics</h3>
+                <p>The Scrum Team consists of a Product Owner, the Development Team, and a Scrum Master. Scrum Teams are self-organizing and cross-functional. Self-organizing teams choose how best to accomplish their work, rather than being directed by others outside the team. Cross-functional teams have all competencies needed to accomplish the work without depending on others not part of the team.</p>
+            </div>
+        </section>
+        
+        <section id="best-practices">
+            <div class="card">
+                <h2>Best Practices of Scrum</h2>
+                
+                <h3>Daily Scrum Tips</h3>
+                <ul>
+                    <li><strong>Time-box:</strong> Keep it to 15 minutes, no matter the team size</li>
+                    <li><strong>Stand up:</strong> Literally stand to keep energy high and meeting short</li>
+                    <li><strong>Three questions:</strong> Focus on "What did I do yesterday?", "What will I do today?", "What impediments do I have?"</li>
+                    <li><strong>Problem-solving:</strong> Take discussions offline with only relevant people</li>
+                </ul>
+                
+                <h3>Sprint Planning Advice</h3>
+                <ul>
+                    <li>Ensure the Product Owner comes prepared with a prioritized backlog</li>
+                    <li>Break down large items into smaller, manageable pieces</li>
+                    <li>Don't overcommit - it's better to underpromise and overdeliver</li>
+                    <li>Define a clear sprint goal that guides decision-making</li>
+                </ul>
+                
+                <h3>Retrospective Techniques</h3>
+                <ul>
+                    <li>Vary the format to keep it fresh (e.g., Start-Stop-Continue, Mad-Sad-Glad, Sailboat)</li>
+                    <li>Focus on actionable improvements, not just complaints</li>
+                    <li>Follow up on action items from previous retrospectives</li>
+                    <li>Create a safe space for honest feedback</li>
+                </ul>
+                
+                <h3>General Scrum Best Practices</h3>
+                <ul>
+                    <li>Maintain a sustainable pace (no heroics)</li>
+                    <li>Keep work visible (physical or digital task board)</li>
+                    <li>Limit work in progress to focus on completing items</li>
+                    <li>Inspect and adapt regularly</li>
+                    <li>Focus on delivering value, not just completing tasks</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="video-resources">
+            <div class="card">
+                <h2>Video Resources</h2>
+                
+                <h3>Introduction to Scrum</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/9TycLR0TqFA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+                <h3>Scrum Roles Explained</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/OV3tg2Dqal4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+                <h3>Running Effective Scrum Ceremonies</h3>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/8JgX0r8JRaQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        
+        <section id="quiz">
+            <div class="card">
+                <h2>Test Your Scrum Knowledge</h2>
+                
+                <div class="quiz-question">
+                    <p><strong>1. What is the primary responsibility of the Product Owner?</strong></p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="q1" id="q1a" value="a">
+                            <label for="q1a">To maximize the value of the product</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q1" id="q1b" value="b">
+                            <label for="q1b">To manage the Development Team's daily tasks</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q1" id="q1c" value="c">
+                            <label for="q1c">To remove impediments for the team</label>
+                        </div>
+                    </div>
+                    <div id="feedback-q1" class="feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p><strong>2. Which of these is NOT a Scrum event?</strong></p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="q2" id="q2a" value="a">
+                            <label for="q2a">Sprint Planning</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q2" id="q2b" value="b">
+                            <label for="q2b">Daily Standup</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q2" id="q2c" value="c">
+                            <label for="q2c">Project Kickoff</label>
+                        </div>
+                    </div>
+                    <div id="feedback-q2" class="feedback"></div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p><strong>3. What is the ideal size for a Development Team?</strong></p>
+                    <div class="quiz-options">
+                        <div class="quiz-option">
+                            <input type="radio" name="q3" id="q3a" value="a">
+                            <label for="q3a">3-9 members</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q3" id="q3b" value="b">
+                            <label for="q3b">5-12 members</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q3" id="q3c" value="c">
+                            <label for="q3c">As many as needed for the project</label>
+                        </div>
+                    </div>
+                    <div id="feedback-q3" class="feedback"></div>
+                </div>
+                
+                <button onclick="checkQuiz()">Check Answers</button>
+                <button onclick="resetQuiz()">Reset Quiz</button>
+            </div>
+        </section>
+        
+        <section id="simulation">
+            <div class="card">
+                <h2>Scrum Simulation Game</h2>
+                <p>Experience Scrum in action through this interactive simulation. You'll play the role of a Scrum Master guiding a team through a sprint.</p>
+                
+                <div class="simulation-game">
+                    <h3>Product: Develop a Mobile Task Management App</h3>
+                    <p>Sprint Duration: 2 weeks</p>
+                    
+                    <div class="game-area">
+                        <div class="game-card" onclick="selectCard('backlog')">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Product Backlog">
+                            <h4>Product Backlog</h4>
+                            <p>View and prioritize backlog items</p>
+                        </div>
+                        
+                        <div class="game-card" onclick="selectCard('planning')">
+                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Sprint Planning">
+                            <h4>Sprint Planning</h4>
+                            <p>Select items for the sprint</p>
+                        </div>
+                        
+                        <div class="game-card" onclick="selectCard('daily')">
+                            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Daily Scrum">
+                            <h4>Daily Scrum</h4>
+                            <p>Coordinate daily work</p>
+                        </div>
+                        
+                        <div class="game-card" onclick="selectCard('review')">
+                            <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Sprint Review">
+                            <h4>Sprint Review</h4>
+                            <p>Demonstrate completed work</p>
+                        </div>
+                        
+                        <div class="game-card" onclick="selectCard('retro')">
+                            <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Retrospective">
+                            <h4>Retrospective</h4>
+                            <p>Improve team processes</p>
+                        </div>
+                        
+                        <div class="game-card" onclick="selectCard('impediments')">
+                            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Impediments">
+                            <h4>Impediments</h4>
+                            <p>Address blockers</p>
+                        </div>
+                    </div>
+                    
+                    <div id="game-console">
+                        <p>Welcome to the Scrum Simulation! Click on any card to begin.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Scrum Mastery Course | Designed for Agile Learners</p>
+            <p>Contact: learn@scrummastery.com</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Tab functionality for terminologies
+        function openTerm(evt, termName) {
+            var i, tabcontent, tablinks;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(termName).className += " active";
+            evt.currentTarget.className += " active";
+        }
+        
+        // Tab functionality for roles
+        function openRole(evt, roleName) {
+            var i, tabcontent, tablinks;
+            
+            tabcontent = document.querySelectorAll("#roles .tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            
+            tablinks = document.querySelectorAll("#roles .tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(roleName).className += " active";
+            evt.currentTarget.className += " active";
+        }
+        
+        // Quiz functionality
+        function checkQuiz() {
+            // Question 1
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const feedback1 = document.getElementById('feedback-q1');
+            
+            if (q1) {
+                if (q1.value === 'a') {
+                    feedback1.textContent = "Correct! The Product Owner's main responsibility is to maximize product value.";
+                    feedback1.className = "feedback correct";
+                } else {
+                    feedback1.textContent = "Incorrect. While the Product Owner works closely with the team, their primary focus is on maximizing product value, not daily task management or removing impediments.";
+                    feedback1.className = "feedback incorrect";
+                }
+            }
+            
+            // Question 2
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const feedback2 = document.getElementById('feedback-q2');
+            
+            if (q2) {
+                if (q2.value === 'c') {
+                    feedback2.textContent = "Correct! Project Kickoff is not one of the formal Scrum events.";
+                    feedback2.className = "feedback correct";
+                } else {
+                    feedback2.textContent = "Incorrect. Both Sprint Planning and Daily Standup (Daily Scrum) are official Scrum events.";
+                    feedback2.className = "feedback incorrect";
+                }
+            }
+            
+            // Question 3
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const feedback3 = document.getElementById('feedback-q3');
+            
+            if (q3) {
+                if (q3.value === 'a') {
+                    feedback3.textContent = "Correct! The ideal Development Team size is 3-9 members.";
+                    feedback3.className = "feedback correct";
+                } else {
+                    feedback3.textContent = "Incorrect. Scrum recommends 3-9 members for optimal communication and productivity.";
+                    feedback3.className = "feedback incorrect";
+                }
+            }
+        }
+        
+        function resetQuiz() {
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => {
+                input.checked = false;
+            });
+            
+            const feedbacks = document.querySelectorAll('.feedback');
+            feedbacks.forEach(feedback => {
+                feedback.textContent = '';
+                feedback.className = "feedback";
+                feedback.style.display = 'none';
+            });
+        }
+        
+        // Simulation game functionality
+        function selectCard(cardType) {
+            const console = document.getElementById('game-console');
+            
+            switch(cardType) {
+                case 'backlog':
+                    console.innerHTML = `
+                        <h4>Product Backlog</h4>
+                        <p>Here are your prioritized backlog items:</p>
+                        <ol>
+                            <li>User login functionality (High Priority)</li>
+                            <li>Create task interface (High Priority)</li>
+                            <li>Task categories and tags (Medium Priority)</li>
+                            <li>Push notifications (Low Priority)</li>
+                            <li>Dark mode (Low Priority)</li>
+                        </ol>
+                        <p>As Scrum Master, remind the Product Owner to keep refining these items.</p>
+                    `;
+                    break;
+                    
+                case 'planning':
+                    console.innerHTML = `
+                        <h4>Sprint Planning</h4>
+                        <p>The team has selected these items for the sprint:</p>
+                        <ul>
+                            <li>User login functionality (8 story points)</li>
+                            <li>Create task interface (5 story points)</li>
+                        </ul>
+                        <p>Total commitment: 13 story points</p>
+                        <p>The team has defined a Sprint Goal: "Implement core functionality for users to log in and create basic tasks."</p>
+                    `;
+                    break;
+                    
+                case 'daily':
+                    console.innerHTML = `
+                        <h4>Daily Scrum</h4>
+                        <p>Today's updates:</p>
+                        <ul>
+                            <li><strong>Alex:</strong> Completed login API yesterday, working on frontend integration today. No blockers.</li>
+                            <li><strong>Jamie:</strong> Finished task model yesterday, starting on UI components today. Needs design clarification.</li>
+                            <li><strong>Taylor:</strong> Working on database schema. Blocked by missing requirements for password security.</li>
+                        </ul>
+                        <p>As Scrum Master, you should help Taylor get the missing requirements and schedule a design discussion for Jamie.</p>
+                    `;
+                    break;
+                    
+                case 'review':
+                    console.innerHTML = `
+                        <h4>Sprint Review</h4>
+                        <p>The team demonstrates:</p>
+                        <ul>
+                            <li>Functional login system (completed)</li>
+                            <li>Basic task creation interface (80% complete - missing some validation)</li>
+                        </ul>
+                        <p>Stakeholders provide feedback:</p>
+                        <ul>
+                            <li>Request additional login options (Google, Facebook)</li>
+                            <li>Want more prominent due date field in task creation</li>
+                        </ul>
+                        <p>The Product Owner adds these as new backlog items.</p>
+                    `;
+                    break;
+                    
+                case 'retro':
+                    console.innerHTML = `
+                        <h4>Sprint Retrospective</h4>
+                        <p>Team reflections:</p>
+                        <p><strong>What went well:</strong></p>
+                        <ul>
+                            <li>Good collaboration between frontend and backend</li>
+                            <li>Daily standups helped identify blockers early</li>
+                        </ul>
+                        <p><strong>Improvements:</strong></p>
+                        <ul>
+                            <li>Need clearer requirements upfront</li>
+                            <li>Should break down tasks smaller</li>
+                        </ul>
+                        <p><strong>Action Items:</strong></p>
+                        <ul>
+                            <li>Schedule requirement refinement session before next sprint</li>
+                            <li>Break stories into smaller pieces (max 5 story points)</li>
+                        </ul>
+                    `;
+                    break;
+                    
+                case 'impediments':
+                    console.innerHTML = `
+                        <h4>Impediments Board</h4>
+                        <p>Current blockers:</p>
+                        <ol>
+                            <li>Missing design assets for task interface (assigned to you - follow up with designer)</li>
+                            <li>Slow build times delaying testing (team agrees to investigate CI pipeline improvements next sprint)</li>
+                        </ol>
+                        <p>As Scrum Master, your primary job is to remove these impediments so the team can focus on delivery.</p>
+                    `;
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
